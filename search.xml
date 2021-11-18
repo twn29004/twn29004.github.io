@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search> 
+  
+  
+    
+    <entry>
+      <title>Hello World</title>
+      <link href="/2021/11/18/hello-world/"/>
+      <url>/2021/11/18/hello-world/</url>
+      
+        <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p><h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p><h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p><h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p><h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>]]></content>
+      
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>RPVNet论文解读</title>
+      <link href="/2021/11/18/RPVNet/"/>
+      <url>/2021/11/18/RPVNet/</url>
+      
+        <content type="html"><![CDATA[<p><img src="https://cdn.jsdelivr.net/gh/twn2333/my_imgs@latest//img/202111161253759.png" alt="image-20211116125355498"></p><p><a href="">代码链接</a></p><p><a href="https://arxiv.org/abs/2103.12978">RPVNet: A Deep and Efficient Range-Point-Voxel Fusion Network for LiDAR Point Cloud Segmentation (arxiv.org)</a></p><h2 id="论文总结"><a href="#论文总结" class="headerlink" title="论文总结"></a>论文总结</h2><p>本文实现了一种大场景下的点云语义分割网络，并在SemanticKITTI数据集上实现了1st的结果。其主要通过一种融合的方法来实现。不同于以往的使用基于点，基于体素和基于深度图(Range Image)的方法.但是这些方法都有一定的缺点。之前融合的方法也仅是融合其中的两类。本文提出了一种融合三类数据的网络。网络的主要结构如下:</p><p><img src="https://cdn.jsdelivr.net/gh/twn2333/my_imgs@latest//img/202111161300855.png" alt="image-20211116130031567"></p><p>网络主要分为三个分支，使用了经典的Encoder和Decoder的结构。三个分支分别是基于体素的，基于点云的和基于深度图的。分别使用对应的网络提取各个分支的特征，然后作者使用了点这个分支来作为中间节点，来融合不同来源的数据。不同特征进行融合的算法如下图所示:</p><p><img src="https://cdn.jsdelivr.net/gh/twn2333/my_imgs@latest//img/202111161329277.png" alt="image-20211116132950759"></p><p>将其他特征映射到基于点的表示的话，可以使用最近邻插值或者三线性插值或者双线性插值的方法。以基于深度图到基于点的表示为例:通过计算该点在深度图上的周围的四个</p><img src="https://cdn.jsdelivr.net/gh/twn2333/my_imgs@latest//img/202111161348473.png" alt="image-20211116134822778" style="zoom:80%;" /><p>其中，$F_R（u）$表示下标为$u$的深度图的特征。$\phi(u,j)$表示的是对应的线性权重的计算方法。$\delta(j)$表示的是$j$周围的四个邻居。</p><p>在讲其他表示的特征投影到点上之后，作者提出了一个GFM(Gated Fusion Module)来对这些点表示的特征进行融合。GFM的结构如图2中的蓝色部分所示，然后就得到了一个基于点的融合后的特征，然后讲融合后的特征在转换到其他表示的形式下。</p><p>从点到其他两种表达形式的话，作者使用的是平均的方法。以体素为例子，将属于一个体素的所有点的特征进行平均，然后将平均后的特征作为这个体素的特征。具体做法图下图所示：</p><p><img src="https://cdn.jsdelivr.net/gh/twn2333/my_imgs@latest//img/202111161427140.png" alt="image-20211116142742978"></p><p><img src="https://cdn.jsdelivr.net/gh/twn2333/my_imgs@latest//img/202111161427766.png" alt="image-20211116142730453"></p><img src="https://cdn.jsdelivr.net/gh/twn2333/my_imgs@latest//img/202111161423649.png" alt="image-20211116142351294" style="zoom:80%;" /><p>消融实验部分</p><p><img src="https://cdn.jsdelivr.net/gh/twn2333/my_imgs@latest//img/202111161441821.png" alt="image-20211116144154823"></p><p>Table4 表示了不同的视角对于实验结果的影响。R表示深度图，P表示点，V表示体素以及不同分辨率的体素。</p><p>Table5 展示了不同融合方法的性能差异。其中Addition表示将特征进行相加，Concatnation表示进行拼接，Gated Fusion表示使用了作者设计的网络来进行融合。</p><p>Table6 展示了集成模型与本文模型的性能差异</p><p>Table7 展示了不同分支对于模型性能的影响。</p>]]></content>
+      
+      
+      
+    </entry>
+    
+    
+  
+  
+</search>
