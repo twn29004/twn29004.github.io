@@ -5,8 +5,8 @@
     
     <entry>
       <title>CT3D论文</title>
-      <link href="/2021/11/27/CT3D%E8%AE%BA%E6%96%87%E5%88%86%E4%BA%AB/"/>
-      <url>/2021/11/27/CT3D%E8%AE%BA%E6%96%87%E5%88%86%E4%BA%AB/</url>
+      <link href="/2021/11/29/CT3D%E8%AE%BA%E6%96%87%E5%88%86%E4%BA%AB/"/>
+      <url>/2021/11/29/CT3D%E8%AE%BA%E6%96%87%E5%88%86%E4%BA%AB/</url>
       
         <content type="html"><![CDATA[<p><img src="https://gitee.com/twn29004/myimg/raw/master/imgs/202111292051455.png" alt="image-20211129205132392" /></p><p><a href="https://github.com/hlsheng1/CT3D">代码链接</a></p><p><a href="https://arxiv.org/abs/2108.10723">paper链接</a></p><h2 id="论文总结">论文总结</h2><p>本文提出了一种目前二阶段的目标检测算法不能很好的提取proposal中的特征。本文提出了一种基于通道层面的self-attention结构来提高网络对于proposal中点的特征的提取能力。</p><p>下面简单介绍一下网络的处理流程:</p><p><img src="https://gitee.com/twn29004/myimg/raw/master/imgs/202111292056595.png" alt="image-20211129205620537" /></p><p>与传统的二阶段目标检测器一样，首先使用一个backbone提取点样场景的特征，然后使用RPN网络生成proposal。注意，这里生成的proposal一个三维的边界框。文中为了能够更好的提取其周围点云的特征，将这个三维边界框转化成了一个不限制高度的圆柱体。圆柱体的直径是底边对角线长度的一定倍数。然后在生成的圆柱体中采样256个点，根据这些点来提取proposal的特征。文中使用了各个点点对原始的三维边界框(就是proposal提出的)的八个角点来计算相对位置作为点的特征的一部分。proposal中的原始特征可以表示为<span class="math inline">\([\bigtriangleup p_i^c, \bigtriangleup p_i^1, ..., \bigtriangleup p_i^8, f_i^r]\)</span>,其中<span class="math inline">\(\bigtriangleup p_i^c\)</span>表示的相对三维边界框中心点的相对位置，<span class="math inline">\(\bigtriangleup p_i^1\)</span>表示的相对边界框角点的位置。 <span class="math inline">\(f_i^r\)</span>表示的是点的原始特征。</p><p>然后作者使用了一个self-attention网络来提取proposal中的点的特征。</p><p>但是在decoder部分，作者并没有使用transformer中的标准的decoder。不使用标准的decoder主要有以下两点原因:</p><ol type="1"><li>如果使用transformer中的decoder网络，需要<span class="math inline">\(M\)</span>个quert嵌入,这将消耗大量的内存</li><li>另一方面，标准的transformer中的decoder网络是需要生成<span class="math inline">\(M\)</span>个单词或者句子，而我们只需要一个proposal的特征的表示。</li></ol><p>此外，作者还分析了使用一个decoder来处理上述问题时还存在一个原始的transformer中的decoder仅关注了全局的信息，而忽略了各个通道的信息，作者的想法是在3D检测中，各个通道都是非常重要的，不同的通道之间通常意味着不同的几何关系。因此我们要重视不同通道的。所以设计了一个通道层面的re-weigthing网络。</p><p><img src="https://gitee.com/twn29004/myimg/raw/master/imgs/202111292126841.png" alt="image-20211129212652791" /></p><p>a)是原始的transformer中的decoder计算权重的方式。b)是作者提出的在通道层面赋予每个点不同权重的方式。其中a)主要关注的是全局信息，b)主要关注的是局部信息，因此c)将两者结合了起来。</p><p>然后将生成的特征用于计算置信度和进一步调整三维边界框。</p><p>实验结果:</p><p><img src="https://gitee.com/twn29004/myimg/raw/master/imgs/202111292132776.png" alt="image-20211129213223726" /></p><p>从表中可以看出，作者的网络在KITTI的test数据集上还是取得了不错的效果。超越了PV-RCNN和Voxel-RCNN。</p><p><img src="https://gitee.com/twn29004/myimg/raw/master/imgs/202111292137720.png" alt="image-20211129213725664" /></p><p>该表展示了作者设计的第二阶段网络对于模型性能提升的影响。从表中可以看出，作者设计的二阶段的网络对模型的性能的提升非常大。</p><p><img src="https://gitee.com/twn29004/myimg/raw/master/imgs/202111292137177.png" alt="image-20211129213743112" /></p><p>第二三行展示了作者提出的proposal-to-point的效果的对比，从表中结果可以看出，这部分其实对于网络性能的影响非常小。仅0.17%左右。第1行和第3行展示了self-attention中的encoder的作用，该方法提升了2.2%，是一个非常大的提升。此外，作者设计的channel-wise的decoder也在一定程度上提高了模型的精度。</p><h2 id="可用知识点">可用知识点</h2><p>可以使用self-attention中的decoder来提取点云的特征。从文中的结果看出，该部分网络对于模型性能的提升是巨大的。此外，在提取proposal的时候，可以在一定程度上扩大一点proposal的范围。还有就是关于文中的这个decoder结构，我们在使用一些经典的模型的时候，可能需要根据使用环境多一些思考。</p><h2 id="常用句式">常用句式</h2><p>[挖坑]</p><h2 id="代码解读">代码解读</h2>]]></content>
       
@@ -45,7 +45,7 @@
       
         <tags>
             
-            <tag> Segment </tag>
+            <tag> 点云分割 </tag>
             
         </tags>
       
