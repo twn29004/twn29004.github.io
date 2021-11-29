@@ -1,13 +1,13 @@
-<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>贝叶斯学习 | twn29004's Blog</title><meta name="keywords" content="贝叶斯学习"><meta name="author" content="twn29004"><meta name="copyright" content="twn29004"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="贝叶斯理论计算后验概率$$P(h|D)&#x3D;\frac{P(D|h)p(h)}{p(D)}$$ 其中，$P(D|h)$是根据数据观察到的条件概率，$p(h)$是先验概率。我们要做的就是在假设空间中找到具有最大后验概率的假设。那么就有: $$h_{MAP}&#x3D; arg max_{h \in H}P(h|D)&#x3D;argmax_{h \in H} \frac{P(D|h)p(h)}{p(D)}\&#x3D;arg max">
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>贝叶斯学习 | twn29004's Blog</title><meta name="keywords" content="贝叶斯学习"><meta name="author" content="twn29004"><meta name="copyright" content="twn29004"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="贝叶斯理论 计算后验概率 \[ P(h|D)&#x3D;\frac{P(D|h)p(h)}{p(D)} \] 其中，\(P(D|h)\)是根据数据观察到的条件概率，\(p(h)\)是先验概率。我们要做的就是在假设空间中找到具有最大后验概率的假设。那么就有: \[ h_{MAP}&#x3D; arg max_{h \in H}P(h|D)&#x3D;argmax_{h \in H} \frac{P(D|h)p(h)">
 <meta property="og:type" content="article">
 <meta property="og:title" content="贝叶斯学习">
 <meta property="og:url" content="http://example.com/2021/11/27/%E8%B4%9D%E5%8F%B6%E6%96%AF%E5%AD%A6%E4%B9%A0/index.html">
 <meta property="og:site_name" content="twn29004&#39;s Blog">
-<meta property="og:description" content="贝叶斯理论计算后验概率$$P(h|D)&#x3D;\frac{P(D|h)p(h)}{p(D)}$$ 其中，$P(D|h)$是根据数据观察到的条件概率，$p(h)$是先验概率。我们要做的就是在假设空间中找到具有最大后验概率的假设。那么就有: $$h_{MAP}&#x3D; arg max_{h \in H}P(h|D)&#x3D;argmax_{h \in H} \frac{P(D|h)p(h)}{p(D)}\&#x3D;arg max">
+<meta property="og:description" content="贝叶斯理论 计算后验概率 \[ P(h|D)&#x3D;\frac{P(D|h)p(h)}{p(D)} \] 其中，\(P(D|h)\)是根据数据观察到的条件概率，\(p(h)\)是先验概率。我们要做的就是在假设空间中找到具有最大后验概率的假设。那么就有: \[ h_{MAP}&#x3D; arg max_{h \in H}P(h|D)&#x3D;argmax_{h \in H} \frac{P(D|h)p(h)">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://w.wallhaven.cc/full/y8/wallhaven-y8vlyk.jpg">
 <meta property="article:published_time" content="2021-11-26T16:00:00.000Z">
-<meta property="article:modified_time" content="2021-11-27T14:03:37.070Z">
+<meta property="article:modified_time" content="2021-11-28T02:44:13.337Z">
 <meta property="article:author" content="twn29004">
 <meta property="article:tag" content="机器学习">
 <meta name="twitter:card" content="summary">
@@ -56,9 +56,9 @@
   title: '贝叶斯学习',
   isPost: true,
   isHome: false,
-  isHighlightShrink: true,
+  isHighlightShrink: false,
   isToc: true,
-  postUpdate: '2021-11-27 22:03:37'
+  postUpdate: '2021-11-28 10:44:13'
 }</script><noscript><style type="text/css">
   #nav {
     opacity: 1
@@ -147,128 +147,209 @@
       }
     }
     detectApple()
-    })(window)</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://gitee.com/twn29004/myimg/raw/master/imgs/202111192225766.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">3</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">2</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">2</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://w.wallhaven.cc/full/y8/wallhaven-y8vlyk.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">twn29004's Blog</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">贝叶斯学习</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2021-11-26T16:00:00.000Z" title="发表于 2021-11-27 00:00:00">2021-11-27</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2021-11-27T14:03:37.070Z" title="更新于 2021-11-27 22:03:37">2021-11-27</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E7%9F%A5%E8%AF%86%E5%88%86%E4%BA%AB/">知识分享</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">2.6k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>10分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="贝叶斯学习"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="贝叶斯理论"><a href="#贝叶斯理论" class="headerlink" title="贝叶斯理论"></a>贝叶斯理论</h2><h3 id="计算后验概率"><a href="#计算后验概率" class="headerlink" title="计算后验概率"></a>计算后验概率</h3><p>$$<br>P(h|D)=\frac{P(D|h)p(h)}{p(D)}<br>$$</p>
-<p>其中，$P(D|h)$是根据数据观察到的条件概率，$p(h)$是先验概率。我们要做的就是在假设空间中找到具有最大后验概率的假设。那么就有:</p>
-<p>$$<br>h_{MAP}= arg max_{h \in H}P(h|D)=argmax_{h \in H} \frac{P(D|h)p(h)}{p(D)}\=arg max_{h \in H}P(D|h)p(h)<br>$$</p>
-<p>如果每个假设出现的概率相等，等上述问题退化为$h_{ML}=argmax_{h \in H}P(D|h)$,这个就是极大似然假设。上面那个是极大后验假设。</p>
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://gitee.com/twn29004/myimg/raw/master/imgs/202111192225766.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">3</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">3</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">2</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://w.wallhaven.cc/full/y8/wallhaven-y8vlyk.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">twn29004's Blog</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">贝叶斯学习</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2021-11-26T16:00:00.000Z" title="发表于 2021-11-27 00:00:00">2021-11-27</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2021-11-28T02:44:13.337Z" title="更新于 2021-11-28 10:44:13">2021-11-28</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E7%9F%A5%E8%AF%86%E5%88%86%E4%BA%AB/">知识分享</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">2.6k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>10分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="贝叶斯学习"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="贝叶斯理论">贝叶斯理论</h2>
+<h3 id="计算后验概率">计算后验概率</h3>
+<p><span class="math display">\[
+P(h|D)=\frac{P(D|h)p(h)}{p(D)}
+\]</span></p>
+<p>其中，<span class="math inline">\(P(D|h)\)</span>是根据数据观察到的条件概率，<span class="math inline">\(p(h)\)</span>是先验概率。我们要做的就是在假设空间中找到具有最大后验概率的假设。那么就有:</p>
+<p><span class="math display">\[
+h_{MAP}= arg max_{h \in H}P(h|D)=argmax_{h \in H} \frac{P(D|h)p(h)}{p(D)}\\=arg max_{h \in H}P(D|h)p(h)
+\]</span></p>
+<p>如果每个假设出现的概率相等，等上述问题退化为<span class="math inline">\(h_{ML}=argmax_{h \in H}P(D|h)\)</span>,这个就是极大似然假设。上面那个是极大后验假设。</p>
 <p>使用极大似然假设进行癌症诊断的例子：</p>
-<ol>
-<li><p>两个假设：1) 病人有癌症，2) 病人没有癌症</p>
-</li>
-<li><p>两种可能的测试输出: 1) positive,记为+   2) negative,记为-</p>
-</li>
-<li><p>先验知识：P(cancer) = 0.008   P(not cancer)=0.992  P(+|cancer)=0.98   P(- |cancer)=0.02</p>
-<p>P(- |not cancer) = 0.97 P(+|not cancer) = 0.03</p>
-</li>
-<li><p>分别计算病人检测结果为阳性，其患癌症和不患癌症哪个概率大<br>$$<br>P(cancer|+)=\frac{P(+|cancer)*P(cancer)}{P(+)} \<br>P(not cancer | +) = \frac{P(+ | not cancer)*P(not cancer)}{P(+)}<br>$$<br>从上述式子可以看出，只用比较两个式子的分子部分就可以对比谁的概率大。</p>
-</li>
+<ol type="1">
+<li><p>两个假设：1) 病人有癌症，2) 病人没有癌症</p></li>
+<li><p>两种可能的测试输出: 1) positive,记为+ 2) negative,记为-</p></li>
+<li><p>先验知识：P(cancer) = 0.008 P(not cancer)=0.992 P(+|cancer)=0.98 P(- |cancer)=0.02</p>
+<p>P(- |not cancer) = 0.97 P(+|not cancer) = 0.03</p></li>
+<li><p>分别计算病人检测结果为阳性，其患癌症和不患癌症哪个概率大<br />
+<span class="math display">\[
+P(cancer|+)=\frac{P(+|cancer)*P(cancer)}{P(+)} \\
+P(not cancer | +) = \frac{P(+ | not cancer)*P(not cancer)}{P(+)}
+\]</span><br />
+从上述式子可以看出，只用比较两个式子的分子部分就可以对比谁的概率大。</p></li>
 </ol>
-<h2 id="极大似然假设和极大后验概率假设的区别"><a href="#极大似然假设和极大后验概率假设的区别" class="headerlink" title="极大似然假设和极大后验概率假设的区别"></a>极大似然假设和极大后验概率假设的区别</h2><ol>
-<li><p>极大后验概率假设：<br>$$<br>h_{MAP}= arg max_{h \in H}P(h|D)=argmax_{h \in H} \frac{P(D|h)p(h)}{p(D)}\=arg max_{h \in H}P(D|h)p(h)<br>$$</p>
-</li>
+<h2 id="极大似然假设和极大后验概率假设的区别">极大似然假设和极大后验概率假设的区别</h2>
+<ol type="1">
+<li><p>极大后验概率假设：<br />
+<span class="math display">\[
+h_{MAP}= arg max_{h \in H}P(h|D)=argmax_{h \in H} \frac{P(D|h)p(h)}{p(D)}\\=arg max_{h \in H}P(D|h)p(h)
+\]</span></p></li>
 <li><p>极大似然假设</p>
-<p>当假设空间中每个假设出现的概率都相同时，我们就可以不再考虑极大后验概率中的$P(h)$，仅考虑数据$D$对于假设$h$的似然值$P(D|h)$。则上述问题退化为:<br>$$<br>h_{ML}=argmax_{h\in H}P(D|h)<br>$$</p>
-</li>
+<p>当假设空间中每个假设出现的概率都相同时，我们就可以不再考虑极大后验概率中的<span class="math inline">\(P(h)\)</span>，仅考虑数据<span class="math inline">\(D\)</span>对于假设<span class="math inline">\(h\)</span>的似然值<span class="math inline">\(P(D|h)\)</span>。则上述问题退化为:<br />
+<span class="math display">\[
+h_{ML}=argmax_{h\in H}P(D|h)
+\]</span></p></li>
 </ol>
-<h2 id="一般概率准则"><a href="#一般概率准则" class="headerlink" title="一般概率准则"></a>一般概率准则</h2><ol>
+<h2 id="一般概率准则">一般概率准则</h2>
+<ol type="1">
 <li><p>求和准则： 如果两个事件不是互相独立的，则A或B发生的概率可以使用一下方法进行计算:</p>
-<p>$P(A \or B) = P(A) + P(B) - P(A \and B)$</p>
-</li>
+<p><span class="math inline">\(P(A \or B) = P(A) + P(B) - P(A \and B)\)</span></p></li>
 <li><p>相乘准则：</p>
-<ol>
-<li><p>如果两个事件不是独立的，则：$P(A \and B)=P(A | B)*P(B) =P(B|A)*P(A)$</p>
-</li>
-<li><p>如果两个事件是独立的，则: $P(A \and B)=P(A)*P(B)$</p>
-</li>
-<li><p>当且仅当:<br>$$<br>P(A|B)=P(A) or \<br>P(B|A) = P(B) or \<br>P(AB)=P(A)P(B)<br>$$<br>我们可以说事件A和事件B是独立的</p>
-</li>
-<li><p>全概率准则: </p>
-<p>如果$A_1…A_n$是互斥的，独立的事件，即$P(B) = \sum_{1}^{n}P(B|A_i)P(A_i)$</p>
-<p><img src="https://gitee.com/twn29004/myimg/raw/master/imgs/202111211006281.png" alt="image-20211121100603229"></p>
-<p>上表中，第三列是各个年龄段患病的概率，最后一列是各个年龄段所占的比例。则求整个疾病的患病概率$P(D)$。</p>
-</li>
+<ol type="1">
+<li><p>如果两个事件不是独立的，则：<span class="math inline">\(P(A \and B)=P(A | B)*P(B) =P(B|A)*P(A)\)</span></p></li>
+<li><p>如果两个事件是独立的，则: <span class="math inline">\(P(A \and B)=P(A)*P(B)\)</span></p></li>
+<li><p>当且仅当:<br />
+<span class="math display">\[
+P(A|B)=P(A) or \\
+P(B|A) = P(B) or \\
+P(AB)=P(A)P(B)
+\]</span><br />
+我们可以说事件A和事件B是独立的</p></li>
+<li><p>全概率准则:</p>
+<p>如果<span class="math inline">\(A_1...A_n\)</span>是互斥的，独立的事件，即<span class="math inline">\(P(B) = \sum_{1}^{n}P(B|A_i)P(A_i)\)</span></p>
+<p><img src="https://gitee.com/twn29004/myimg/raw/master/imgs/202111211006281.png" alt="image-20211121100603229" /></p>
+<p>上表中，第三列是各个年龄段患病的概率，最后一列是各个年龄段所占的比例。则求整个疾病的患病概率<span class="math inline">\(P(D)\)</span>。</p></li>
+</ol></li>
 </ol>
-</li>
-</ol>
-<h2 id="最小描述长度"><a href="#最小描述长度" class="headerlink" title="最小描述长度"></a>最小描述长度</h2><p>最小描述长度(Minimum Description Length Principle MDL)</p>
-<ol>
+<h2 id="最小描述长度">最小描述长度</h2>
+<p>最小描述长度(Minimum Description Length Principle MDL)</p>
+<ol type="1">
 <li><p>基本思想：</p>
-<ol>
+<ol type="1">
 <li>对于一个给定的假设集合和数据集，我们需要在假设集中找到或者合并一些使得数据被压缩的最小的假设。</li>
-</ol>
-</li>
+</ol></li>
 <li><p>最小描述长度原理:</p>
-<p>$h_{MDL}=arg \min_{h \in H} L_{C_1}(h)+L_{C_{2}}(D|h)$,其中$L_{c_1}(h)$表示的是模型的复杂度，其具体表示描述整个模型所需的最小比特, $L_{C_2}(D|h)$表示的是描述使用假设编码后的最小长度。在这里可以代表模型的错误率。所以最小描述长度就是在模型复杂度和模型性能之间做一个权衡。</p>
-</li>
+<p><span class="math inline">\(h_{MDL}=arg \min_{h \in H} L_{C_1}(h)+L_{C_{2}}(D|h)\)</span>,其中<span class="math inline">\(L_{c_1}(h)\)</span>表示的是模型的复杂度，其具体表示描述整个模型所需的最小比特, <span class="math inline">\(L_{C_2}(D|h)\)</span>表示的是描述使用假设编码后的最小长度。在这里可以代表模型的错误率。所以最小描述长度就是在模型复杂度和模型性能之间做一个权衡。</p></li>
 </ol>
-<h2 id="贝叶斯最优分类器"><a href="#贝叶斯最优分类器" class="headerlink" title="贝叶斯最优分类器"></a>贝叶斯最优分类器</h2><ol>
+<h2 id="贝叶斯最优分类器">贝叶斯最优分类器</h2>
+<ol type="1">
 <li><p>核心思想：</p>
 <p><a target="_blank" rel="noopener" href="https://blog.csdn.net/lsjseu/article/details/12285407">贝叶斯最优分类器</a></p>
-<p><strong>一般来说，新实例的最可能的分类可以通过合并所有假设的预测得到。用后验概率来加权</strong>。如果新样例可能分类可取集合$V$的任一值$v_j$，那么概率$P(v_j|D)$表示新实例$v_j$被正确分类的概率，其值为:<br>$$<br>P(v_i|D)=\sum_{h_j \in H}P(v_i|h_j)P(h_j|D)<br>$$<br>新实例的最优分类为使$P(v_i|D)$最大的$v_i$的值。因此贝叶斯最优分类器有：<br>$$<br>arg\max_{v_i \in V}\sum_{h_j \in H}P(v_i|h_j)P(h_j|D)<br>$$</p>
-</li>
+<p><strong>一般来说，新实例的最可能的分类可以通过合并所有假设的预测得到。用后验概率来加权</strong>。如果新样例可能分类可取集合<span class="math inline">\(V\)</span>的任一值<span class="math inline">\(v_j\)</span>，那么概率<span class="math inline">\(P(v_j|D)\)</span>表示新实例<span class="math inline">\(v_j\)</span>被正确分类的概率，其值为:<br />
+<span class="math display">\[
+P(v_i|D)=\sum_{h_j \in H}P(v_i|h_j)P(h_j|D)
+\]</span><br />
+新实例的最优分类为使<span class="math inline">\(P(v_i|D)\)</span>最大的<span class="math inline">\(v_i\)</span>的值。因此贝叶斯最优分类器有：<br />
+<span class="math display">\[
+arg\max_{v_i \in V}\sum_{h_j \in H}P(v_i|h_j)P(h_j|D)
+\]</span></p></li>
 <li><p>贝叶斯最优分类器:</p>
-<ol>
+<ol type="1">
 <li>该方法最大化了新实例被分类正确的可能性</li>
 <li>在使用相同的假设空间和先验知识的条件下，没有其他的模型能够超过该方法</li>
 <li>该方法所作的决策不能对应到假设空间中某个具体的假设上</li>
+</ol></li>
+<li><p>贝叶斯最优分类器存在的问题：需要计算所有可能的模型和假设，当假设空间很大时，这个计算是耗时的。因此可以使用Gibbs算法来解决</p></li>
 </ol>
-</li>
-<li><p>贝叶斯最优分类器存在的问题：需要计算所有可能的模型和假设，当假设空间很大时，这个计算是耗时的。因此可以使用Gibbs算法来解决 </p>
-</li>
-</ol>
-<h2 id="吉布斯算法"><a href="#吉布斯算法" class="headerlink" title="吉布斯算法"></a>吉布斯算法</h2><p>为了解决贝叶斯最优分类器难以计算的问题，提出了吉布斯算法。吉布斯算法的基本思想就是:</p>
+<h2 id="吉布斯算法">吉布斯算法</h2>
+<p>为了解决贝叶斯最优分类器难以计算的问题，提出了吉布斯算法。吉布斯算法的基本思想就是:</p>
 <p>根据后验概率在假设空间的分布，随机的从假设空间选取一个假设来对新实例进行分类，在具体的条件下，该方法的分类错误率小于两倍的贝叶斯最优分类器的错误率。</p>
-<p><img src="https://gitee.com/twn29004/myimg/raw/master/imgs/202111211323660.png" alt="image-20211121132357605"></p>
+<p><img src="https://gitee.com/twn29004/myimg/raw/master/imgs/202111211323660.png" alt="image-20211121132357605" /></p>
 <p>但是，通常从假设空间采样是困难的，因为：</p>
-<ol>
-<li>$P(h|D)$难以计算</li>
-<li>对于没有参数的分类器例如SVM，$P(h|D)$不可能计算</li>
-<li>$P(h|D)$在假设空间很大时非常的小。</li>
+<ol type="1">
+<li><span class="math inline">\(P(h|D)\)</span>难以计算</li>
+<li>对于没有参数的分类器例如SVM，<span class="math inline">\(P(h|D)\)</span>不可能计算</li>
+<li><span class="math inline">\(P(h|D)\)</span>在假设空间很大时非常的小。</li>
 </ol>
 <p>为了解决上述问题，提出了Bagging 分类器算法。通过将从假设空间采样转化为从训练数据中进行采样。</p>
-<h2 id="Bagging-分类器算法"><a href="#Bagging-分类器算法" class="headerlink" title="Bagging 分类器算法"></a>Bagging 分类器算法</h2><ol>
+<h2 id="bagging-分类器算法">Bagging 分类器算法</h2>
+<ol type="1">
 <li><p>Boostrap采样</p>
-<p>对于给定的训练数据D,其中包含m个训练样本，从D中有放回的随机采样n个样本构成$D^i$数据集。$D^i$理论上有0.37的数据没有被采样到。</p>
-</li>
+<p>对于给定的训练数据D,其中包含m个训练样本，从D中有放回的随机采样n个样本构成<span class="math inline">\(D^i\)</span>数据集。<span class="math inline">\(D^i\)</span>理论上有0.37的数据没有被采样到。</p></li>
 <li><p>Bagging算法</p>
-<p>构建$k$个$D^i$，对灭一个$D^i$分别构建一个分类器$h^i$,在对新实例分类时，所有的分类器以相同的权重进行投票:</p>
-<p><img src="https://gitee.com/twn29004/myimg/raw/master/imgs/202111211337106.png" alt="image-20211121133725061"></p>
-</li>
+<p>构建<span class="math inline">\(k\)</span>个<span class="math inline">\(D^i\)</span>，对灭一个<span class="math inline">\(D^i\)</span>分别构建一个分类器<span class="math inline">\(h^i\)</span>,在对新实例分类时，所有的分类器以相同的权重进行投票:</p>
+<p><img src="https://gitee.com/twn29004/myimg/raw/master/imgs/202111211337106.png" alt="image-20211121133725061" /></p></li>
 </ol>
-<h2 id="偏差方差分解"><a href="#偏差方差分解" class="headerlink" title="偏差方差分解"></a><strong>偏差方差分解</strong></h2><p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/38853908">参考链接</a></p>
-<img src="https://gitee.com/twn29004/myimg/raw/master/imgs/202111212130947.png" alt="image-20211121213036863" style="zoom:50%;" />
-
-<p><img src="https://gitee.com/twn29004/myimg/raw/master/imgs/202111212141086.png" alt="image-20211121214117003"></p>
-<p>注意借助预测值的期望这个值来使得方差和偏差能够联系起来。此外，还要知道偏差和方差的计算方法，这样才能刚好的往这个方向去凑:<br>$$<br>var=E_{D}[g^{(D)}(x) - E_{D}[g^{(D)}(x)]] \<br>bias = E_{D}[y - E_{D}[g^{(D)}(x)]]  \<br>\sigma^2 = (y - y_D)^2<br>$$<br>注意上述公式中的第二个关于偏差的计算中，式子中的$y$不是表示数据标签，而是训练数据的真实标签，因为训练所用的标签和真实的标签可能存在一定的误差。其中$y_D$表示的是数据在训练时的标签。</p>
-<p>偏差方差分解的核心原理就是利用已知的方差偏差的计算公式不断的去凑。第一次用训练结果的期望去凑，第二次用训练时的标签$y_D$去凑。</p>
+<h2 id="偏差方差分解"><strong>偏差方差分解</strong></h2>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/38853908">参考链接</a></p>
+<p><img src="https://gitee.com/twn29004/myimg/raw/master/imgs/202111212130947.png" alt="image-20211121213036863" style="zoom:50%;" /></p>
+<p><img src="https://gitee.com/twn29004/myimg/raw/master/imgs/202111212141086.png" alt="image-20211121214117003" /></p>
+<p>注意借助预测值的期望这个值来使得方差和偏差能够联系起来。此外，还要知道偏差和方差的计算方法，这样才能刚好的往这个方向去凑:<br />
+<span class="math display">\[
+var=E_{D}[g^{(D)}(x) - E_{D}[g^{(D)}(x)]] \\
+bias = E_{D}[y - E_{D}[g^{(D)}(x)]]  \\
+\sigma^2 = (y - y_D)^2
+\]</span><br />
+注意上述公式中的第二个关于偏差的计算中，式子中的<span class="math inline">\(y\)</span>不是表示数据标签，而是训练数据的真实标签，因为训练所用的标签和真实的标签可能存在一定的误差。其中<span class="math inline">\(y_D\)</span>表示的是数据在训练时的标签。</p>
+<p>偏差方差分解的核心原理就是利用已知的方差偏差的计算公式不断的去凑。第一次用训练结果的期望去凑，第二次用训练时的标签<span class="math inline">\(y_D\)</span>去凑。</p>
 <p>方差描述的是不同训练集训练出的模型的差距。</p>
 <p>偏差描述的是所有可能的训练数据集训练的所有模型的输出的平均值与真实模型之间输出值之间的差距。</p>
-<h2 id="朴素贝叶斯分类器–可能会出计算题"><a href="#朴素贝叶斯分类器–可能会出计算题" class="headerlink" title="朴素贝叶斯分类器–可能会出计算题"></a>朴素贝叶斯分类器–可能会出计算题</h2><p>假设训练集中的一个实例可以划分为有n个属性的组合。$&lt;a_1,a_2,…a_n&gt;$，同时，类别空间$V$是一个有限的集合。</p>
-<p>使用贝叶斯方法对新实例进行分类:<br>$$<br>v_{MAP}=arg \max_{v_J \in V}P(v_j|a_1,a_2,…a_n) \<br>v_{MAP}=arg \max_{v_J \in V]}\frac{P(a_1,a_2,..a_n|v_j)P(v_j)}{P(a_1,a_2,..a_n)}<br>$$<br>如何计算$P(v_j)$和$P(a_1,a_2,…a_n|v_j)$：</p>
-<ol>
-<li>$P(v_j)$是这一类别在训练数据中出现的概率</li>
-<li><strong>$P(a_1, a_2, …,a_n|v_j)$不太可信，除非我们有一个非常非常大的训练样本。</strong></li>
+<h2 id="朴素贝叶斯分类器--可能会出计算题">朴素贝叶斯分类器--可能会出计算题</h2>
+<p>假设训练集中的一个实例可以划分为有n个属性的组合。<span class="math inline">\(&lt;a_1,a_2,...a_n&gt;\)</span>，同时，类别空间<span class="math inline">\(V\)</span>是一个有限的集合。</p>
+<p>使用贝叶斯方法对新实例进行分类:<br />
+<span class="math display">\[
+v_{MAP}=arg \max_{v_J \in V}P(v_j|a_1,a_2,...a_n) \\
+v_{MAP}=arg \max_{v_J \in V]}\frac{P(a_1,a_2,..a_n|v_j)P(v_j)}{P(a_1,a_2,..a_n)}
+\]</span><br />
+如何计算<span class="math inline">\(P(v_j)\)</span>和<span class="math inline">\(P(a_1,a_2,...a_n|v_j)\)</span>：</p>
+<ol type="1">
+<li><span class="math inline">\(P(v_j)\)</span>是这一类别在训练数据中出现的概率</li>
+<li><strong><span class="math inline">\(P(a_1, a_2, ...,a_n|v_j)\)</span>不太可信，除非我们有一个非常非常大的训练样本。</strong></li>
 </ol>
-<p>为了解决$P(a_1,a_2, ..a_n|v_j)$难以直接计算的问题，提出了贝叶斯假设。其核心内容就是所有的属性值都是相互独立的。所以有:<br>$$<br>P(a_1,a_2,…a_n|v_j)=\prod_{i}P(a_i|v_i)<br>$$<br><img src="https://gitee.com/twn29004/myimg/raw/master/imgs/202111211352341.png" alt="image-20211121135228260"></p>
+<p>为了解决<span class="math inline">\(P(a_1,a_2, ..a_n|v_j)\)</span>难以直接计算的问题，提出了贝叶斯假设。其核心内容就是所有的属性值都是相互独立的。所以有:<br />
+<span class="math display">\[
+P(a_1,a_2,...a_n|v_j)=\prod_{i}P(a_i|v_i)
+\]</span><br />
+<img src="https://gitee.com/twn29004/myimg/raw/master/imgs/202111211352341.png" alt="image-20211121135228260" /></p>
 <p>计算的例子。</p>
-<h2 id="贝叶斯信念网络—-计算题"><a href="#贝叶斯信念网络—-计算题" class="headerlink" title="贝叶斯信念网络—-计算题"></a>贝叶斯信念网络—-计算题</h2><p>贝叶斯最优分类器难以计算，朴素贝叶斯要求各个属性相互独立，条件太过严格。贝叶斯信念网络提出了一种折衷的方法。</p>
-<h3 id="条件独立"><a href="#条件独立" class="headerlink" title="条件独立"></a>条件独立</h3><p><img src="https://gitee.com/twn29004/myimg/raw/master/imgs/202111211708912.png" alt="image-20211121170821847"></p>
-<p>在给定$z$的请款下，对于任意的$x$，都有$P(X=x_i|Y=y_j,Z=z_k)=P(x=x_i|Z=z_k)$或者说$P(X|Y,Z)=P(X|Z)$。我们就称$X$和$Y$关于$Z$是条件独立的。</p>
-<p>这样的话，使用条件独立可以将朴素贝叶斯调整为:<br>$$<br>P(X,Y|Z)=P(X|Y,Z)*P(Y|Z)=P(X|Z)*P(Y|Z)<br>$$<br>上述式子在另一个角度证明了朴素贝叶斯。因为朴素贝叶斯中$X$和$Y$是相互独立的。</p>
-<p><img src="https://gitee.com/twn29004/myimg/raw/master/imgs/202111211900632.png" alt="image-20211121190026571"></p>
+<h2 id="贝叶斯信念网络----计算题">贝叶斯信念网络----计算题</h2>
+<p>贝叶斯最优分类器难以计算，朴素贝叶斯要求各个属性相互独立，条件太过严格。贝叶斯信念网络提出了一种折衷的方法。</p>
+<h3 id="条件独立">条件独立</h3>
+<p><img src="https://gitee.com/twn29004/myimg/raw/master/imgs/202111211708912.png" alt="image-20211121170821847" /></p>
+<p>在给定<span class="math inline">\(z\)</span>的请款下，对于任意的<span class="math inline">\(x\)</span>，都有<span class="math inline">\(P(X=x_i|Y=y_j,Z=z_k)=P(x=x_i|Z=z_k)\)</span>或者说<span class="math inline">\(P(X|Y,Z)=P(X|Z)\)</span>。我们就称<span class="math inline">\(X\)</span>和<span class="math inline">\(Y\)</span>关于<span class="math inline">\(Z\)</span>是条件独立的。</p>
+<p>这样的话，使用条件独立可以将朴素贝叶斯调整为:<br />
+<span class="math display">\[
+P(X,Y|Z)=P(X|Y,Z)*P(Y|Z)=P(X|Z)*P(Y|Z) 
+\]</span><br />
+上述式子在另一个角度证明了朴素贝叶斯。因为朴素贝叶斯中<span class="math inline">\(X\)</span>和<span class="math inline">\(Y\)</span>是相互独立的。</p>
+<p><img src="https://gitee.com/twn29004/myimg/raw/master/imgs/202111211900632.png" alt="image-20211121190026571" /></p>
 <p>计算下列事件发生的概率:</p>
-<ol>
-<li>$P(W|S)$</li>
-<li>$P(S|W)$</li>
-<li>$P(S|R,W)$</li>
+<ol type="1">
+<li><span class="math inline">\(P(W|S)\)</span></li>
+<li><span class="math inline">\(P(S|W)\)</span></li>
+<li><span class="math inline">\(P(S|R,W)\)</span></li>
 </ol>
-<p>$$<br>\begin{equation}<br>\begin{aligned}<br>P(W|S) &amp;= \frac{P(W,S)}{P(S)} \<br>&amp;= \frac{P(W,S|R)*P(R) +P(W,S|\neg R)*P(\neg R)}{P(S)} \<br>&amp;= \frac{P(W,S,R) + P(W,S,\neg R)}{P(S)} \<br>&amp;= \frac{P(W,S,R)}{P(R,S)}*\frac{P(R,S)}{R(S)} + \frac{P(W,\neg R,S)}{P(\neg R, S)}*\frac{P(\neg R,S)}{P(S)} \<br>&amp;= P(W|R,S)*P(R|S) + P(W | \neg R,S)*P(\neg R | S) \<br>&amp;= P(W|R,S)*P(R) + P(W|\neg R, S)*P(\neg R) \<br>\end{aligned}<br>\end{equation}<br>$$</p>
-<p>第三行变换的依据是根据已知条件凑出来的。最后一行的变化是因为$R$和$S$是独立的。<br>$$<br>P(S|W) = \frac{P(W|S)*P(S)}{P(W)} \<br>\begin{equation}<br>\begin{aligned}<br>P(W) &amp;= P(W|R,S)*P(R , S) + P(W|R, \neg S) *P(R, \neg S) \<br>&amp;+ P(W|\neg R, S) * P(\neg R. S) + P(W|\neg R, \neg S) *P(\neg R, \neg S)<br>\end{aligned}<br>\end{equation} \<br>\<br>P(R,S) = P(R)*P(S)<br>$$</p>
-<p>$$<br>\begin{equation}<br>\begin{aligned}<br>P(S|R,W) &amp;= \frac{P(R,S,W)}{P(R,W)} \<br>&amp;= \frac{P(W|R,S)*P(R,S)}{P(R,W)} \<br>&amp;= \frac{P(W|R,S)*P(R)*P(S)}{P(R,W)} \<br>&amp;= \frac{P(W|R,S)*P(S)}{P(W|R)}<br>\end{aligned}<br>\end{equation} \<br>$$</p>
-<p>$$<br>\begin{equation}<br>\begin{aligned}<br>P(W|R) &amp;= \frac{P(W,R)}{P(R)} \<br>&amp;= \frac{P(W.R|S) * P(S) + P(W,R|\neg S)*P(\neg S)}{P(R)} \<br>&amp;= \frac{P(W,R,S) + P(W,R,\neg S)}{P(R)} \<br>&amp;= \frac{P(W, R,S)}{P(R,S)}*\frac{P(R,S)}{P(R)} + \frac{P(W, R,\neg S)}{P(R,\neg S)}*\frac{P(R,\neg S)}{P(R)} \<br>&amp;= P(W|R,S)*P(S|R) + P(W|R, \neg S)*P(\neg S|R) \<br>&amp;= P(W|R,S)*P(S) + P(W|R, \neg S)*P(\neg S)<br>\end{aligned}<br>\end{equation}<br>$$</p>
-<p><img src="https://gitee.com/twn29004/myimg/raw/master/imgs/202111212023894.png" alt="image-20211121202358797"></p>
-<p>​                                                                                                                                                                       </p>
-</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">twn29004</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://example.com/2021/11/27/%E8%B4%9D%E5%8F%B6%E6%96%AF%E5%AD%A6%E4%B9%A0/">http://example.com/2021/11/27/%E8%B4%9D%E5%8F%B6%E6%96%AF%E5%AD%A6%E4%B9%A0/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://example.com" target="_blank">twn29004's Blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a></div><div class="post_share"><div class="social-share" data-image="https://w.wallhaven.cc/full/y8/wallhaven-y8vlyk.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2021/11/27/RPVNet/"><img class="prev-cover" src="https://hdwallsource.com/img/2021/7/basketball-hoop-net-wallpaper-76101-78830-hd-wallpapers.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">RPVNet解读</div></div></a></div><div class="next-post pull-right"><a href="/2021/11/18/hello-world/"><img class="next-cover" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Hello World</div></div></a></div></nav><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="disqus_thread"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://gitee.com/twn29004/myimg/raw/master/imgs/202111192225766.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">twn29004</div><div class="author-info__description"></div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">3</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">2</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">2</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/twn29004"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/twn29004" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:twn29004@qq.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">This is twn29004's Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B4%9D%E5%8F%B6%E6%96%AF%E7%90%86%E8%AE%BA"><span class="toc-text">贝叶斯理论</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%A1%E7%AE%97%E5%90%8E%E9%AA%8C%E6%A6%82%E7%8E%87"><span class="toc-text">计算后验概率</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9E%81%E5%A4%A7%E4%BC%BC%E7%84%B6%E5%81%87%E8%AE%BE%E5%92%8C%E6%9E%81%E5%A4%A7%E5%90%8E%E9%AA%8C%E6%A6%82%E7%8E%87%E5%81%87%E8%AE%BE%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-text">极大似然假设和极大后验概率假设的区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E8%88%AC%E6%A6%82%E7%8E%87%E5%87%86%E5%88%99"><span class="toc-text">一般概率准则</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%80%E5%B0%8F%E6%8F%8F%E8%BF%B0%E9%95%BF%E5%BA%A6"><span class="toc-text">最小描述长度</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B4%9D%E5%8F%B6%E6%96%AF%E6%9C%80%E4%BC%98%E5%88%86%E7%B1%BB%E5%99%A8"><span class="toc-text">贝叶斯最优分类器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%90%89%E5%B8%83%E6%96%AF%E7%AE%97%E6%B3%95"><span class="toc-text">吉布斯算法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Bagging-%E5%88%86%E7%B1%BB%E5%99%A8%E7%AE%97%E6%B3%95"><span class="toc-text">Bagging 分类器算法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%81%8F%E5%B7%AE%E6%96%B9%E5%B7%AE%E5%88%86%E8%A7%A3"><span class="toc-text">偏差方差分解</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%B4%E7%B4%A0%E8%B4%9D%E5%8F%B6%E6%96%AF%E5%88%86%E7%B1%BB%E5%99%A8%E2%80%93%E5%8F%AF%E8%83%BD%E4%BC%9A%E5%87%BA%E8%AE%A1%E7%AE%97%E9%A2%98"><span class="toc-text">朴素贝叶斯分类器–可能会出计算题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B4%9D%E5%8F%B6%E6%96%AF%E4%BF%A1%E5%BF%B5%E7%BD%91%E7%BB%9C%E2%80%94-%E8%AE%A1%E7%AE%97%E9%A2%98"><span class="toc-text">贝叶斯信念网络—-计算题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9D%A1%E4%BB%B6%E7%8B%AC%E7%AB%8B"><span class="toc-text">条件独立</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2021/11/27/RPVNet/" title="RPVNet解读"><img src="https://hdwallsource.com/img/2021/7/basketball-hoop-net-wallpaper-76101-78830-hd-wallpapers.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="RPVNet解读"/></a><div class="content"><a class="title" href="/2021/11/27/RPVNet/" title="RPVNet解读">RPVNet解读</a><time datetime="2021-11-26T16:00:00.000Z" title="发表于 2021-11-27 00:00:00">2021-11-27</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/11/27/%E8%B4%9D%E5%8F%B6%E6%96%AF%E5%AD%A6%E4%B9%A0/" title="贝叶斯学习"><img src="https://w.wallhaven.cc/full/y8/wallhaven-y8vlyk.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="贝叶斯学习"/></a><div class="content"><a class="title" href="/2021/11/27/%E8%B4%9D%E5%8F%B6%E6%96%AF%E5%AD%A6%E4%B9%A0/" title="贝叶斯学习">贝叶斯学习</a><time datetime="2021-11-26T16:00:00.000Z" title="发表于 2021-11-27 00:00:00">2021-11-27</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/11/18/hello-world/" title="Hello World"><img src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Hello World"/></a><div class="content"><a class="title" href="/2021/11/18/hello-world/" title="Hello World">Hello World</a><time datetime="2021-11-18T11:40:37.003Z" title="发表于 2021-11-18 19:40:37">2021-11-18</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2021 By twn29004</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>if (!window.MathJax) {
+<p><span class="math display">\[
+\begin{equation}
+\begin{aligned}
+P(W|S) &amp;= \frac{P(W,S)}{P(S)} \\
+&amp;= \frac{P(W,S|R)*P(R) +P(W,S|\neg R)*P(\neg R)}{P(S)} \\
+&amp;= \frac{P(W,S,R) + P(W,S,\neg R)}{P(S)} \\
+&amp;= \frac{P(W,S,R)}{P(R,S)}*\frac{P(R,S)}{R(S)} + \frac{P(W,\neg R,S)}{P(\neg R, S)}*\frac{P(\neg R,S)}{P(S)} \\  
+&amp;= P(W|R,S)*P(R|S) + P(W | \neg R,S)*P(\neg R | S) \\
+&amp;= P(W|R,S)*P(R) + P(W|\neg R, S)*P(\neg R) \\
+\end{aligned}
+\end{equation}
+\]</span></p>
+<p>第三行变换的依据是根据已知条件凑出来的。最后一行的变化是因为<span class="math inline">\(R\)</span>和<span class="math inline">\(S\)</span>是独立的。<br />
+<span class="math display">\[
+P(S|W) = \frac{P(W|S)*P(S)}{P(W)} \\
+\begin{equation}
+\begin{aligned}
+P(W) &amp;= P(W|R,S)*P(R , S) + P(W|R, \neg S) *P(R, \neg S) \\
+&amp;+ P(W|\neg R, S) * P(\neg R. S) + P(W|\neg R, \neg S) *P(\neg R, \neg S) 
+\end{aligned}
+\end{equation} \\
+\\
+P(R,S) = P(R)*P(S)
+\]</span></p>
+<p><span class="math display">\[
+\begin{equation}
+\begin{aligned}
+P(S|R,W) &amp;= \frac{P(R,S,W)}{P(R,W)} \\
+&amp;= \frac{P(W|R,S)*P(R,S)}{P(R,W)} \\
+&amp;= \frac{P(W|R,S)*P(R)*P(S)}{P(R,W)} \\
+&amp;= \frac{P(W|R,S)*P(S)}{P(W|R)}
+\end{aligned}
+\end{equation} \\
+\]</span></p>
+<p><span class="math display">\[
+\begin{equation}
+\begin{aligned}
+P(W|R) &amp;= \frac{P(W,R)}{P(R)} \\
+&amp;= \frac{P(W.R|S) * P(S) + P(W,R|\neg S)*P(\neg S)}{P(R)} \\
+&amp;= \frac{P(W,R,S) + P(W,R,\neg S)}{P(R)} \\
+&amp;= \frac{P(W, R,S)}{P(R,S)}*\frac{P(R,S)}{P(R)} + \frac{P(W, R,\neg S)}{P(R,\neg S)}*\frac{P(R,\neg S)}{P(R)} \\
+&amp;= P(W|R,S)*P(S|R) + P(W|R, \neg S)*P(\neg S|R) \\
+&amp;= P(W|R,S)*P(S) + P(W|R, \neg S)*P(\neg S)
+\end{aligned}
+\end{equation}
+\]</span></p>
+<p><img src="https://gitee.com/twn29004/myimg/raw/master/imgs/202111212023894.png" alt="image-20211121202358797" /></p>
+<p>​</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">twn29004</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://example.com/2021/11/27/%E8%B4%9D%E5%8F%B6%E6%96%AF%E5%AD%A6%E4%B9%A0/">http://example.com/2021/11/27/%E8%B4%9D%E5%8F%B6%E6%96%AF%E5%AD%A6%E4%B9%A0/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://example.com" target="_blank">twn29004's Blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a></div><div class="post_share"><div class="social-share" data-image="https://w.wallhaven.cc/full/y8/wallhaven-y8vlyk.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-full"><a href="/2021/11/27/RPVNet/"><img class="prev-cover" src="https://hdwallsource.com/img/2021/7/basketball-hoop-net-wallpaper-76101-78830-hd-wallpapers.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">RPVNet解读</div></div></a></div></nav><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="disqus_thread"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://gitee.com/twn29004/myimg/raw/master/imgs/202111192225766.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">twn29004</div><div class="author-info__description"></div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">3</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">3</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">2</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/twn29004"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/twn29004" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:twn29004@qq.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">This is twn29004's Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B4%9D%E5%8F%B6%E6%96%AF%E7%90%86%E8%AE%BA"><span class="toc-text">贝叶斯理论</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%A1%E7%AE%97%E5%90%8E%E9%AA%8C%E6%A6%82%E7%8E%87"><span class="toc-text">计算后验概率</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9E%81%E5%A4%A7%E4%BC%BC%E7%84%B6%E5%81%87%E8%AE%BE%E5%92%8C%E6%9E%81%E5%A4%A7%E5%90%8E%E9%AA%8C%E6%A6%82%E7%8E%87%E5%81%87%E8%AE%BE%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-text">极大似然假设和极大后验概率假设的区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E8%88%AC%E6%A6%82%E7%8E%87%E5%87%86%E5%88%99"><span class="toc-text">一般概率准则</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%80%E5%B0%8F%E6%8F%8F%E8%BF%B0%E9%95%BF%E5%BA%A6"><span class="toc-text">最小描述长度</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B4%9D%E5%8F%B6%E6%96%AF%E6%9C%80%E4%BC%98%E5%88%86%E7%B1%BB%E5%99%A8"><span class="toc-text">贝叶斯最优分类器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%90%89%E5%B8%83%E6%96%AF%E7%AE%97%E6%B3%95"><span class="toc-text">吉布斯算法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#bagging-%E5%88%86%E7%B1%BB%E5%99%A8%E7%AE%97%E6%B3%95"><span class="toc-text">Bagging 分类器算法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%81%8F%E5%B7%AE%E6%96%B9%E5%B7%AE%E5%88%86%E8%A7%A3"><span class="toc-text">偏差方差分解</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%B4%E7%B4%A0%E8%B4%9D%E5%8F%B6%E6%96%AF%E5%88%86%E7%B1%BB%E5%99%A8--%E5%8F%AF%E8%83%BD%E4%BC%9A%E5%87%BA%E8%AE%A1%E7%AE%97%E9%A2%98"><span class="toc-text">朴素贝叶斯分类器--可能会出计算题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B4%9D%E5%8F%B6%E6%96%AF%E4%BF%A1%E5%BF%B5%E7%BD%91%E7%BB%9C----%E8%AE%A1%E7%AE%97%E9%A2%98"><span class="toc-text">贝叶斯信念网络----计算题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9D%A1%E4%BB%B6%E7%8B%AC%E7%AB%8B"><span class="toc-text">条件独立</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2021/11/27/CT3D%E8%AE%BA%E6%96%87%E5%88%86%E4%BA%AB/" title="CT3D论文"><img src="https://wallpapercave.com/wp/wp1815131.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="CT3D论文"/></a><div class="content"><a class="title" href="/2021/11/27/CT3D%E8%AE%BA%E6%96%87%E5%88%86%E4%BA%AB/" title="CT3D论文">CT3D论文</a><time datetime="2021-11-26T16:00:00.000Z" title="发表于 2021-11-27 00:00:00">2021-11-27</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/11/27/RPVNet/" title="RPVNet解读"><img src="https://hdwallsource.com/img/2021/7/basketball-hoop-net-wallpaper-76101-78830-hd-wallpapers.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="RPVNet解读"/></a><div class="content"><a class="title" href="/2021/11/27/RPVNet/" title="RPVNet解读">RPVNet解读</a><time datetime="2021-11-26T16:00:00.000Z" title="发表于 2021-11-27 00:00:00">2021-11-27</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/11/27/%E8%B4%9D%E5%8F%B6%E6%96%AF%E5%AD%A6%E4%B9%A0/" title="贝叶斯学习"><img src="https://w.wallhaven.cc/full/y8/wallhaven-y8vlyk.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="贝叶斯学习"/></a><div class="content"><a class="title" href="/2021/11/27/%E8%B4%9D%E5%8F%B6%E6%96%AF%E5%AD%A6%E4%B9%A0/" title="贝叶斯学习">贝叶斯学习</a><time datetime="2021-11-26T16:00:00.000Z" title="发表于 2021-11-27 00:00:00">2021-11-27</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2021 By twn29004</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>if (!window.MathJax) {
   window.MathJax = {
     tex: {
       inlineMath: [ ['$','$'], ["\\(","\\)"]],
