@@ -1,0 +1,276 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>RPN网络总结 | twn29004's Blog</title><meta name="keywords" content="RPN网络"><meta name="author" content="twn29004"><meta name="copyright" content="twn29004"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="常见的RPN网络 Faster-RCNN中的RPN网络  在Backbone生成的特征图中，使用大小为\(3\times 3\)的卷积处理特征图，针对每一个中心点生成一个256维的向量。特征图可以理解为原图的一种缩小版。 使用\(3\times3\)的卷积处理特征图可以对应到原图中的一个区域。然后RPN网络的目的就是在原图中的各个区域放置anchors。然后根据提取的特征判断这些anchor">
+<meta property="og:type" content="article">
+<meta property="og:title" content="RPN网络总结">
+<meta property="og:url" content="http://twn29004.top/2021/12/02/RPN%E7%BD%91%E7%BB%9C%E6%80%BB%E7%BB%93/index.html">
+<meta property="og:site_name" content="twn29004&#39;s Blog">
+<meta property="og:description" content="常见的RPN网络 Faster-RCNN中的RPN网络  在Backbone生成的特征图中，使用大小为\(3\times 3\)的卷积处理特征图，针对每一个中心点生成一个256维的向量。特征图可以理解为原图的一种缩小版。 使用\(3\times3\)的卷积处理特征图可以对应到原图中的一个区域。然后RPN网络的目的就是在原图中的各个区域放置anchors。然后根据提取的特征判断这些anchor">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/twn2333/my_imgs@latest/img/202112022119925.png">
+<meta property="article:published_time" content="2021-12-01T16:00:00.000Z">
+<meta property="article:modified_time" content="2021-12-02T13:24:46.940Z">
+<meta property="article:author" content="twn29004">
+<meta property="article:tag" content="3D目标检测">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/twn2333/my_imgs@latest/img/202112022119925.png"><link rel="shortcut icon" href="/img/favicon.ico"><link rel="canonical" href="http://twn29004.top/2021/12/02/RPN%E7%BD%91%E7%BB%9C%E6%80%BB%E7%BB%93/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":50,"languages":{"author":"作者: twn29004","link":"链接: ","source":"来源: twn29004's Blog","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'RPN网络总结',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2021-12-02 21:24:46'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if (GLOBAL_CONFIG_SITE.isHome && /iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://gitee.com/twn29004/myimg/raw/master/imgs/202111192225766.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">4</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">3</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">3</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://cdn.jsdelivr.net/gh/twn2333/my_imgs@latest/img/202112022119925.png')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">twn29004's Blog</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">RPN网络总结</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2021-12-01T16:00:00.000Z" title="发表于 2021-12-02 00:00:00">2021-12-02</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2021-12-02T13:24:46.940Z" title="更新于 2021-12-02 21:24:46">2021-12-02</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/">知识总结</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">2.1k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>6分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="RPN网络总结"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="常见的rpn网络">常见的RPN网络</h1>
+<h2 id="faster-rcnn中的rpn网络">Faster-RCNN中的RPN网络</h2>
+<p><img src="https://gitee.com/twn29004/myimg/raw/master/imgs/202111281938250.png" alt="image-20211128193818170" /></p>
+<p>在Backbone生成的特征图中，使用大小为<span class="math inline">\(3\times 3\)</span>的卷积处理特征图，针对每一个中心点生成一个256维的向量。特征图可以理解为原图的一种缩小版。 使用<span class="math inline">\(3\times3\)</span>的卷积处理特征图可以对应到原图中的一个区域。然后RPN网络的目的就是在原图中的各个区域放置anchors。然后根据提取的特征判断这些anchor是否合理以及之后对这些anchor进行调整。</p>
+<p>针对特征图中的每一个中心点，使用<span class="math inline">\(3\times3\)</span>的卷积来提取特征图的特征，生成一个256-D的向量。这个256-D的向量可以理解为对应于原始图像中的某一个区域。然后使用一些全连接层来判断这些anchor是背景还是前景，以及这些anchor距离目标中心点的偏移。</p>
+<p>上述步骤处理完成之后，我们就在提取的特征图上的每一个点都获得了一组anchor,及其是否是前景点还是背景点，以及其相对Ground truth的偏移。然后我们需要proposal layer网络来生成proposal了。其基本步骤如下：</p>
+<ol type="1">
+<li>生成anchors. 根据前面的RPN网络计算出的偏移量和原始的anchors,生成最终anchors所在的位置</li>
+<li>根据前面的对于anchor是前景点还是背景点的判断的输出，根据置信度排序，选取前N个作为关注的anchor.</li>
+<li>对于超出图像边界的anchors进行处理</li>
+<li>剔除尺寸较小的anchors</li>
+<li>对剩余的positive anchor进行NMS</li>
+<li>剩余的区域输出作为下个阶段的输入</li>
+</ol>
+<p>上述proposal生成了一系列大小不同的anchor。这些anchor都是对应原图的不同大小的区域。由于神经网络只能处理固定大小的输入，因此，在将不同大小的anchor映射回backbone生成的特征图之后，将所对应区域的不同大小的特征图划分为相同大小的网格，然后对这些网格进行pooling操作。这样就使得网络能够有固定大小的输入了。</p>
+<p><img src="https://pic1.zhimg.com/v2-e3108dc5cdd76b871e21a4cb64001b5c_r.jpg" alt="preview" /></p>
+<h2 id="second网络中的rpn网络">SECOND网络中的RPN网络</h2>
+<p><img src="https://gitee.com/twn29004/myimg/raw/master/imgs/202112021017505.png" alt="Second-RPN" /></p>
+<p>SECOND的RPN网络与Faster-RCNN中的类似，不同的是，SECOND中并没有第二阶段，这个RPN网络是用于从backbone提取的特征图中生成边界框的。</p>
+<p>由于三维的卷积神经网络太过耗时，所以作者在使用稀疏卷积神经网络提取三维点云的特征之后，将其压缩到了俯视图的特征图上，然后再特征图的各个位置计算该区域所属的类别以及回归分支计算的值。</p>
+<p>神经网络总是要找到一个目标去优化的，但是就目前来说，我们还不知道我们优化的目标是什么，所以我们需要找到一个基准值去优化。所以需要根据anchor找到一个基准值作为优化的目标。这里采用的是以IoU为基准来进行判断。也就是说当我的anchor与基准值的IoU大于某个阈值的时候,我就需要关注这个anchor预测的输出。小于某个阈值的时候，我们也需要关注其预测的输出，我们将其分类背景，那么我们在训练的时候也希望他是朝着背景的方向去优化的。</p>
+<p>这个就是OpenPCDet中的TargetAssign. 将anchor与gt绑定之后，我们还需要gt的其他信息来帮助我们优化我们的目标。</p>
+<h2 id="pointrcnn网络中的rpn网络">PointRCNN网络中的RPN网络</h2>
+<p><img src="https://gitee.com/twn29004/myimg/raw/master/imgs/202112020959428.png" alt="image-20211202095917332" /></p>
+<p><strong>该方法生成的区域提议达到了很高的recall。</strong>其实原因很好理解，根据每一个前景点生成，只要能够找到目标的前景点，大概率也能计算出其对应的三维边界框。使用点云分割网络对采样的点云进行分割。然后根据分割出的前景点生成边界框。文中的意思的是针对每一个前景点都预测一个三维边界框。这样的话就会产生大量的重复的三维边界框，因此作者使用了NMS去除边界框。作者选择在俯视图上IoU阈值为0.85,来选择300个高质量的porposal来进行第二阶段的refine。选择在俯视图上的原因是二维IoU的计算要简单快速的多，此外，因为重复的很多，所以作者选择了一个很高的阈值来减少proposal的数量。</p>
+<p><img src="https://gitee.com/twn29004/myimg/raw/master/imgs/202112021029478.png" alt="image-20211202102931430" /></p>
+<p>从上图中可以看出，在IoU为0.5时,其recall能达到98.21。这已经达到了相当高的水准。但是当IoU为0.7时，其下降到了82.29，这也在一定程度上反映了针对其实各个前景点生成的三维边界框的质量并不是很高。分析其原因是因为不同的前景点通常位于目标不同的位置，根据其预测回归三维边界框可能比较困难。</p>
+<p>上述方法存在的弊端就一方面需要消耗大量的资源来计算三维边界框。该网络是一个二阶段的网络，但是作者并没有同时训练这两个网络，分析其原因是因为计算资源消耗太大了。一方面是分割网络的资源消耗，另一方面的proposal生成的消耗。</p>
+<h2 id="votenet网络中的rpn网络">VoteNet网络中的RPN网络</h2>
+<p><img src="https://gitee.com/twn29004/myimg/raw/master/imgs/202112021000221.png" alt="VoteNet-RPN" /></p>
+<p>VoteNet的基本流程就是首先在原始场景中进行采样，提取特征。然后根据提取的特征对目标的中心点进行投票。这里投票的意思就是根据原始点云的位置和特征，估算目标中心点的位置，计算该点云到中心点的偏移。原始点云加上这个偏移就可以向目标中心点靠拢。然后在根据投票结果做一个聚类。文中描述的聚类的话<strong>是在Votes中进行FPS采样</strong>，采样<span class="math inline">\(K\)</span>个点，然后将这<span class="math inline">\(K\)</span>个点周围的其他点聚合到一个集合中就形成了一个聚类。因为投票之后目标的点靠的更近了。聚类后的结果即为网络的proposal。然后根据这些proposal生成三维边界框。</p>
+<p>VoteNet网络的RPN感觉比PointRCNN的要好一些，同样是根据点来生成proposal。VoteNet中借用了投票和聚类的方法来生成proposal。此外，再该方法中，不仅利用了前景点云，还在一定程度上利用了周围的背景点云。可能还在一定程度上减少了计算开销。</p>
+<h2 id="dssd网络中的rpn网络">3DSSD网络中的RPN网络</h2>
+<p><img src="https://gitee.com/twn29004/myimg/raw/master/imgs/202112021050611.png" alt="3DSSD-RPN" /></p>
+<p>3DSSD中的RPN网络部分和VoteNet中的基本一致。不同的是3DSSD中引入了一种混合采样的方法。传统的FPS采样是在欧几里得空间进行的。作者在文中分析了这个方法的弊端。因为点云场景中大部分的点云都是背景点云。FPS采样虽然可以让采样的点云均匀的近似均匀的分布在整个点云空间，但是其采样到的点云大部分都是背景点云。这不利于我们的特征提取。因此作者引入了一种混合采样的方式，就是既在欧几里得空间应用FPS采样，又在语义特征空间应用FPS采样。然后将两种采样的距离结合起来。</p>
+<p><img src="https://gitee.com/twn29004/myimg/raw/master/imgs/202112021046903.png" alt="image-20211202104607856" /></p>
+<p>上表中，D-FPS表示的是欧几里得空间的FPS,F-FPS表示的是语义特征空间的FPS。从上表中可以看出，引入F-FPS确实能在一定程度上提高算法采样到前景点的比例。</p>
+<p>此外，3DSSD采用的是anchor-free的方法生成三维框，其根据每一个候选人点生成一个三维框，</p>
+<p>一个疑问<strong>高维空间中的距离度量将会失效，那再高维的语义特征空间中，FPS为什么还会有效呢？？？,难道是这里的语义特征的维度很小，这里需要到代码中求证</strong></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/t949500898/article/details/107433419">高维空间欧氏距离与余弦相似度失效</a></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">twn29004</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://twn29004.top/2021/12/02/RPN%E7%BD%91%E7%BB%9C%E6%80%BB%E7%BB%93/">http://twn29004.top/2021/12/02/RPN%E7%BD%91%E7%BB%9C%E6%80%BB%E7%BB%93/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://twn29004.top" target="_blank">twn29004's Blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/3D%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B/">3D目标检测</a></div><div class="post_share"><div class="social-share" data-image="https://cdn.jsdelivr.net/gh/twn2333/my_imgs@latest/img/202112022119925.png" data-sites="wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2021/11/29/CT3D%E8%AE%BA%E6%96%87%E5%88%86%E4%BA%AB/"><img class="next-cover" src="https://wallpapercave.com/wp/wp1815131.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">CT3D论文</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2021/11/29/CT3D%E8%AE%BA%E6%96%87%E5%88%86%E4%BA%AB/" title="CT3D论文"><img class="cover" src="https://wallpapercave.com/wp/wp1815131.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-11-29</div><div class="title">CT3D论文</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="disqus_thread"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://gitee.com/twn29004/myimg/raw/master/imgs/202111192225766.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">twn29004</div><div class="author-info__description"></div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">4</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">3</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">3</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/twn29004"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/twn29004" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:twn29004@qq.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">This is twn29004's Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E7%9A%84rpn%E7%BD%91%E7%BB%9C"><span class="toc-text">常见的RPN网络</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#faster-rcnn%E4%B8%AD%E7%9A%84rpn%E7%BD%91%E7%BB%9C"><span class="toc-text">Faster-RCNN中的RPN网络</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#second%E7%BD%91%E7%BB%9C%E4%B8%AD%E7%9A%84rpn%E7%BD%91%E7%BB%9C"><span class="toc-text">SECOND网络中的RPN网络</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#pointrcnn%E7%BD%91%E7%BB%9C%E4%B8%AD%E7%9A%84rpn%E7%BD%91%E7%BB%9C"><span class="toc-text">PointRCNN网络中的RPN网络</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#votenet%E7%BD%91%E7%BB%9C%E4%B8%AD%E7%9A%84rpn%E7%BD%91%E7%BB%9C"><span class="toc-text">VoteNet网络中的RPN网络</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#dssd%E7%BD%91%E7%BB%9C%E4%B8%AD%E7%9A%84rpn%E7%BD%91%E7%BB%9C"><span class="toc-text">3DSSD网络中的RPN网络</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2021/12/02/RPN%E7%BD%91%E7%BB%9C%E6%80%BB%E7%BB%93/" title="RPN网络总结"><img src="https://cdn.jsdelivr.net/gh/twn2333/my_imgs@latest/img/202112022119925.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="RPN网络总结"/></a><div class="content"><a class="title" href="/2021/12/02/RPN%E7%BD%91%E7%BB%9C%E6%80%BB%E7%BB%93/" title="RPN网络总结">RPN网络总结</a><time datetime="2021-12-01T16:00:00.000Z" title="发表于 2021-12-02 00:00:00">2021-12-02</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/11/29/CT3D%E8%AE%BA%E6%96%87%E5%88%86%E4%BA%AB/" title="CT3D论文"><img src="https://wallpapercave.com/wp/wp1815131.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="CT3D论文"/></a><div class="content"><a class="title" href="/2021/11/29/CT3D%E8%AE%BA%E6%96%87%E5%88%86%E4%BA%AB/" title="CT3D论文">CT3D论文</a><time datetime="2021-11-28T16:00:00.000Z" title="发表于 2021-11-29 00:00:00">2021-11-29</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/11/27/RPVNet/" title="RPVNet解读"><img src="https://hdwallsource.com/img/2021/7/basketball-hoop-net-wallpaper-76101-78830-hd-wallpapers.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="RPVNet解读"/></a><div class="content"><a class="title" href="/2021/11/27/RPVNet/" title="RPVNet解读">RPVNet解读</a><time datetime="2021-11-26T16:00:00.000Z" title="发表于 2021-11-27 00:00:00">2021-11-27</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/11/27/%E8%B4%9D%E5%8F%B6%E6%96%AF%E5%AD%A6%E4%B9%A0/" title="贝叶斯学习"><img src="https://w.wallhaven.cc/full/y8/wallhaven-y8vlyk.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="贝叶斯学习"/></a><div class="content"><a class="title" href="/2021/11/27/%E8%B4%9D%E5%8F%B6%E6%96%AF%E5%AD%A6%E4%B9%A0/" title="贝叶斯学习">贝叶斯学习</a><time datetime="2021-11-26T16:00:00.000Z" title="发表于 2021-11-27 00:00:00">2021-11-27</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2021 By twn29004</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">保持热爱，奔赴山海</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>if (!window.MathJax) {
+  window.MathJax = {
+    tex: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"]],
+      tags: 'ams'
+    },
+    chtml: {
+      scale: 1.2
+    },
+    options: {
+      renderActions: {
+        findScript: [10, doc => {
+          for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+            const display = !!node.type.match(/; *mode=display/)
+            const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+            const text = document.createTextNode('')
+            node.parentNode.replaceChild(text, node)
+            math.start = {node: text, delim: '', n: 0}
+            math.end = {node: text, delim: '', n: 0}
+            doc.math.push(math)
+          }
+        }, ''],
+        insertScript: [200, () => {
+          document.querySelectorAll('mjx-container:not\([display]\)').forEach(node => {
+            const target = node.parentNode
+            if (target.nodeName.toLowerCase() === 'li') {
+              target.parentNode.classList.add('has-jax')
+            } else {
+              target.classList.add('has-jax')
+            }
+          });
+        }, '', false]
+      }
+    }
+  }
+  
+  const script = document.createElement('script')
+  script.src = 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js'
+  script.id = 'MathJax-script'
+  script.async = true
+  document.head.appendChild(script)
+} else {
+  MathJax.startup.document.state(0)
+  MathJax.texReset()
+  MathJax.typeset()
+}</script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex@latest/dist/contrib/copy-tex.min.js"></script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex@latest/dist/contrib/copy-tex.css"><script>(() => {
+  document.querySelectorAll('#article-container span.katex-display').forEach(item => {
+    btf.wrap(item, 'div', { class: 'katex-wrap'})
+  })
+})()</script><script>function loadDisqus () {
+  var disqus_config = function () {
+    this.page.url = 'http://twn29004.top/2021/12/02/RPN%E7%BD%91%E7%BB%9C%E6%80%BB%E7%BB%93/'
+    this.page.identifier = '2021/12/02/RPN网络总结/'
+    this.page.title = 'RPN网络总结'
+  };
+
+  window.disqusReset = () => {
+    DISQUS.reset({
+      reload: true,
+      config: disqus_config
+    })
+  }
+
+  if (window.DISQUS) disqusReset()
+  else {
+    (function() { 
+      var d = document, s = d.createElement('script');
+      s.src = 'https://.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  }
+}
+
+if ('Disqus' === 'Disqus' || !false) {
+  if (false) btf.loadComment(document.getElementById('disqus_thread'), loadDisqus)
+  else loadDisqus()
+} else {
+  function loadOtherComment () {
+    loadDisqus()
+  }
+}
+</script></div><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
