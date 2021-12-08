@@ -3242,6 +3242,13 @@ blockquote footer cite:before {
   -moz-background-size: cover;
   background-size: cover;
 }
+#footer:before {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.5);
+  content: '';
+}
 #footer-wrap {
   position: relative;
   padding: 2rem 1rem;
@@ -4718,7 +4725,7 @@ blockquote footer cite:before {
   transform: rotate(360deg);
 }
 #vcomment textarea {
-  background: url("https://cdn.jsdelivr.net/gh/twn2333/my_imgs@latest//img/202112082240355.jpg") 100% 100% no-repeat;
+  background: url("https://cdn.jsdelivr.net/gh/twn2333/my_imgs@latest//img/202112082315434.png") 100% 100% no-repeat;
 }
 #vcomment textarea:focus {
   background-image: none;
