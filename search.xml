@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>Point cloud transformer论文解读</title>
+      <link href="/2021/12/08/PCT(Meng%E2%80%94Hao)/"/>
+      <url>/2021/12/08/PCT(Meng%E2%80%94Hao)/</url>
+      
+        <content type="html"><![CDATA[<p><img src="https://cdn.jsdelivr.net/gh/twn2333/my_imgs@latest//img/202112081119407.png" alt="1" /></p><p><a href="https://github.com/MenghaoGuo/PCT">代码链接</a></p><p><a href="https://doi.org/10.1007/s41095-021-0229-5">paper链接</a></p><h2 id="论文总结">论文总结</h2><p>本文提出了一种在适用于点云的Transformer结构。根据点云数据的特点进一步改善了Transformer的结构。其主要做了三点改进:</p><ol type="1"><li>基于坐标的输入嵌入方法</li><li>改进的offset-attention方法(想法主要来源于图神经网络)</li><li>邻近点嵌入方法</li></ol><p>下面依次介绍上述三种改进点以及改进的原因。</p><p>首先介绍原始的Transformer结构在点云中的使用。</p><p><img src="https://cdn.jsdelivr.net/gh/twn2333/my_imgs@latest//img/202112081123918.png" alt="2" /></p><p>使用点云的Encoder结构来提取点云的特征。首先使用一个输入嵌入层来转化点云的坐标，就是将三维的点云坐标映射到一个更高维的空间。这一步的目的是使得具有相似语义信息的点云能够在高维空间中更加靠近。文中这一步是使用线性层来完成的。然后将经过转化后的坐标输入到级联的Attention网络中。然后将各个层级的Attention网络的输出拼接起来，再经过一个线性层以得到一个逐点的特征，然后使用一个Max Pooling或者Mean Pooling操作来获得一个全局的特征。这样我们就可以使用全局的特征来进行点云的分类了。如果是其他任务的话，可以把全局特征和前面逐点的特征进行拼接，在来进行下一步的任务(这个和PointNet++中的操作是一致的)。</p><p>上述过程描述的就是使用基于坐标的输入嵌入方法和原始的Transformer结构结合起来处理点云的网络。</p><p>在介绍offset-Attention方法之前，需要先介绍一下原始的self-Attenion的机制:<br /><span class="math display">\[\hat{A}=(\hat{a})_{i,j}=Q \cdot K^T \\F_{sa} = A \cdot V \\F_{out} = SA(F_{in}) = LBR(F_{sa}) + F_{in}\]</span><br />上述公式中<span class="math inline">\(A\)</span>是<span class="math inline">\(\hat{A}\)</span>的归一化后的结果，具体的归一化的方法可以参考原论文。offset-Attention的方法就是将<span class="math inline">\(LBR\)</span>中的<span class="math inline">\(F_{sa}\)</span>变化为<span class="math inline">\(F_{sa}\)</span>和<span class="math inline">\(F_{in}\)</span>的差。这样的话就可以有:<br /><span class="math display">\[F_{out}=OA(F_{in})=LRB(F_{in} - F_{sa}) + F_{in}\]</span><br /><img src="https://cdn.jsdelivr.net/gh/twn2333/my_imgs@latest//img/202112081239610.png" alt="image-20211208123926572" /></p><p>作者把这样改进之后的PCT记为SPCT.</p><p>此外，作者还注意到，PCT在提取点云特征的时候，只关注到了点云的全局特征，而忽略了局部特征，因此，受到PointNet++的影响，作者引入了一个局部特征聚合的机制。和PointNet++一样，进行了一个Sampling和Grouping。然后使用PointNet来提取局部点云的特征，然后将这些采样的点及其对应的聚合的特征作为Attention网络的输入.此举大大提高了模型的性能。具体可见下表:</p><p><img src="https://cdn.jsdelivr.net/gh/twn2333/my_imgs@latest//img/202112081244793.png" alt="image-20211208124405743" /></p><p><img src="https://cdn.jsdelivr.net/gh/twn2333/my_imgs@latest//img/202112081245640.png" alt="image-20211208124541575" /></p><p>从上述表格中可以看出，SPCT和那个局部特征聚合都对模型的性能有所提升。此外，作者还做了计算资源方面的分析。资源消耗对比如下表所示:</p><p><img src="https://cdn.jsdelivr.net/gh/twn2333/my_imgs@latest//img/202112081259234.png" alt="image-20211208125922176" /></p><p>从上表可以看出，NPCT和SPCT的资源消耗相差不是很大，但是精度有一定的提升。PCT相比其余两个的参数量和计算量要多很多，但是所需的浮点运算的次数仍比PointNet++(MSG)要少很多。精度却有很大的提升。</p><h2 id="可用知识点">可用知识点</h2><ol type="1"><li>在点云中使用Transformer时，因为点云自带位置信息，因此可以考虑将位置嵌入和输入嵌入结合起来。</li><li>在点云中使用Transformer时，可以考虑使用offset-Attenion方法来替换self-Attention方法。</li><li>在点云中使用Transformer时，可以考虑从使用类似于PointNet2中的局部特征聚合的方法来聚合局部信息。</li></ol><h2 id="常用句式">常用句式</h2><ol type="1"><li>Therefore, the whole self-attention process is permutation-invariant, making it well-suited to the disordered, irregular domain presented by point clouds. 解释了self-attention适合于point cloud处理的原因。</li></ol><h2 id="代码解读">代码解读</h2><p>[挖坑]</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 论文分享 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Segment </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>RPN网络总结</title>
       <link href="/2021/12/02/RPN%E7%BD%91%E7%BB%9C%E6%80%BB%E7%BB%93/"/>
       <url>/2021/12/02/RPN%E7%BD%91%E7%BB%9C%E6%80%BB%E7%BB%93/</url>
