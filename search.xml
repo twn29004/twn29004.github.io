@@ -29,6 +29,31 @@
     
     
     <entry>
+      <title>3D ObJect Detection with Pointformer</title>
+      <link href="/2021/12/07/Pointformer/"/>
+      <url>/2021/12/07/Pointformer/</url>
+      
+        <content type="html"><![CDATA[<p><img src="https://gitee.com/twn29004/myimg/raw/master/imgs/202112071043420.png" alt="image-20211207104343339" /></p><p><a href="https://github.com/Vladimir2506/Pointformer">代码链接</a></p><p><a href="https://arxiv.org/abs/2012.11409">paper链接</a></p><hr /><h2 id="论文总结">论文总结</h2><p>作者提出了一种在3D目标检测任务中的一种基于纯Transformer结构的骨干网络。并在室内，室外的数据集上验证了所提方法的有效性。感觉作者主要是改进了PointNet++的Set Abstraction层。其网络的总体流程如下:</p><p><img src="https://gitee.com/twn29004/myimg/raw/master/imgs/202112071054867.png" alt="image-20211207105443791" /></p><center>图1-Pointformer结构</center><p><img src="https://gitee.com/twn29004/myimg/raw/master/imgs/202112071104267.png" alt="image-20211207110458199" /></p><center>图2-PointNet2结构</center><p>作者主要改进的是Pointformers部分.作者使用了类似PointNet2中的结构设计主要改进了Set Abstraction层。对于Pointformer中的Local Transformer部分的结构如下图所示:</p><p><img src="https://gitee.com/twn29004/myimg/raw/master/imgs/202112071104392.png" alt="image-20211207110400332" /></p><center>图3-Pointformer结构</center><p>和Pointnet2一样，首先对输入点云进行采样和聚合。采样使用的是FPS采样方法，聚合使用的是球形聚合(即聚合距离点距离r以内的点)。这样就形成了以采样点为中心的局部区域。由于Transformer中还需要一个位置映射。因此，相比于PointNet2，Pointfromer增加了一个位置操作。然后讲聚合后的特征以及位置嵌入送入到Transformer结构中进行处理，处理之后进行一个Max Pooling，这是为了保证点云的一些顺序不变性，旋转不变性所必须的操作，这也和PointNet2中一致。此外，作者分析了FPS采样的缺陷，提出了一种坐标调整的网络。其具体做法就是利用最后一层的attention map来计算采样点的偏移，使其向目标目标中心靠(这个感觉和votenet有点像)。然后再经过一个FPN就就生成了这个阶段的特征。</p><p>此外，为了能够更好的融合全局特征，作者还设计了一个Local-Global Transformer结构。其使用的是Cross-Attention的结构。即使用Local Transformer的输出作为query，使用Global Trnansformer的输出作为key和value.这样的话我们就利用整个全局的中心点通过注意力机制来整合全局的信息，这使得两者的特征学习更加有效。</p><p>此外，作者还分析了Transformer没有在目标检测领域得到广泛应用的原因是因为其计算需要消耗大量的资源。其计算复杂度是<span class="math inline">\(n^2\)</span>的。因此，可以考虑将其替换为<a href="https://arxiv.org/abs/2004.05679">MLCVNet</a>中的Linformer结构。<strong><em>在网上看了一下这个Linformer，好像不是很靠谱的感觉。本文作者也没有公布关于该方法的版本</em></strong>。其可在保证精度损失较小的情况下，将计算复杂度下降到<span class="math inline">\(kN\)</span>.</p><p>其基本原理如下:</p><p><img src="https://cdn.jsdelivr.net/gh/twn2333/my_imgs@latest//img/202112081419940.png" alt="image-20211208141911901" /></p><p><span class="math inline">\(E_{i}\)</span>和<span class="math inline">\(F_{i}\)</span>都是一个<span class="math inline">\(k\times N\)</span>的矩阵。<strong>关于减少计算量这部分不是很懂</strong></p><p>下面为作者所作的实验结果:</p><p><img src="https://gitee.com/twn29004/myimg/raw/master/imgs/202112071357116.png" alt="image-20211207135749059" /></p><center>Pointfromer在户外数据集的Backbone上的表现</center><p>从上表中可以看出，无论是在KITTI数据集还是较大的nuScenes数据集上，Pointfromer均在一定程度上提高了模型的检测性能。</p><p><img src="https://gitee.com/twn29004/myimg/raw/master/imgs/202112071400043.png" alt="image-20211207140039986" /></p><center>上图展示的是消融实验部分的结果</center><p>从上表中可以看出，作者提出的Pointfromer的各个部分均对实验性能有所提升。此外，还展示了位置嵌入对于实验性能的影响。</p><hr /><h2 id="可用知识点">可用知识点</h2><ol type="1"><li>作者在文中阐述了图神经网络和transformer的关系。其提出当有足够多的FFN网络的时候，基于图的特征提取网络能够获得一层Transformer网络提取的特征的表达能力。因此，叠加多层Transformer能够获得更强表达能力的特征。</li><li>关于FPS的缺点。FPS采样方法存在两个缺点，1) 是对于离群值很敏感，特别是在处理真实世界中中的点云数据的时候。2) FPS采样的点都是原始点云中的子集，这使得在物体被遮挡或者没有足够点的情况下，很难判断除物体原始的几何信息。</li><li>作者分析了为什么Transformer没有在目标检测领域大规模应用的原因，因为相比分类和分割任务，目标检测任务需要耕读的点云数据，这就使得基于Transformer的网络很难大规模应用。</li></ol><hr /><h2 id="tips">tips</h2><ol type="1"><li>作者还没有公布在kitti数据集和nuScenes数据集上的代码</li><li>作者还没有公布关于Linformer部分的代码</li></ol>]]></content>
+      
+      
+      <categories>
+          
+          <category> 论文分享 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Object Detection </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>RPN网络总结</title>
       <link href="/2021/12/02/RPN%E7%BD%91%E7%BB%9C%E6%80%BB%E7%BB%93/"/>
       <url>/2021/12/02/RPN%E7%BD%91%E7%BB%9C%E6%80%BB%E7%BB%93/</url>
