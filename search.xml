@@ -4,6 +4,56 @@
   
     
     <entry>
+      <title>BANet论文解读</title>
+      <link href="/2021/12/11/BANet(Boundary%20aware%20Net)/"/>
+      <url>/2021/12/11/BANet(Boundary%20aware%20Net)/</url>
+      
+        <content type="html"><![CDATA[<p><img src="https://cdn.jsdelivr.net/gh/twn2333/my_imgs@latest//img/202112101724500.png" alt="image-20211210172456421" /></p><p><a href="">代码链接</a></p><p><a href="https://arxiv.org/abs/2104.10330">paper链接</a></p><h2 id="论文总结">论文总结</h2><p><img src="https://cdn.jsdelivr.net/gh/twn2333/my_imgs@latest//img/202112111442291.png" alt="image-20211211144247213" /></p><p>本文首先提出了一个目前二阶段目标检测网络存在的问题，就是第一阶段提出的proposal通常与真实的边界框存在一定的偏移，特别是在距离较远，包含点很少的目标。例如上图中的(a),(c),(d)中提出的proposal.由于偏移的存在，这样的话这些边界框就很难获的目标的边缘信息。此外，现存的refine的网络也没有聚合或者补偿这些边界信息的机制。此外，现存的网络在优化这些proposal的时候，通常是独立的来优化这些proposal，本文中提出了一种将这些proposal建立图神经网络来同时调整以及特征的传播。作者的解释是通过这个图神经网络，使得当前的proposal能够扩大感受野，获得与其相邻的其他proposal的特征，这样的话就能更好的获得目标的边界信息。</p><p>此外，由于BEV的表达方式存在着一些问题，比如特征模糊或者放弃了3D结构的上下文信息，因此作者提出了一个新的局部特征聚合的网络来弥补这些损失。</p><p>本文中图神经网络的机制:</p><p><img src="https://cdn.jsdelivr.net/gh/twn2333/my_imgs@latest//img/202112111504241.png" alt="image-20211211150436187" /></p><p>以两个proposal的中心点为衡量标准，半径r内的proposal之间存在一条边。所有的proposal构成了集合V,所有的边构成了集合E。上面算法中的K表达的是网络迭代的次数。每次迭代，遍历每个节点，将与当前节点有边相连的节点的特征全部拼接起来，输入到一个线性层中，然后再做一个通道层面的pooling操作(这个和pointnet中是一样的)，然后再将计算得到的特征经过一个线性层和非线性操作，然后再将其与上一阶段的特征相加，得到本次遍历的特征。最后这个proposal的特征采用最后一次遍历的输出。通过一次次遍历，可以不断的扩大当前节点的感受野，从而不断完善当前proposal对于目标边界的了解。</p><p>然后是本文作者提出的一个关于局部区域特征聚合的网络，</p><p>这部分感觉作者说的不是很清楚，也可能是我读得不太仔细。大概按照作者的意思翻译一下:</p><p>关于体素层面的encoding网络，为了能够后的体素层面的特征，作者设计了一个体素和点融合的模块，以充分利用基于点和基于体素的方法的优点。首先作者再稀疏卷积中保留了每个体素的位置坐标，这样的话每个体素的特征的表示就是<span class="math inline">\(\left \{(f_j,p_j:J=1,...M) \right \}\)</span>.为了能够关联多尺度的不同阶段的特征，作者根据pointnet++中的FP层将稀疏卷积的特征传递到了原始点云中。然后我们从原始的点云中插值3D稀疏卷积特征以弥补直接将3D稀疏卷积特征映射到2DBEV特征带来的缺少三维上下文信息的问题。</p><p>我的理解: 大概意思就是没有直接把三维稀疏体素的特征直接转化到2D的BEV特征下，因为这样的话将会带来三维信息的确实。于是作者将三维体素信息使用FP传播到原始点云空间，然后在利用原始点云空间来插值这个BEV的特征。【但是看pipline又不太对，迷惑了】</p><p>pixel-wise的特征部分也说的不是很明白；</p><p>point-wise部分的特征是作者通过使用一个小的pointnet，以原始点云作为输入，将整个点云场景的特征聚合到一些关键点上。</p><p>然后最后来做refine的特征就是上面描述的三部分的特征拼接起来。</p><p>实验结果:</p><p><img src="https://cdn.jsdelivr.net/gh/twn2333/my_imgs@latest//img/202112111548634.png" alt="image-20211211154817563" /></p><p>上表展示的是BANet在KITTI测试集上的表现。其在BEV这个指标上好像获得了排名第一的成绩，其3D的检测精度也达到了一个较好的水平。</p><p><img src="https://cdn.jsdelivr.net/gh/twn2333/my_imgs@latest//img/202112111550532.png" alt="image-20211211155055476" /></p><p>上述两个表格展示了聚合的不同特征以及图神经网络迭代次数对于性能的影响。从不同特征的消融实验中可以看出，基于点的特征对于实验性能的影响非常的巨大。加入了基于点的对于实验性能的影响非常巨大，但是只是用基于点的特征的网络的性能却不是很好。作者分析其原因是在直接转化BEV表示时，从3D特征逐步进行8x下采样，可能会降低定位精度且缺少3D结构上下文信息。</p><p>从图神经网络的迭代次数对于网络性能的影响可以看出，在迭代0次和迭代4次模型性能的差异，这也体现了作者所提方法的有效性。</p><hr /><h2 id="常用句式">常用句式</h2><ol type="1"><li>to fully exploit the merits of both sth. and sth. 为了充分利用什么和什么的优点</li><li>Specifically, to compensate for sth, we devise sth. 特别地，为了弥补什么，我们提出了什么</li></ol><h2 id="代码解读">代码解读</h2><p>[挖坑]作者还没有公布代码</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 论文分享 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 3D Object Detect, Graph Network </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>霍夫丁不等式证明学习的可行性</title>
+      <link href="/2021/12/11/%E5%AD%A6%E4%B9%A0%E7%9A%84%E5%8F%AF%E8%A1%8C%E6%80%A7/"/>
+      <url>/2021/12/11/%E5%AD%A6%E4%B9%A0%E7%9A%84%E5%8F%AF%E8%A1%8C%E6%80%A7/</url>
+      
+        <content type="html"><![CDATA[<h1 id="学习的可行性">学习的可行性</h1><p><a href="https://wulc.me/2017/02/28/机器学习基石--学习理论/">机器学习基石--学习的可行性 | 吴良超的学习笔记 (wulc.me)</a></p><h2 id="霍夫丁不等式">霍夫丁不等式</h2><p>霍夫丁不等式描述的抽样的数目与模型的误差之间的关系。假如橙色弹珠的真实比例为<span class="math inline">\(\nu\)</span>,模型估计的比率为<span class="math inline">\(\mu\)</span>,样本大小为<span class="math inline">\(N\)</span>，则对应的霍夫丁不等式为:<br /><span class="math display">\[P(|\nu - \mu| &lt; \epsilon) \le 2exp(-2 \epsilon^2N)\]</span><br /><span class="math inline">\(\epsilon\)</span>表示误差允许的范围。</p><h2 id="从霍夫丁不等式到机器学习">从霍夫丁不等式到机器学习</h2><p>考虑一个二分类问题，绿色弹珠表示样本标签与我们模型<span class="math inline">\(h\)</span>的预测值一致，橙色弹珠表示样本标签与模型<span class="math inline">\(h\)</span>的预测不一致，同时将模型<span class="math inline">\(h\)</span>在<strong><em>全部弹珠中的分类错误率</em></strong>记为<span class="math inline">\(E_{out}(h)\)</span>，在训练样本中的<strong><em>分类错误率</em></strong>记为<span class="math inline">\(E_{in}(h)\)</span>。</p><p>霍夫丁不等式描述的就是当模型<span class="math inline">\(h\)</span>在训练样本上的分类错误率足够小的话，<span class="math inline">\(E_{in}(h)\)</span>将足够接近<span class="math inline">\(E_{out}(h)\)</span>。即<br /><span class="math display">\[P(|E_{in}(h)-P_{out}(h)| &lt; \epsilon) \le 2exp(-2 \epsilon^2N)\]</span><br />其中<span class="math inline">\(N\)</span>表示样本的数量。也就是说，样本数量越多，<span class="math inline">\(E_{in}(h)\)</span>和<span class="math inline">\(E_{out}(h)\)</span>也就是训练误差和泛化误差越接近。</p><p>Hoeffeding不等式只是描述了训练误差和泛化误差可以分接近，凡是这一接近是建立在训练误差<span class="math inline">\(E_{in}(h)\)</span>很小的情况下才有意义。</p><h2 id="使用霍夫丁不等式解释学习是可行的">使用霍夫丁不等式解释学习是可行的</h2><p>对于单个hypothesis, 霍夫丁不等式告诉哦我们呢的是<span class="math inline">\(h\)</span>在抽取的样本上的误差（也就是训练误差）跟<span class="math inline">\(h\)</span>在所有数据上的误差(也就是泛化误差)很接近。</p><p>也就是说，对于抽取出的样本，还是有很小的概率使得<span class="math inline">\(h\)</span>在样本上得到的误差与总体上的误差很大。我们将这部分样本称为Bad data.就是使得<span class="math inline">\(E_{in}(h)\)</span>很小，<span class="math inline">\(E_{out}(h)\)</span>很大的样本。如果进行多次抽样，那么一定会有一些样本导致两者的差距很大。</p><p><img src="https://cdn.jsdelivr.net/gh/twn2333/my_imgs@latest//img/202111171953466.png" alt="image-20211117195333393" /></p><p>当有多个hypothesis时，上表可以转化为下表所示:</p><p><img src="https://cdn.jsdelivr.net/gh/twn2333/my_imgs@latest//img/202111171955706.png" alt="image-20211117195510375" /></p><p>对于每个hypothsis有着不同的bad data.只有当样本对所有的hypothesis都不是bad data时，才不会出现泛化误差和训练误差很大的情况，在有<span class="math inline">\(M\)</span>个hypotheis的时候，用霍夫丁不等式表示选择了bad data的概率。</p><p><img src="https://cdn.jsdelivr.net/gh/twn2333/my_imgs@latest//img/202111171957900.png" alt="image-20211117195738595" /></p><p>上面的不等式表明，在对有限多个hypothesis而言，<span class="math inline">\(E_{in}(h) \approx E_{out}(h)\)</span>还是PAC的，只是两者误差的上限变大了，但是数据量的增大能够抵消这个影响。因此，在有多个hypothesis的情况下，只需要选择<span class="math inline">\(E_{in}(h)\)</span>小的，就能保证<span class="math inline">\(E_{out}(h)\)</span>也是小的，也就是学习是可行的。</p><p>上述过程可以使用以下图片表示:</p><p><img src="https://cdn.jsdelivr.net/gh/twn2333/my_imgs@latest//img/202111172005227.png" alt="image-20211117200453898" /></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 知识分享 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 机器学习 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>Point cloud transformer论文解读</title>
       <link href="/2021/12/08/PCT(Meng%E2%80%94Hao)/"/>
       <url>/2021/12/08/PCT(Meng%E2%80%94Hao)/</url>
@@ -104,31 +154,6 @@
     
     
     <entry>
-      <title>RPVNet解读</title>
-      <link href="/2021/11/27/RPVNet/"/>
-      <url>/2021/11/27/RPVNet/</url>
-      
-        <content type="html"><![CDATA[<p><img src="https://cdn.jsdelivr.net/gh/twn2333/my_imgs@latest//img/202111161253759.png" alt="image-20211116125355498" /></p><p><a href="">代码链接</a></p><p><a href="https://arxiv.org/abs/2103.12978">RPVNet: A Deep and Efficient Range-Point-Voxel Fusion Network for LiDAR Point Cloud Segmentation (arxiv.org)</a></p><h2 id="论文总结">论文总结</h2><p>本文实现了一种大场景下的点云语义分割网络，并在SemanticKITTI数据集上实现了1st的结果。其主要通过一种融合的方法来实现。不同于以往的使用基于点，基于体素和基于深度图(Range Image)的方法.但是这些方法都有一定的缺点。之前融合的方法也仅是融合其中的两类。本文提出了一种融合三类数据的网络。网络的主要结构如下:</p><p><img src="https://cdn.jsdelivr.net/gh/twn2333/my_imgs@latest//img/202111161300855.png" alt="image-20211116130031567" /></p><p>网络主要分为三个分支，使用了经典的Encoder和Decoder的结构。三个分支分别是基于体素的，基于点云的和基于深度图的。分别使用对应的网络提取各个分支的特征，然后作者使用了点这个分支来作为中间节点，来融合不同来源的数据。不同特征进行融合的算法如下图所示:</p><p><img src="https://cdn.jsdelivr.net/gh/twn2333/my_imgs@latest//img/202111161329277.png" alt="image-20211116132950759" /></p><p>将其他特征映射到基于点的表示的话，可以使用最近邻插值或者三线性插值或者双线性插值的方法。以基于深度图到基于点的表示为例:通过计算该点在深度图上的周围的四个</p><p><img src="https://cdn.jsdelivr.net/gh/twn2333/my_imgs@latest//img/202111161348473.png" alt="image-20211116134822778" style="zoom:80%;" /></p><p>其中，<span class="math inline">\(F_R（u）\)</span>表示下标为<span class="math inline">\(u\)</span>的深度图的特征。<span class="math inline">\(\phi(u,j)\)</span>表示的是对应的线性权重的计算方法。<span class="math inline">\(\delta(j)\)</span>表示的是<span class="math inline">\(j\)</span>周围的四个邻居。</p><p>在讲其他表示的特征投影到点上之后，作者提出了一个GFM(Gated Fusion Module)来对这些点表示的特征进行融合。GFM的结构如图2中的蓝色部分所示，然后就得到了一个基于点的融合后的特征，然后讲融合后的特征在转换到其他表示的形式下。</p><p>从点到其他两种表达形式的话，作者使用的是平均的方法。以体素为例子，将属于一个体素的所有点的特征进行平均，然后将平均后的特征作为这个体素的特征。具体做法图下图所示：</p><p><img src="https://cdn.jsdelivr.net/gh/twn2333/my_imgs@latest//img/202111161427140.png" alt="image-20211116142742978" /></p><p><img src="https://cdn.jsdelivr.net/gh/twn2333/my_imgs@latest//img/202111161427766.png" alt="image-20211116142730453" /></p><p><img src="https://cdn.jsdelivr.net/gh/twn2333/my_imgs@latest//img/202111161423649.png" alt="image-20211116142351294" style="zoom:80%;" /></p><p>消融实验部分</p><p><img src="https://cdn.jsdelivr.net/gh/twn2333/my_imgs@latest//img/202111161441821.png" alt="image-20211116144154823" /></p><p>Table4 表示了不同的视角对于实验结果的影响。R表示深度图，P表示点，V表示体素以及不同分辨率的体素。</p><p>Table5 展示了不同融合方法的性能差异。其中Addition表示将特征进行相加，Concatnation表示进行拼接，Gated Fusion表示使用了作者设计的网络来进行融合。</p><p>Table6 展示了集成模型与本文模型的性能差异</p><p>Table7 展示了不同分支对于模型性能的影响。</p><p><span class="math display">\[d = \sqrt{a^2 + b^2}\]</span><br /><span class="math inline">\(d\)</span>是欧式距离</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">print</span>(<span class="string">&quot;hello world&quot;</span>)</span><br></pre></td></tr></table></figure><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">s = <span class="string">&quot;hello, world&quot;</span>;</span><br><span class="line">cout&lt;&lt;s&lt;&lt;endl;</span><br><span class="line"><span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
-      
-      
-      <categories>
-          
-          <category> 论文分享 </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> 点云分割 </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
       <title>贝叶斯学习</title>
       <link href="/2021/11/27/%E8%B4%9D%E5%8F%B6%E6%96%AF%E5%AD%A6%E4%B9%A0/"/>
       <url>/2021/11/27/%E8%B4%9D%E5%8F%B6%E6%96%AF%E5%AD%A6%E4%B9%A0/</url>
@@ -146,6 +171,31 @@
         <tags>
             
             <tag> 机器学习 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>RPVNet解读</title>
+      <link href="/2021/11/27/RPVNet/"/>
+      <url>/2021/11/27/RPVNet/</url>
+      
+        <content type="html"><![CDATA[<p><img src="https://cdn.jsdelivr.net/gh/twn2333/my_imgs@latest//img/202111161253759.png" alt="image-20211116125355498" /></p><p><a href="">代码链接</a></p><p><a href="https://arxiv.org/abs/2103.12978">RPVNet: A Deep and Efficient Range-Point-Voxel Fusion Network for LiDAR Point Cloud Segmentation (arxiv.org)</a></p><h2 id="论文总结">论文总结</h2><p>本文实现了一种大场景下的点云语义分割网络，并在SemanticKITTI数据集上实现了1st的结果。其主要通过一种融合的方法来实现。不同于以往的使用基于点，基于体素和基于深度图(Range Image)的方法.但是这些方法都有一定的缺点。之前融合的方法也仅是融合其中的两类。本文提出了一种融合三类数据的网络。网络的主要结构如下:</p><p><img src="https://cdn.jsdelivr.net/gh/twn2333/my_imgs@latest//img/202111161300855.png" alt="image-20211116130031567" /></p><p>网络主要分为三个分支，使用了经典的Encoder和Decoder的结构。三个分支分别是基于体素的，基于点云的和基于深度图的。分别使用对应的网络提取各个分支的特征，然后作者使用了点这个分支来作为中间节点，来融合不同来源的数据。不同特征进行融合的算法如下图所示:</p><p><img src="https://cdn.jsdelivr.net/gh/twn2333/my_imgs@latest//img/202111161329277.png" alt="image-20211116132950759" /></p><p>将其他特征映射到基于点的表示的话，可以使用最近邻插值或者三线性插值或者双线性插值的方法。以基于深度图到基于点的表示为例:通过计算该点在深度图上的周围的四个</p><p><img src="https://cdn.jsdelivr.net/gh/twn2333/my_imgs@latest//img/202111161348473.png" alt="image-20211116134822778" style="zoom:80%;" /></p><p>其中，<span class="math inline">\(F_R（u）\)</span>表示下标为<span class="math inline">\(u\)</span>的深度图的特征。<span class="math inline">\(\phi(u,j)\)</span>表示的是对应的线性权重的计算方法。<span class="math inline">\(\delta(j)\)</span>表示的是<span class="math inline">\(j\)</span>周围的四个邻居。</p><p>在讲其他表示的特征投影到点上之后，作者提出了一个GFM(Gated Fusion Module)来对这些点表示的特征进行融合。GFM的结构如图2中的蓝色部分所示，然后就得到了一个基于点的融合后的特征，然后讲融合后的特征在转换到其他表示的形式下。</p><p>从点到其他两种表达形式的话，作者使用的是平均的方法。以体素为例子，将属于一个体素的所有点的特征进行平均，然后将平均后的特征作为这个体素的特征。具体做法图下图所示：</p><p><img src="https://cdn.jsdelivr.net/gh/twn2333/my_imgs@latest//img/202111161427140.png" alt="image-20211116142742978" /></p><p><img src="https://cdn.jsdelivr.net/gh/twn2333/my_imgs@latest//img/202111161427766.png" alt="image-20211116142730453" /></p><p><img src="https://cdn.jsdelivr.net/gh/twn2333/my_imgs@latest//img/202111161423649.png" alt="image-20211116142351294" style="zoom:80%;" /></p><p>消融实验部分</p><p><img src="https://cdn.jsdelivr.net/gh/twn2333/my_imgs@latest//img/202111161441821.png" alt="image-20211116144154823" /></p><p>Table4 表示了不同的视角对于实验结果的影响。R表示深度图，P表示点，V表示体素以及不同分辨率的体素。</p><p>Table5 展示了不同融合方法的性能差异。其中Addition表示将特征进行相加，Concatnation表示进行拼接，Gated Fusion表示使用了作者设计的网络来进行融合。</p><p>Table6 展示了集成模型与本文模型的性能差异</p><p>Table7 展示了不同分支对于模型性能的影响。</p><p><span class="math display">\[d = \sqrt{a^2 + b^2}\]</span><br /><span class="math inline">\(d\)</span>是欧式距离</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">print</span>(<span class="string">&quot;hello world&quot;</span>)</span><br></pre></td></tr></table></figure><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">s = <span class="string">&quot;hello, world&quot;</span>;</span><br><span class="line">cout&lt;&lt;s&lt;&lt;endl;</span><br><span class="line"><span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+      
+      
+      <categories>
+          
+          <category> 论文分享 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 点云分割 </tag>
             
         </tags>
       
