@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>Attentional PointNet for 3D-Object Detection in Point Clouds论文解读</title>
+      <link href="/2021/12/15/new/"/>
+      <url>/2021/12/15/new/</url>
+      
+        <content type="html"><![CDATA[<p><img src="https://cdn.jsdelivr.net/gh/twn2333/my_imgs@latest//img/202112152134754.png" alt="image-20211215213449664" /><br /><a href="https://github.com/anshulpaigwar/Attentional-PointNet">代码链接</a></p><p><a href="https://openaccess.thecvf.com/content_CVPRW_2019/html/WAD/Paigwar_Attentional_PointNet_for_3D-Object_Detection_in_Point_Clouds_CVPRW_2019_paper.html">paper链接</a></p><h2 id="论文总结">论文总结</h2><p>这是2019年CVPR的一篇文章，本文提出了一种新的利用循环神经网络来做三维目标检测的方法。并且使用了类似于BERT中讲图像分割成patch的方法来处理大型的点云场景。本文的实验效果一般，速度在kitti排行榜上也很一般，不知道为什么能发CVPR. 下面简单介绍一下本文的主要思想。</p><p><img src="https://cdn.jsdelivr.net/gh/twn2333/my_imgs@latest//img/202112152139849.png" alt="image-20211215213956713" /></p><p>作者首先讲点云场景划分为<span class="math inline">\(12 \times 12\)</span>大小的patch，并将其在<span class="math inline">\(z\)</span>轴上投影得到一个深度图。使用PointNet来处理点云，使用卷积神经网络来处理深度图，然后讲这两个特征进行相加，这样的话就可以得到关于这个patch的上下文信息。然后就来到了循环定位网络（Recurrent Localization Net）。这个网络的输入包含两个部分，一个是Context Vector，上一个循环神经网络的隐含向量的输出。每个GRU一个分支是输出目标的置信度，另一个一个分支是输出一个目标可能所处的位置以及方向。然后在对应的patch中，仅从坐标变化以及重采样。在经过变化得到的感兴趣区域上计算目标边界框的大小以及位置。</p><p>关于GRU迭代的次数，作者在文中是这么解释的，根据kitti数据集上的统计，将kitti点云场景中划分为<span class="math inline">\(12 \times 12\)</span>大小的patch时，每个patch中最多含有三个目标，因此，GRU迭代的次数就设置为3.每次迭代计算一个目标边界框。当patch中包含的目标数小于3时，网络会倾向于预测一个位于patch之外的目标边界框。(这句话可以理解为: 当patch中不足3个目标是，会使用一个位于patch之外的边界框来和网络预测的三维边界框来绑定预测)。</p><p><img src="https://cdn.jsdelivr.net/gh/twn2333/my_imgs@latest//img/202112152152947.png" alt="image-20211215215228895" /></p><p>此外，作者还提出了一个更加轻量的模型，就是省略一个坐标变化，直接使用GRU的输出来做预测。</p><p>流程讲完之后来看一下作者的实验效果.</p><p><img src="https://cdn.jsdelivr.net/gh/twn2333/my_imgs@latest//img/202112152150827.png" alt="image-20211215215053764" /></p><p>上表中的实验结果可以看出，这个结果并不怎么样，而且作者给出的结果还是在kitti验证集上的结果。拿自己验证集上的结果于别人测试集比较都比不过。。。。。。。</p><p>相比于其他文章，可能作者在速度和精度上达到了一个平衡吧。在时使用Lidar的方法中，速度比本文快的可能精度比不上作者，精度比本文高度速度又慢。但是本文的精度时建立在验证集的基础上，如果放在测试集撒谎给你的话，应该是比不过Complex-YOLO的。</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 论文分享 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 3D Object Detection </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>MLCVNet解读</title>
       <link href="/2021/12/14/MLCVNet%E8%AE%BA%E6%96%87%E8%A7%A3%E8%AF%BB/"/>
       <url>/2021/12/14/MLCVNet%E8%AE%BA%E6%96%87%E8%A7%A3%E8%AF%BB/</url>
@@ -196,31 +221,6 @@
         <tags>
             
             <tag> 点云分割 </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>Attentional PointNet for 3D-Object Detection in Point Clouds论文解读</title>
-      <link href="/2021/11/27/new/"/>
-      <url>/2021/11/27/new/</url>
-      
-        <content type="html"><![CDATA[<p><img src="https://cdn.jsdelivr.net/gh/twn2333/my_imgs@latest//img/202112152134754.png" alt="image-20211215213449664" /><br /><a href="https://github.com/anshulpaigwar/Attentional-PointNet">代码链接</a></p><p><a href="https://openaccess.thecvf.com/content_CVPRW_2019/html/WAD/Paigwar_Attentional_PointNet_for_3D-Object_Detection_in_Point_Clouds_CVPRW_2019_paper.html">paper链接</a></p><h2 id="论文总结">论文总结</h2><p>这是2019年CVPR的一篇文章，本文提出了一种新的利用循环神经网络来做三维目标检测的方法。并且使用了类似于BERT中讲图像分割成patch的方法来处理大型的点云场景。本文的实验效果一般，速度在kitti排行榜上也很一般，不知道为什么能发CVPR. 下面简单介绍一下本文的主要思想。</p><p><img src="https://cdn.jsdelivr.net/gh/twn2333/my_imgs@latest//img/202112152139849.png" alt="image-20211215213956713" /></p><p>作者首先讲点云场景划分为<span class="math inline">\(12 \times 12\)</span>大小的patch，并将其在<span class="math inline">\(z\)</span>轴上投影得到一个深度图。使用PointNet来处理点云，使用卷积神经网络来处理深度图，然后讲这两个特征进行相加，这样的话就可以得到关于这个patch的上下文信息。然后就来到了循环定位网络（Recurrent Localization Net）。这个网络的输入包含两个部分，一个是Context Vector，上一个循环神经网络的隐含向量的输出。每个GRU一个分支是输出目标的置信度，另一个一个分支是输出一个目标可能所处的位置以及方向。然后在对应的patch中，仅从坐标变化以及重采样。在经过变化得到的感兴趣区域上计算目标边界框的大小以及位置。</p><p>关于GRU迭代的次数，作者在文中是这么解释的，根据kitti数据集上的统计，将kitti点云场景中划分为<span class="math inline">\(12 \times 12\)</span>大小的patch时，每个patch中最多含有三个目标，因此，GRU迭代的次数就设置为3.每次迭代计算一个目标边界框。当patch中包含的目标数小于3时，网络会倾向于预测一个位于patch之外的目标边界框。(这句话可以理解为: 当patch中不足3个目标是，会使用一个位于patch之外的边界框来和网络预测的三维边界框来绑定预测)。</p><p><img src="https://cdn.jsdelivr.net/gh/twn2333/my_imgs@latest//img/202112152152947.png" alt="image-20211215215228895" /></p><p>此外，作者还提出了一个更加轻量的模型，就是省略一个坐标变化，直接使用GRU的输出来做预测。</p><p>流程讲完之后来看一下作者的实验效果.</p><p><img src="https://cdn.jsdelivr.net/gh/twn2333/my_imgs@latest//img/202112152150827.png" alt="image-20211215215053764" /></p><p>上表中的实验结果可以看出，这个结果并不怎么样，而且作者给出的结果还是在kitti验证集上的结果。拿自己验证集上的结果于别人测试集比较都比不过。。。。。。。</p><p>相比于其他文章，可能作者在速度和精度上达到了一个平衡吧。在时使用Lidar的方法中，速度比本文快的可能精度比不上作者，精度比本文高度速度又慢。但是本文的精度时建立在验证集的基础上，如果放在测试集撒谎给你的话，应该是比不过Complex-YOLO的。</p>]]></content>
-      
-      
-      <categories>
-          
-          <category> 论文分享 </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> 3D Object Detection </tag>
             
         </tags>
       
