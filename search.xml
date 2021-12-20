@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>关于服务器GPU使用的一些注意事项</title>
+      <link href="/2021/12/20/GPU-tips/"/>
+      <url>/2021/12/20/GPU-tips/</url>
+      
+        <content type="html"><![CDATA[<h1 id="关于gpu">关于GPU</h1><h2 id="nvidia-smi命令">nvidia-smi命令</h2><p><img src="https://cdn.jsdelivr.net/gh/twn2333/my_imgs@latest//img/202112201907358.png" alt="image-20211220190754247" /></p><p>1表示的是显存的占用率，可以理解为电脑内存，手机运行内存的占用率。2表示的是显卡利用率，可以理解为电脑CPU的占用率。3表示的是占用显卡的进程的相关信息。</p><h2 id="关于显卡利用率的问题">关于显卡利用率的问题</h2><p>有时候会遇到程序占着显存，但是显卡利用率为0的情况。这个时候可以从两个方面进行分析:</p><ol type="1"><li><p>查看进程是否挂起。查看方法<code>ls -l \proc\PID</code>。举个例子，查看上图中PIP为41732的程序的相关信息.使用以下命令<code>ls -l \proc\41732</code></p><p><img src="https://cdn.jsdelivr.net/gh/twn2333/my_imgs@latest//img/202112201913046.png" alt="image-20211220191300993" /></p><p>可以通过cwd和exe查看相关进程的信息。如果出现该进程deleted的情况，说明该进程被挂起，可以私信对应的同学询问具体情况。</p><p><strong>tips: 在终止程序运行时，因使用快捷键<code>ctrl + C</code>。不是使用<code>ctrl+Z</code>。后者是将程序挂起。不清楚的同学可参考<a href="https://blog.csdn.net/mylizh/article/details/38385739">参考链接</a></strong></p></li><li><p><code>nvidia-smi</code>命令<strong>没有显示进程占用显存</strong>，但是<strong>显存占用率依然很高，且显卡利用率为0</strong>。这个时候可能是出现显存泄露的问题。处理方法可参考<a href="https://zhuanlan.zhihu.com/p/375330192">参考链接</a></p></li><li><p>不是上述两种情况，即<strong>程序正常再跑，但是显卡利用率很低，且出现一会高一会低的情况</strong>，显存也正常。这个时候可能是因为数据集加载过程中num_worker设置较小，GPU大量时间空闲的原因或者其他的一些原因。具体可参考<a href="https://zhuanlan.zhihu.com/p/410244780">参考链接</a></p></li></ol><h2 id="关于cuda的问题">关于CUDA的问题</h2><p>同一个服务器可以安装多个版本的CUDA。但是同一个用户下，同一时间只能使用同一个版本的CUDA。不同用户可以在同一时间使用不同版本的CUDA。下面主要介绍两个方面的内容，一个是CUDA版本的切换和不同CUDA版本的安装。</p><h3 id="cuda版本切换">CUDA版本切换</h3><p>CUDA版本的切换可以分为两种方法，第一种是通过修改软连接(软连接可以理解为快捷方式，具体内容可自行百度)的方法，该方法在全局范围内都会生效。换句话说就是你改了，其他正在使用这台服务器的同学的CUDA版本也改了。另一种方法是只在当前终端生效，就是如果你和服务器断开链接，你的修改就失效了，此外，由于只在当前终端生效，也不会影响其他同学的使用。</p><h4 id="修改软连接">修改软连接</h4><p>首先进入到<code>/usr/local</code>目录下，使用<code>ll</code>命令查看该目录下相关文件的信息:</p><p><img src="https://cdn.jsdelivr.net/gh/twn2333/my_imgs@latest//img/202112201930187.png" alt="image-20211220193006140" /></p><p>可以看到，cuda目录链接到了<code>cuda-10.1</code>目录下，说明当前版本为10.1(可通过<code>nvcc -V</code>查看，注意大写).如果想切换为cuda-11.0，可使用如下命令<code>sudo ln -snf ./cuda-11.0 ./cuda</code>。执行后相关目录信息变为:</p><p><img src="https://cdn.jsdelivr.net/gh/twn2333/my_imgs@latest//img/202112201933553.png" alt="image-20211220193329508" /></p><p>从上述图片可以看出，成功切换了cuda版本，但是这个方法的弊端就是这个修改是全局生效的，就是可能会影响到其他正在使用CUDA的同学。</p><h4 id="设置临时环境变量---只在当前终端生效">设置临时环境变量---只在当前终端生效</h4><p>我们可以通过设置临时的环境变量使得CUDA版本的修改只在当前终端生效。原理就是利用<code>export</code>声明的环境变量只在当前终端生效。因此我们可以使用export来声明和CUDA相关的环境变量来实现修改CUDA版本的目的。</p><p>具体步骤如下图所示:</p><ol type="1"><li><p>首先使用sudo创建shell脚本.(因为/usr/local目录下普通用户没有写权限，当然也不一定需要在/usr/local目录下，其他目录也是可以的).根据需要修改的CUDA的版本，在下面的shell脚本中填写对应的路径.例如cuda-11.0。如果是其他版本，可以修改为cuda-11.1等。</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">!/bin/bash</span></span><br><span class="line"></span><br><span class="line">export PATH=/usr/local/cuda-11.0/bin$&#123;PATH:+:$&#123;PATH&#125;&#125;</span><br><span class="line">export LD_LIBRARY_PATH=/usr/local/cuda-11.0/lib64$&#123;LD_LIBRARY_PATH:+:$&#123;LD_LIBRARY_PATH&#125;&#125;</span><br><span class="line">export CUDA_HOME=/usr/local/cuda-11.0</span><br></pre></td></tr></table></figure></li><li><p>修改shell脚本的own.因为当前脚本的所有者为root用户，普通用户没有权限执行。使用命名<code>chown lyc chang_cuda_to_110.sh</code>。</p></li><li><p>执行脚本<code>. chang_cuda_to_110.sh</code>或者<code>source change_cuda_to_110.sh</code>。不要使用<code>sh</code>和<code>bash</code>.具体区别可参考<a href="https://www.cnblogs.com/pcat/p/5467188.html">参考链接</a></p></li></ol><p><img src="https://cdn.jsdelivr.net/gh/twn2333/my_imgs@latest//img/202112201952363.png" alt="image-20211220195225313" /></p><p>上图就是使用shell脚本来修改CUDA版本的例子。上述方法有以下两个需要注意的地方:</p><ol type="1"><li>该方法只在当前终端有效，<strong>换句话说就是，你断开服务器，在重连，这个修改就失效了</strong>。可以配合screen,tmux等命令使用。其优点是不会影响到其他同学。</li><li><strong>不要去修改<code>~/.bashrc</code>文件中关于CUDA的环境变量，不要去修改<code>~/.bashrc</code>文件中关于CUDA的环境变量，不要去修改<code>~/.bashrc</code>文件中关于CUDA的环境变量，</strong></li></ol><p>此外，关于CUDA版本，当服务器多用户时，不同用户间使用的CUDA版本是可以互不影响的。</p><h3 id="cuda的安装">CUDA的安装</h3><p>当服务器上的没有自己所需要的CUDA版本，需要自行安装时。可以按照以下步骤:</p><ol type="1"><li><p>首先查看显卡驱动能否支持相关CUDA版本的安装.</p><p><img src="https://cdn.jsdelivr.net/gh/twn2333/my_imgs@latest//img/202112202003373.png" alt="image-20211220200357316" /></p><p>前往<a href="https://docs.nvidia.com/cuda/cuda-toolkit-release-notes/index.html#title-resolved-issues">链接</a>查看相关信息:</p><p><img src="https://cdn.jsdelivr.net/gh/twn2333/my_imgs@latest//img/202112202006223.png" alt="image-20211220200626157" /></p><p>举个例子，你想装CUDA10.2,那么显卡驱动需要大于等于440.33。如果显卡驱动小于这个版本，则不能安装，可能需要更新显卡驱动。</p></li><li><p>在确定显卡驱动可以安装之后，就可以去网上找安装CUDA的教程了。但是，在安装过程中，<strong>会让你选择是否安装显卡驱动, 你需要选择否， 否，否，就是no</strong>，这个选择有的是在装的过程中问你，有的是需要自己打开option来自己选，这一步非常重要，如果选择错了，将会影响其他版本的正常使用。比如你装CUDA10.2, 在装的过程中选了顺带安装显卡驱动，那么可能CUDA11.5就不能正常用了，因为CUAD10.2装的驱动版本可能不能满足CUDA11.5的要求。剩下的选项然后差不多就是一路回车了。</p></li></ol>]]></content>
+      
+      
+      <categories>
+          
+          <category> 知识分享 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 技巧 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>Attentional PointNet for 3D-Object Detection in Point Clouds论文解读</title>
       <link href="/2021/12/15/new/"/>
       <url>/2021/12/15/new/</url>
@@ -196,31 +221,6 @@
         <tags>
             
             <tag> 3D目标检测 </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>关于服务器GPU使用的一些注意事项</title>
-      <link href="/2021/11/27/GPU-tips/"/>
-      <url>/2021/11/27/GPU-tips/</url>
-      
-        <content type="html"><![CDATA[<h1 id="关于gpu">关于GPU</h1><h2 id="nvidia-smi命令">nvidia-smi命令</h2><p><img src="https://cdn.jsdelivr.net/gh/twn2333/my_imgs@latest//img/202112201907358.png" alt="image-20211220190754247" /></p><p>1表示的是显存的占用率，可以理解为电脑内存，手机运行内存的占用率。2表示的是显卡利用率，可以理解为电脑CPU的占用率。3表示的是占用显卡的进程的相关信息。</p><h2 id="关于显卡利用率的问题">关于显卡利用率的问题</h2><p>有时候会遇到程序占着显存，但是显卡利用率为0的情况。这个时候可以从两个方面进行分析:</p><ol type="1"><li><p>查看进程是否挂起。查看方法<code>ls -l \proc\PID</code>。举个例子，查看上图中PIP为41732的程序的相关信息.使用以下命令<code>ls -l \proc\41732</code></p><p><img src="https://cdn.jsdelivr.net/gh/twn2333/my_imgs@latest//img/202112201913046.png" alt="image-20211220191300993" /></p><p>可以通过cwd和exe查看相关进程的信息。如果出现该进程deleted的情况，说明该进程被挂起，可以私信对应的同学询问具体情况。</p><p><strong>tips: 在终止程序运行时，因使用快捷键<code>ctrl + C</code>。不是使用<code>ctrl+Z</code>。后者是将程序挂起。不清楚的同学可参考<a href="https://blog.csdn.net/mylizh/article/details/38385739">参考链接</a></strong></p></li><li><p><code>nvidia-smi</code>命令<strong>没有显示进程占用显存</strong>，但是<strong>显存占用率依然很高，且显卡利用率为0</strong>。这个时候可能是出现显存泄露的问题。处理方法可参考<a href="https://zhuanlan.zhihu.com/p/375330192">参考链接</a></p></li><li><p>不是上述两种情况，即<strong>程序正常再跑，但是显卡利用率很低，且出现一会高一会低的情况</strong>，显存也正常。这个时候可能是因为数据集加载过程中num_worker设置较小，GPU大量时间空闲的原因或者其他的一些原因。具体可参考<a href="https://zhuanlan.zhihu.com/p/410244780">参考链接</a></p></li></ol><h2 id="关于cuda的问题">关于CUDA的问题</h2><p>同一个服务器可以安装多个版本的CUDA。但是同一个用户下，同一时间只能使用同一个版本的CUDA。不同用户可以在同一时间使用不同版本的CUDA。下面主要介绍两个方面的内容，一个是CUDA版本的切换和不同CUDA版本的安装。</p><h3 id="cuda版本切换">CUDA版本切换</h3><p>CUDA版本的切换可以分为两种方法，第一种是通过修改软连接(软连接可以理解为快捷方式，具体内容可自行百度)的方法，该方法在全局范围内都会生效。换句话说就是你改了，其他正在使用这台服务器的同学的CUDA版本也改了。另一种方法是只在当前终端生效，就是如果你和服务器断开链接，你的修改就失效了，此外，由于只在当前终端生效，也不会影响其他同学的使用。</p><h4 id="修改软连接">修改软连接</h4><p>首先进入到<code>/usr/local</code>目录下，使用<code>ll</code>命令查看该目录下相关文件的信息:</p><p><img src="https://cdn.jsdelivr.net/gh/twn2333/my_imgs@latest//img/202112201930187.png" alt="image-20211220193006140" /></p><p>可以看到，cuda目录链接到了<code>cuda-10.1</code>目录下，说明当前版本为10.1(可通过<code>nvcc -V</code>查看，注意大写).如果想切换为cuda-11.0，可使用如下命令<code>sudo ln -snf ./cuda-11.0 ./cuda</code>。执行后相关目录信息变为:</p><p><img src="https://cdn.jsdelivr.net/gh/twn2333/my_imgs@latest//img/202112201933553.png" alt="image-20211220193329508" /></p><p>从上述图片可以看出，成功切换了cuda版本，但是这个方法的弊端就是这个修改是全局生效的，就是可能会影响到其他正在使用CUDA的同学。</p><h4 id="设置临时环境变量---只在当前终端生效">设置临时环境变量---只在当前终端生效</h4><p>我们可以通过设置临时的环境变量使得CUDA版本的修改只在当前终端生效。原理就是利用<code>export</code>声明的环境变量只在当前终端生效。因此我们可以使用export来声明和CUDA相关的环境变量来实现修改CUDA版本的目的。</p><p>具体步骤如下图所示:</p><ol type="1"><li><p>首先使用sudo创建shell脚本.(因为/usr/local目录下普通用户没有写权限，当然也不一定需要在/usr/local目录下，其他目录也是可以的).根据需要修改的CUDA的版本，在下面的shell脚本中填写对应的路径.例如cuda-11.0。如果是其他版本，可以修改为cuda-11.1等。</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">!/bin/bash</span></span><br><span class="line"></span><br><span class="line">export PATH=/usr/local/cuda-11.0/bin$&#123;PATH:+:$&#123;PATH&#125;&#125;</span><br><span class="line">export LD_LIBRARY_PATH=/usr/local/cuda-11.0/lib64$&#123;LD_LIBRARY_PATH:+:$&#123;LD_LIBRARY_PATH&#125;&#125;</span><br><span class="line">export CUDA_HOME=/usr/local/cuda-11.0</span><br></pre></td></tr></table></figure></li><li><p>修改shell脚本的own.因为当前脚本的所有者为root用户，普通用户没有权限执行。使用命名<code>chown lyc chang_cuda_to_110.sh</code>。</p></li><li><p>执行脚本<code>. chang_cuda_to_110.sh</code>或者<code>source change_cuda_to_110.sh</code>。不要使用<code>sh</code>和<code>bash</code>.具体区别可参考<a href="https://www.cnblogs.com/pcat/p/5467188.html">参考链接</a></p></li></ol><p><img src="https://cdn.jsdelivr.net/gh/twn2333/my_imgs@latest//img/202112201952363.png" alt="image-20211220195225313" /></p><p>上图就是使用shell脚本来修改CUDA版本的例子。上述方法有以下两个需要注意的地方:</p><ol type="1"><li>该方法只在当前终端有效，<strong>换句话说就是，你断开服务器，在重连，这个修改就失效了</strong>。可以配合screen,tmux等命令使用。其优点是不会影响到其他同学。</li><li><strong>不要去修改<code>~/.bashrc</code>文件中关于CUDA的环境变量，不要去修改<code>~/.bashrc</code>文件中关于CUDA的环境变量，不要去修改<code>~/.bashrc</code>文件中关于CUDA的环境变量，</strong></li></ol><p>此外，关于CUDA版本，当服务器多用户时，不同用户间使用的CUDA版本是可以互不影响的。</p><h3 id="cuda的安装">CUDA的安装</h3><p>当服务器上的没有自己所需要的CUDA版本，需要自行安装时。可以按照以下步骤:</p><ol type="1"><li><p>首先查看显卡驱动能否支持相关CUDA版本的安装.</p><p><img src="https://cdn.jsdelivr.net/gh/twn2333/my_imgs@latest//img/202112202003373.png" alt="image-20211220200357316" /></p><p>前往<a href="https://docs.nvidia.com/cuda/cuda-toolkit-release-notes/index.html#title-resolved-issues">链接</a>查看相关信息:</p><p><img src="https://cdn.jsdelivr.net/gh/twn2333/my_imgs@latest//img/202112202006223.png" alt="image-20211220200626157" /></p><p>举个例子，你想装CUDA10.2,那么显卡驱动需要大于等于440.33。如果显卡驱动小于这个版本，则不能安装，可能需要更新显卡驱动。</p></li><li><p>在确定显卡驱动可以安装之后，就可以去网上找安装CUDA的教程了。但是，在安装过程中，<strong>会让你选择是否安装显卡驱动, 你需要选择否， 否，否，就是no</strong>，这个选择有的是在装的过程中问你，有的是需要自己打开option来自己选，这一步非常重要，如果选择错了，将会影响其他版本的正常使用。比如你装CUDA10.2, 在装的过程中选了顺带安装显卡驱动，那么可能CUDA11.5就不能正常用了，因为CUAD10.2装的驱动版本可能不能满足CUDA11.5的要求。剩下的选项然后差不多就是一路回车了。</p></li></ol>]]></content>
-      
-      
-      <categories>
-          
-          <category> 知识分享 </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> 技巧 </tag>
             
         </tags>
       
