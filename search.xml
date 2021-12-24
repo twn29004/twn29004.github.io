@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>test</title>
+      <link href="/2021/12/24/test/"/>
+      <url>/2021/12/24/test/</url>
+      
+        <content type="html"><![CDATA[<h1 id="papername"><strong>PaperName</strong></h1><p><a href="">代码链接</a></p><p><a href="">paper链接</a></p><p><a href="https://twn29004.top/">个人博客</a></p><h2 id="问题">问题</h2><hr /><p><img src="https://blog-image-twn29004.oss-cn-chengdu.aliyuncs.com/blog-img/202112241839349.png" alt="image-20211224183924261" /></p><h2 id="解决方法">解决方法</h2><hr /><h2 id="解决效果">解决效果</h2><hr /><h2 id="消融实验">消融实验</h2><hr /><h2 id="可用知识点">可用知识点</h2><hr /><h2 id="常用句式">常用句式</h2><hr /><h2 id="代码解读">代码解读</h2>]]></content>
+      
+      
+      <categories>
+          
+          <category> 论文分享 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Segment </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>TOOD论文解读</title>
       <link href="/2021/12/24/tood/"/>
       <url>/2021/12/24/tood/</url>
