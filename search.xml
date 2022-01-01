@@ -352,6 +352,31 @@
     </entry>
     
     
+    
+    <entry>
+      <title>Pytorch中View和Reshape的区别</title>
+      <link href="/2021/01/01/view_and_reshape/"/>
+      <url>/2021/01/01/view_and_reshape/</url>
+      
+        <content type="html"><![CDATA[<p><a href="https://blog.csdn.net/Flag_ing/article/details/109129752">CSDN 参考链接</a></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 知识总结 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Pytorch </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
   
   
 </search>
