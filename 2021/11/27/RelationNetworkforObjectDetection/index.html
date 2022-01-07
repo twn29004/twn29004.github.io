@@ -1,0 +1,311 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Relation Network for Object Network解读 | twn29004's Blog</title><meta name="keywords" content="Relation, Self-Attention， NMS-Free"><meta name="author" content="twn29004"><meta name="copyright" content="twn29004"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="代码链接 paper链接 个人博客 问题 本文首先提出了一个目前在目标检测领域的一个共识就是: 丰富的上下文信息和目标之间的关系能够更好的帮助网络去检测目标。但是现有的网络都没有很好的利用这个信息，或者说现有的卷积神经网络都不能很好的处理这些问题。原因是一个场景中往往有很多类别的目标，且类别的数目是不一定的，而且目标的数目也是不一定的。因此，按照之前的CNN网络很难对这些目标之间的关系">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Relation Network for Object Network解读">
+<meta property="og:url" content="http://twn29004.top/2021/11/27/RelationNetworkforObjectDetection/index.html">
+<meta property="og:site_name" content="twn29004&#39;s Blog">
+<meta property="og:description" content="代码链接 paper链接 个人博客 问题 本文首先提出了一个目前在目标检测领域的一个共识就是: 丰富的上下文信息和目标之间的关系能够更好的帮助网络去检测目标。但是现有的网络都没有很好的利用这个信息，或者说现有的卷积神经网络都不能很好的处理这些问题。原因是一个场景中往往有很多类别的目标，且类别的数目是不一定的，而且目标的数目也是不一定的。因此，按照之前的CNN网络很难对这些目标之间的关系">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://blog-image-twn29004.oss-cn-chengdu.aliyuncs.com/blog-img/202201072028196.jpg">
+<meta property="article:published_time" content="2021-11-26T16:00:00.000Z">
+<meta property="article:modified_time" content="2022-01-07T12:29:24.442Z">
+<meta property="article:author" content="twn29004">
+<meta property="article:tag" content="2D Object Detection">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://blog-image-twn29004.oss-cn-chengdu.aliyuncs.com/blog-img/202201072028196.jpg"><link rel="shortcut icon" href="/img/favicon.ico"><link rel="canonical" href="http://twn29004.top/2021/11/27/RelationNetworkforObjectDetection/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//hm.baidu.com"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?da945d048bc901ec4ee07f4643119577";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":50,"languages":{"author":"作者: twn29004","link":"链接: ","source":"来源: twn29004's Blog","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Relation Network for Object Network解读',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2022-01-07 20:29:24'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if (GLOBAL_CONFIG_SITE.isHome && /iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://cdn.jsdelivr.net/gh/twn2333/my_imgs@latest//img/202112082242974.jpeg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">17</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">12</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">3</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 文章</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/gallery/"><i class="fa-fw fas fa-video"></i><span> 相册</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://blog-image-twn29004.oss-cn-chengdu.aliyuncs.com/blog-img/202201072028196.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">twn29004's Blog</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 文章</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/gallery/"><i class="fa-fw fas fa-video"></i><span> 相册</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Relation Network for Object Network解读</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2021-11-26T16:00:00.000Z" title="发表于 2021-11-27 00:00:00">2021-11-27</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-01-07T12:29:24.442Z" title="更新于 2022-01-07 20:29:24">2022-01-07</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E8%AE%BA%E6%96%87%E5%88%86%E4%BA%AB/">论文分享</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">2.5k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>8分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Relation Network for Object Network解读"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span><span class="post-meta-separator">|</span><span class="post-meta-commentcount"><i class="far fa-comments fa-fw post-meta-icon"></i><span class="post-meta-label">评论数:</span><a href="/2021/11/27/RelationNetworkforObjectDetection/#post-comment" itemprop="discussionUrl"><span class="valine-comment-count" data-xid="/2021/11/27/RelationNetworkforObjectDetection/" itemprop="commentCount"></span></a></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p><img src="https://blog-image-twn29004.oss-cn-chengdu.aliyuncs.com/blog-img/202201071647839.png" alt="image-20220107164710361" /></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/msracver/Relation-Networks-for-Object-Detection">代码链接</a></p>
+<p><a target="_blank" rel="noopener" href="https://arxiv.org/abs/1711.11575">paper链接</a></p>
+<p><a href="https://twn29004.top/">个人博客</a></p>
+<h2 id="问题">问题</h2>
+<p>本文首先提出了一个目前在目标检测领域的一个共识就是: 丰富的上下文信息和目标之间的关系能够更好的帮助网络去检测目标。但是现有的网络都没有很好的利用这个信息，或者说现有的卷积神经网络都不能很好的处理这些问题。原因是一个场景中往往有很多类别的目标，且类别的数目是不一定的，而且目标的数目也是不一定的。因此，按照之前的CNN网络很难对这些目标之间的关系进行建模。作者受到在NLP领域中非常成功的Transformer的影响，提出了一种自适应的注意力网络用于目标检测领域。作者把这个模块称为目标关系模块。作者将这个关系模块应用于两个任务，一个是<span class="math inline">\(instance-recognition\)</span>和<span class="math inline">\(Duplicate-remova\)</span>阶段。其中前一个阶段就是在提取proposal的特征之后，在对RoI进行调整和rescore之前。后者应用于消除重复的预测阶段，是取代了NMS，因为NMS不是一个端到端的结构。具体应用阶段如下图所示:</p>
+<p><img src="https://blog-image-twn29004.oss-cn-chengdu.aliyuncs.com/blog-img/202201071654018.png" alt="image-20220107165406903" /></p>
+<h2 id="解决方法">解决方法</h2>
+<h3 id="relation-module的结构">Relation Module的结构</h3>
+<p><img src="https://blog-image-twn29004.oss-cn-chengdu.aliyuncs.com/blog-img/202201071656601.png" alt="image-20220107165648497" /></p>
+<p>Relation Module的结构如上图所示。下面分别介绍<span class="math inline">\(W_V,W_Q,W_V, \varepsilon_G\)</span>的计算方法，以及<span class="math inline">\(f_A^n,f_G^m,f_G^n\)</span>的具体含义。</p>
+<p>在开始介绍本文所提的Realtion Module之前，作者首先回顾了self-attention的计算方法。<br />
+<span class="math display">\[
+v^{out}=softmax(\frac{qK^t}{\sqrt{d_k}})V
+\]</span><br />
+首先介绍<span class="math inline">\(f_A^n\)</span>，其表示对是<span class="math inline">\(n^{th}\)</span>这个RoI的外观特征(Apperance Feature)。<span class="math inline">\(F_G^n\)</span>表示的是<span class="math inline">\(n^{th}\)</span>这个RoI的集合特征，其实就是表示简单的四维边界框。这样，对于一个大小为<span class="math inline">\(N\)</span>的目标集合，其特征可以表示为{(<span class="math inline">\(f^n_A, f^n_G\)</span>)}。第<span class="math inline">\(n^{th}\)</span>个目标关于其他所有目标的关系的计算方法如下:<br />
+<span class="math display">\[
+f_{R}(n)=\sum_{m}w^{mn}\cdot (W_V \cdot f_A^m)
+\]</span><br />
+这里的<span class="math inline">\(w^{mn}\)</span>的作用和self-attention中的前半部分基本类似。但是还是存在一些区别。其具体做法如下:<br />
+<span class="math display">\[
+w^{mn} = \frac{w_G^{mn}\cdot w_{A}^{mn}}{\sum_{k}w_G^{kn}\cdot exp(w_A^{kn})}
+\]</span></p>
+<p><span class="math display">\[
+w_A^{mn} = \frac{dot(W_Kf_A^m, W_Qf_A^n)}{\sqrt{d_K}}
+\]</span><br />
+上述式子的作用是将<span class="math inline">\(f_A^m\)</span>和<span class="math inline">\(f_A^n\)</span>投影到相同的子空间，然后计算其相关性。其中子空间的维度为<span class="math inline">\(d_K\)</span></p>
+<p><span class="math display">\[
+w_G^{mn}=max(0， W_G \cdot \varepsilon_G(f_G^m, f_G^n))
+\]</span><br />
+<span class="math inline">\(\varepsilon_G\)</span>表示的是将<span class="math inline">\((f_G^m，f_G^n)\)</span>嵌入到一个高维空间中，同时为了保证一些旋转不变性和尺度不变性，作者并没有采用原始的描述bbox的参数，而是做了一下变化:<br />
+<span class="math display">\[
+(log(\frac{|x_m-x_n|}{w_m}), log(\frac{|y_m - y_n|}{h_m}),log(\frac{w_n}{w_m}), log(\frac{h_n}{h_m}))^T
+\]</span><br />
+这个几何特征嵌入的空间的维度为<span class="math inline">\(d_g\)</span>。其实这里可以将<span class="math inline">\(w_G^{mn}\)</span>理解为公式(3)中的<span class="math inline">\(w_A^{mn}\)</span>的权重。就是在attention的过程中，除了要考虑语义特征之外，对于那些在几何特征上关联性不大的proposal，我们也是不考虑的。换句话说就是在式子(2)中，作者同时考虑了proposal之间的几何和语义关联性。</p>
+<p>此外，作者还引入了类似于multi-head的attention设计。其中head的数目用<span class="math inline">\(N_r\)</span>表示。然后将这些head的输出进行拼接之后与原始的语义特征进行拼接。即<br />
+<span class="math display">\[
+f^n_A=f_A^n+Concat(f_R^1(n),...,f_R^{N_r}(n))
+\]</span><br />
+上述结构就是作者设计的relation module的主要结构。</p>
+<p>正文开头叙述的，作者在目标检测中的两个阶段使用了realtion module.下面将介绍其在不同部分的使用。</p>
+<h3 id="rm在instance-recognition中的使用">RM在Instance Recognition中的使用</h3>
+<p>原始的Instance Recognition的使用的以下结构:</p>
+<p><img src="https://blog-image-twn29004.oss-cn-chengdu.aliyuncs.com/blog-img/202201071914128.png" alt="image-20220107191420021" /></p>
+<p>作者对此提出了一个增强版的检测头，其在两个FC层之间增加了Realtion Module子网络。其结构如下:</p>
+<p><img src="https://blog-image-twn29004.oss-cn-chengdu.aliyuncs.com/blog-img/202201071915082.png" alt="image-20220107191545020" /></p>
+<p><img src="https://blog-image-twn29004.oss-cn-chengdu.aliyuncs.com/blog-img/202201071916354.png" alt="image-20220107191602270" /></p>
+<h3 id="rm在duplicate-removal中的应用">RM在Duplicate Removal中的应用</h3>
+<p>在本节中，作者首先分析了NMS的缺陷。NMS虽然简单，但是由于其采用的是贪心的策略，因此其可能得到的是次优解。此外，目标之间的关系还能对于去除重复有一定的帮助。对此，作者尝试抛弃NMS来做重复预测的去除。也就是NMS-Free的方法。作者将这个重复去除看作一个二分类问题，对于每一个基准框，只有一个被检测的目标能够与之匹配。这样的话可以将这个重复去除问题看做事一个二分类问题。与基准框绑定的预测框为correct，其余的为duplicate的预测。这个预测是能够通过网络来进行的。这个网络的输入就是各个预测的目标。每个目标有一个1-24-D的语义特征，分类分数<span class="math inline">\(s_0\)</span>和预测得三维边界框。网络的得输出事一个二值分类分数<span class="math inline">\(s_1 \in [0,1]\)</span>，1表示的是correct，0表示得duplicate。最终边界框得分数为<span class="math inline">\(s_0 \cdot s_1\)</span>。也就是说，一个好的预测，<span class="math inline">\(s_0, s_1\)</span>都要大才行。这部分的子网络如下图所示:</p>
+<p><img src="https://blog-image-twn29004.oss-cn-chengdu.aliyuncs.com/blog-img/202201071927059.png" alt="image-20220107192723917" /></p>
+<p>RM模块是这部分网络得核心模块。对于RM中得几何特征，作者首先将<span class="math inline">\(s_0\)</span>做了一个rank embed，就是使用排名来取代原始得<span class="math inline">\(s_0\)</span>，然后将其嵌入到高维空间，为重得维度为128-D,然后是这个RoI对应得1024-D语义特征也将其转化为128-D得特征，然后将这两个特征进行相加，作为RM模块中得语义特征，bbox作为几何特征得输入。然后将输入经过线性层和softMax之后作为<span class="math inline">\(s_1\)</span>输出，<span class="math inline">\(s_1\)</span>得含义其实就是这个RoI是否被选择与GT绑定。这样就得到了最终得预测输出。</p>
+<p>但是这存在一个问题就是，这个输出得标签怎么来呢，由于预测得RoI每次都不同，且数据集中并没有关于RoI的label,这样的话网络是没办法训练的。针对这个问题，作者提出给定一个在基准框和预测的bbox之间的IoU阈值。对于匹配同一个基准狂且大于阈值的预测的bbox，选择分数最大的作为correct的bbox,其余的为duplicate的预测。这样的话就获得了bbox的标签，文中使用的是交叉熵损失来对部分网络进行训练。</p>
+<p>文中还发现了不同的预测通常会获得不同的效果，当阈值为0.5时，<span class="math inline">\(mAP_{0.5}\)</span>获得最大，当阈值为0.75时，<span class="math inline">\(mAP_{0.75}\)</span>最大。因此，为了能够在COCO数据集中获得最好的性能，作者设计了多个阈值来获得一个比较均衡的性能。</p>
+<h2 id="解决效果">解决效果</h2>
+<p><img src="https://blog-image-twn29004.oss-cn-chengdu.aliyuncs.com/blog-img/202201071941581.png" alt="image-20220107194151453" /></p>
+<p>上图中，对于每个精度组合，第一个表示的时2fc head和softNMS组合得到的结果，第二个精度表示的是2fc+RM head+SoftNMS获得的结果，第三个结果表示的是2fc+RM head + e2e得到的结果。</p>
+<p>从上述结果中可以看出，作者提出的RM在不同阶段均有很大的提升。</p>
+<h2 id="消融实验">消融实验</h2>
+<h3 id="在instance-recognition部分的消融实验">在Instance Recognition部分的消融实验</h3>
+<p>为了验证所提方法的有效性，作者对进行了丰富的消融实验。对于Instance Recognition部分，作者对是否使用几何特征，以及mutli-head中的head的个数和relation-module的个数进行了探索。其结果如下:</p>
+<p><img src="https://blog-image-twn29004.oss-cn-chengdu.aliyuncs.com/blog-img/202201071946722.png" alt="image-20220107194624603" /></p>
+<p>对于几何特征，none的意思是不使用几何特征,unary的意思是将几何特征转化到和语义特征一致的维度，相加，其他操作与none一致。</p>
+<p>此外，作者还验证了上述提升并不是因为网络层数加深，参数增多带来的。</p>
+<p><img src="https://blog-image-twn29004.oss-cn-chengdu.aliyuncs.com/blog-img/202201071948077.png" alt="image-20220107194808989" /></p>
+<p>从上述结果中可以看出，使用更多参数的FC (a)VS(b)可以获得0.1mAP的提升。但是增加一层FC之后， (a)VS(c)之后，模型的性能有所下降，分析原因可能是因为层数增多之后模型有所下降。为了能够使得模型能够被更简单的训练，作者在FC层之间加入了残差层(a) VS (d)，加入残差层之后模型性能得到了0.3mAP的提升。此外，作者引入了一个2048-D的全局上下文向量。(a) VS (e)也获得了0.3mAP的提升。(a) VS (f)表示的是作者引入了RM模块对于检测性能的影响。此外，作者还观察到将RoI扩大两倍之后得到的聚合的特征与原始1024-D的语义特征拼接之后，模型的检测性能也得到了一定的提升。即(a) VS (g)。检测精度从29.6提升到了30.4。作者还在此基础上增加了RM模块。即(g) VS (h)。作者还进行了(i)和(j)实验发现增加更多的残差曾和RM层对于模型的性能并没有显著的影响。</p>
+<h3 id="在duplicate-removal部分的消融实验">在Duplicate Removal部分的消融实验</h3>
+<p>首先也是对于这部分的RM网络的输入特征的一些实验，实验结果如下图所示:</p>
+<p><img src="https://blog-image-twn29004.oss-cn-chengdu.aliyuncs.com/blog-img/202201072004552.png" alt="image-20220107200459387" /></p>
+<p>其中，rank <span class="math inline">\(f_R\)</span>中none表示的是不适用<span class="math inline">\(s_0\)</span>,<span class="math inline">\(s_0\)</span>表示的不进行rand embeding。几何bbox中none表示的是不适用几何box，unary表示的是含义与前文相似，将其融入到语义特征中。</p>
+<p>此外，作者还将本文所提方法与NMS进行了比较.</p>
+<p><img src="https://blog-image-twn29004.oss-cn-chengdu.aliyuncs.com/blog-img/202201072017793.png" alt="image-20220107201712700" /></p>
+<p>从上表的结果中可以看出,本文所提方法所获得的性能在不同程度上超过了NMS和softNMS。其中e2e表示的同时训练前面提到的两个网络。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">twn29004</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://twn29004.top/2021/11/27/RelationNetworkforObjectDetection/">http://twn29004.top/2021/11/27/RelationNetworkforObjectDetection/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://twn29004.top" target="_blank">twn29004's Blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/2D-Object-Detection/">2D Object Detection</a></div><div class="post_share"><div class="social-share" data-image="https://blog-image-twn29004.oss-cn-chengdu.aliyuncs.com/blog-img/202201072028196.jpg" data-sites="wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2021/11/27/RPVNet/"><img class="prev-cover" src="https://hdwallsource.com/img/2021/7/basketball-hoop-net-wallpaper-76101-78830-hd-wallpapers.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">RPVNet解读</div></div></a></div><div class="next-post pull-right"><a href="/2021/11/27/%E8%B4%9D%E5%8F%B6%E6%96%AF%E5%AD%A6%E4%B9%A0/"><img class="next-cover" src="https://w.wallhaven.cc/full/y8/wallhaven-y8vlyk.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">贝叶斯学习</div></div></a></div></nav><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://cdn.jsdelivr.net/gh/twn2333/my_imgs@latest//img/202112082242974.jpeg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">twn29004</div><div class="author-info__description"></div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">17</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">12</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">3</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/twn29004"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/twn29004" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:twn29004@qq.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">This is twn29004's Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%97%AE%E9%A2%98"><span class="toc-text">问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95"><span class="toc-text">解决方法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#relation-module%E7%9A%84%E7%BB%93%E6%9E%84"><span class="toc-text">Relation Module的结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#rm%E5%9C%A8instance-recognition%E4%B8%AD%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="toc-text">RM在Instance Recognition中的使用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#rm%E5%9C%A8duplicate-removal%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8"><span class="toc-text">RM在Duplicate Removal中的应用</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3%E6%95%88%E6%9E%9C"><span class="toc-text">解决效果</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B6%88%E8%9E%8D%E5%AE%9E%E9%AA%8C"><span class="toc-text">消融实验</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9C%A8instance-recognition%E9%83%A8%E5%88%86%E7%9A%84%E6%B6%88%E8%9E%8D%E5%AE%9E%E9%AA%8C"><span class="toc-text">在Instance Recognition部分的消融实验</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9C%A8duplicate-removal%E9%83%A8%E5%88%86%E7%9A%84%E6%B6%88%E8%9E%8D%E5%AE%9E%E9%AA%8C"><span class="toc-text">在Duplicate Removal部分的消融实验</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2022/01/02/PartA2/" title="PartA2论文解读"><img src="https://blog-image-twn29004.oss-cn-chengdu.aliyuncs.com/blog-img/202201021919486.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="PartA2论文解读"/></a><div class="content"><a class="title" href="/2022/01/02/PartA2/" title="PartA2论文解读">PartA2论文解读</a><time datetime="2022-01-01T16:00:00.000Z" title="发表于 2022-01-02 00:00:00">2022-01-02</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/12/30/AFDetV2/" title="AFDetV2论文解读"><img src="https://blog-image-twn29004.oss-cn-chengdu.aliyuncs.com/blog-img/202112301636637.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="AFDetV2论文解读"/></a><div class="content"><a class="title" href="/2021/12/30/AFDetV2/" title="AFDetV2论文解读">AFDetV2论文解读</a><time datetime="2021-12-29T16:00:00.000Z" title="发表于 2021-12-30 00:00:00">2021-12-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/12/24/tood/" title="TOOD论文解读"><img src="https://image.twn29004.top/blog-img/202112231924201.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="TOOD论文解读"/></a><div class="content"><a class="title" href="/2021/12/24/tood/" title="TOOD论文解读">TOOD论文解读</a><time datetime="2021-12-23T16:00:00.000Z" title="发表于 2021-12-24 00:00:00">2021-12-24</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/12/21/BtcNet/" title="BtcNet论文解读"><img src="https://cdn.jsdelivr.net/gh/twn2333/my_imgs@latest//img/202112211526344.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="BtcNet论文解读"/></a><div class="content"><a class="title" href="/2021/12/21/BtcNet/" title="BtcNet论文解读">BtcNet论文解读</a><time datetime="2021-12-20T16:00:00.000Z" title="发表于 2021-12-21 00:00:00">2021-12-21</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/12/20/GPU-tips/" title="关于服务器GPU使用的一些注意事项"><img src="https://cdn.jsdelivr.net/gh/twn2333/my_imgs@latest//img/202112202022002.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="关于服务器GPU使用的一些注意事项"/></a><div class="content"><a class="title" href="/2021/12/20/GPU-tips/" title="关于服务器GPU使用的一些注意事项">关于服务器GPU使用的一些注意事项</a><time datetime="2021-12-19T16:00:00.000Z" title="发表于 2021-12-20 00:00:00">2021-12-20</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2021 - 2022 By twn29004</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">保持热爱，奔赴山海</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>if (!window.MathJax) {
+  window.MathJax = {
+    tex: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"]],
+      tags: 'ams'
+    },
+    chtml: {
+      scale: 1.2
+    },
+    options: {
+      renderActions: {
+        findScript: [10, doc => {
+          for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+            const display = !!node.type.match(/; *mode=display/)
+            const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+            const text = document.createTextNode('')
+            node.parentNode.replaceChild(text, node)
+            math.start = {node: text, delim: '', n: 0}
+            math.end = {node: text, delim: '', n: 0}
+            doc.math.push(math)
+          }
+        }, ''],
+        insertScript: [200, () => {
+          document.querySelectorAll('mjx-container:not\([display]\)').forEach(node => {
+            const target = node.parentNode
+            if (target.nodeName.toLowerCase() === 'li') {
+              target.parentNode.classList.add('has-jax')
+            } else {
+              target.classList.add('has-jax')
+            }
+          });
+        }, '', false]
+      }
+    }
+  }
+  
+  const script = document.createElement('script')
+  script.src = 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js'
+  script.id = 'MathJax-script'
+  script.async = true
+  document.head.appendChild(script)
+} else {
+  MathJax.startup.document.state(0)
+  MathJax.texReset()
+  MathJax.typeset()
+}</script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex@latest/dist/contrib/copy-tex.min.js"></script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex@latest/dist/contrib/copy-tex.css"><script>(() => {
+  document.querySelectorAll('#article-container span.katex-display').forEach(item => {
+    btf.wrap(item, 'div', { class: 'katex-wrap'})
+  })
+})()</script><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: 'XNyIVrqGTNnQLppz3iWQJhmo-gzGzoHsz',
+      appKey: 'ag39ujwjIYVnIUP3YQLCEoCM',
+      placeholder: '欢迎评论交流',
+      avatar: 'monsterid',
+      meta: 'nick,mail,link'.split(','),
+      pageSize: '10',
+      lang: 'zh-CN',
+      recordIP: true,
+      serverURLs: 'https://xnyivrqg.lc-cn-n1-shared.com',
+      emojiCDN: '',
+      emojiMaps: "",
+      enableQQ: true,
+      path: window.location.pathname,
+      requiredFields: ["nick,mail"],
+      visitor: true
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !false) {
+  if (false) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
