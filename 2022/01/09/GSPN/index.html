@@ -1,0 +1,289 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>GSPN论文解读 | twn29004's Blog</title><meta name="keywords" content="Shape Proposal, Generate Virtual Point"><meta name="author" content="twn29004"><meta name="copyright" content="twn29004"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="代码链接 paper链接 个人博客 问题 目前的一些点云实体分割算法的一些工作是首先生成目标的近似几何估计，例如三维边界框，虽然这些估计很简单，但是由于大多数估计的生成缺乏对于目标几何信息的理解，导致这些生成的近似都是很满盲目的，其中要么包含很多个目标，要么仅包含部分目标，这大大影响了网络的实例分割的性能。除此之外，我们很难理解这些生成提议的网络对于三维几何信息理解的好坏。 为了能够更好">
+<meta property="og:type" content="article">
+<meta property="og:title" content="GSPN论文解读">
+<meta property="og:url" content="http://twn29004.top/2022/01/09/GSPN/index.html">
+<meta property="og:site_name" content="twn29004&#39;s Blog">
+<meta property="og:description" content="代码链接 paper链接 个人博客 问题 目前的一些点云实体分割算法的一些工作是首先生成目标的近似几何估计，例如三维边界框，虽然这些估计很简单，但是由于大多数估计的生成缺乏对于目标几何信息的理解，导致这些生成的近似都是很满盲目的，其中要么包含很多个目标，要么仅包含部分目标，这大大影响了网络的实例分割的性能。除此之外，我们很难理解这些生成提议的网络对于三维几何信息理解的好坏。 为了能够更好">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://blog-image-twn29004.oss-cn-chengdu.aliyuncs.com/blog-img/202201092122985.jpg">
+<meta property="article:published_time" content="2022-01-08T16:00:00.000Z">
+<meta property="article:modified_time" content="2022-01-09T13:22:47.153Z">
+<meta property="article:author" content="twn29004">
+<meta property="article:tag" content="Instance Segment">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://blog-image-twn29004.oss-cn-chengdu.aliyuncs.com/blog-img/202201092122985.jpg"><link rel="shortcut icon" href="/img/favicon.ico"><link rel="canonical" href="http://twn29004.top/2022/01/09/GSPN/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//hm.baidu.com"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?da945d048bc901ec4ee07f4643119577";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":50,"languages":{"author":"作者: twn29004","link":"链接: ","source":"来源: twn29004's Blog","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'GSPN论文解读',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2022-01-09 21:22:47'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if (GLOBAL_CONFIG_SITE.isHome && /iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://cdn.jsdelivr.net/gh/twn2333/my_imgs@latest//img/202112082242974.jpeg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">19</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">13</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">3</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 文章</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/gallery/"><i class="fa-fw fas fa-video"></i><span> 相册</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://blog-image-twn29004.oss-cn-chengdu.aliyuncs.com/blog-img/202201092122985.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">twn29004's Blog</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 文章</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/gallery/"><i class="fa-fw fas fa-video"></i><span> 相册</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">GSPN论文解读</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-01-08T16:00:00.000Z" title="发表于 2022-01-09 00:00:00">2022-01-09</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-01-09T13:22:47.153Z" title="更新于 2022-01-09 21:22:47">2022-01-09</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E8%AE%BA%E6%96%87%E5%88%86%E4%BA%AB/">论文分享</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">1.4k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>4分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="GSPN论文解读"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span><span class="post-meta-separator">|</span><span class="post-meta-commentcount"><i class="far fa-comments fa-fw post-meta-icon"></i><span class="post-meta-label">评论数:</span><a href="/2022/01/09/GSPN/#post-comment" itemprop="discussionUrl"><span class="valine-comment-count" data-xid="/2022/01/09/GSPN/" itemprop="commentCount"></span></a></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p><a target="_blank" rel="noopener" href="https://github.com/ericyi/GSPN">代码链接</a></p>
+<p><a target="_blank" rel="noopener" href="https://arxiv.org/abs/1812.03320">paper链接</a></p>
+<p><a href="https://twn29004.top/">个人博客</a></p>
+<h2 id="问题">问题</h2>
+<p>目前的一些点云实体分割算法的一些工作是首先生成目标的近似几何估计，例如三维边界框，虽然这些估计很简单，但是由于大多数估计的生成缺乏对于目标几何信息的理解，导致这些生成的近似都是很满盲目的，其中要么包含很多个目标，要么仅包含部分目标，这大大影响了网络的实例分割的性能。除此之外，我们很难理解这些生成提议的网络对于三维几何信息理解的好坏。</p>
+<p>为了能够更好的了解提出提议的网络对于三维几何信息的理解的好坏，本文作者提出了一种新的三维实体分割的方法。该方法在生成提议之前，首先重建这些目标。本文使用生成模型显示的生成自然目标的分布，并通过从目标对象的分布中采样生成提议。</p>
+<p>该方法在三维的实体分割中比二维的更具有吸引力，原因是三维目标具有更多完成的三维几何形状，具有更好的物理尺度，这在一定程度上保证了我们能够获取三维目标的分布规律。</p>
+<h2 id="解决方法">解决方法</h2>
+<p><img src="https://blog-image-twn29004.oss-cn-chengdu.aliyuncs.com/blog-img/202201091935701.png" alt="image-20220109193523485" /></p>
+<center>
+GCPN网络结构
+</center>
+<p>GSPN网络将目标的提议问题看作是一个目标生成问题。其中原始的目标分布符合条件概率<span class="math inline">\(P_{\theta}(x|c)\)</span>，其中<span class="math inline">\(c\)</span>是点云<span class="math inline">\(P\)</span>和采样点集合<span class="math inline">\(s\)</span>的组合。输出的生成点云<span class="math inline">\(\tilde x\)</span>可以看作是在<span class="math inline">\(P\)</span>中包含<span class="math inline">\(s\)</span>的情况下对目标的近似。该方法可以使我们能够清楚的看到对象提案的样子，并了解网络是否真的理解了目标。</p>
+<p>本文中将生成问题转化为了条件变分自编码机(Conditional Variational Autoencoders)，没有使用GAN的原因是GAN没有明确的模拟数据的分布，因此可能会带来模式崩塌问题(即生成器只生成<strong>少量</strong>真实样本)。</p>
+<p>关于CVAE的说明可以参考<a target="_blank" rel="noopener" href="https://www.zhihu.com/answer/2257176201?type=video&amp;content_id=1450799967077752832">链接</a>,其基本思想就是将使用编码器将输入编码到一个隐空间，然后从隐空间中采样，再使用Decoder产生输出。</p>
+<p>因此，proposal的生成可以分为两部分，<span class="math inline">\(P_{\theta}(z|C)\)</span>和<span class="math inline">\(P_{\theta}(x|z,C)\)</span>.首先预测在当前点云场景和采样的条件下，隐藏空间<span class="math inline">\(z\)</span>的分布。<span class="math inline">\(P_{\theta}(z|C)\)</span>，然后在前面生成的<span class="math inline">\(z\)</span>的分布上采样，输入到生成网络中生成proposal。</p>
+<p>其中GSPN网络中主要分为四个主要的部分，分别是Center Prediction Network, Recognition Network，Prior Network和Generation Network。其中前三个主要是为CVAE中的Encoder服务。下面分别介绍这些自网络的作用:</p>
+<ul>
+<li>Center Prediction Network</li>
+</ul>
+<p>该部分网络的主要作用是通过提取采样点多尺度的特征，生成proposal的中心点的预测。然后使用预测的中心点对这些多尺度的区域进行归一化。调整这些区域。这部分的采用的标签为目标的几何中心点。</p>
+<ul>
+<li>Prior Network</li>
+</ul>
+<p>这部分网络的作用主要是用来计算<span class="math inline">\(P(z|C)\)</span>。即计算当前点云空间下，隐空间的分布。其使用的输入是经过Center Prediction网络归一化后的点云，其提取特征的步骤与Center Prediction部分基本相似，区别仅在输出的形式不太一样。这部分输出的是<span class="math inline">\(P(z|C)\)</span>的概率分布的参数。</p>
+<p>这部分网络存在一个问题，就是这部分网络的输出到目前位置是没有标签的。因此我们需要构造一个这部分的标签，这部分的工作由另一个子网络来完成。</p>
+<ul>
+<li>Recognition Network</li>
+</ul>
+<p>这部分网络以真实的目标<span class="math inline">\(x\)</span>经过中心点归一化后输入，此外，还使用Prior Network中生成的语义特征作为输入，生成概率分布<span class="math inline">\(P_{\theta}(z|C,x)\)</span>。因此，网络优化的目标就是使得Prior Network和Recognition Network两个子网络生成的概率分布尽可能的近似。</p>
+<ul>
+<li>Generation Network</li>
+</ul>
+<p>在Prior Network生成在<span class="math inline">\(C\)</span>条件下关于<span class="math inline">\(z\)</span>的分布之后，从获得的分布中采样<span class="math inline">\(z\)</span>和Prior Network中生成的语义特征作为生成网络的输入，最终生成Proposal中所包含的点。</p>
+<ul>
+<li>Region-based PointNet</li>
+</ul>
+<p>为了能够更好的利用GSPN生成的proposal。作者提出了一个新的R-PointNet。其具体结构如下图所示:</p>
+<p><img src="https://blog-image-twn29004.oss-cn-chengdu.aliyuncs.com/blog-img/202201092034411.png" alt="image-20220109203442249" /></p>
+<p>从上图中可以看出，首先对输入点云进行采样，然后使用PointNet++提取语义特征<span class="math inline">\(f_{sem}\)</span>，此外，还使用GSPN生成proposal中包含的虚拟点以及其提取的上下文特征<span class="math inline">\(f_{\hat c}\)</span>，生成的proposal经过RoI Generation网络，该网络会根据生成的proposal生成一个三维边界框。然后使用类似于Mask RCNN中的Point RoIAlign网络来提取RoI中的特征以进行下一步的分类，边界框回归和分割。</p>
+<h2 id="解决效果">解决效果</h2>
+<p><img src="https://blog-image-twn29004.oss-cn-chengdu.aliyuncs.com/blog-img/202201092047586.png" alt="image-20220109204728511" /></p>
+<h2 id="消融实验">消融实验</h2>
+<ol type="1">
+<li><p>作者对比了本文提出的3D Proposal方法和其余两种BBox Reg方法和分割方法,其具体表现如下:</p>
+<p><img src="https://blog-image-twn29004.oss-cn-chengdu.aliyuncs.com/blog-img/202201092114536.png" alt="image-20220109211440451" /></p></li>
+<li><p>此外，作者还对GSPN网络的结构进行了对比实验。</p>
+<p><img src="https://blog-image-twn29004.oss-cn-chengdu.aliyuncs.com/blog-img/202201092115244.png" alt="image-20220109211551176" /></p>
+<p>其中E-D表示的是使用传统的Encoder-Decoder结构，1-Context是指只是用一个维度的上下文信息，No Center Pred表示的是是否使用中心点预测网络。</p></li>
+</ol>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">twn29004</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://twn29004.top/2022/01/09/GSPN/">http://twn29004.top/2022/01/09/GSPN/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://twn29004.top" target="_blank">twn29004's Blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Instance-Segment/">Instance Segment</a></div><div class="post_share"><div class="social-share" data-image="https://blog-image-twn29004.oss-cn-chengdu.aliyuncs.com/blog-img/202201092122985.jpg" data-sites="wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2022/01/09/pytorchwithcuda/"><img class="next-cover" src="https://blog-image-twn29004.oss-cn-chengdu.aliyuncs.com/blog-img/202201091442970.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">RPVNet解读</div></div></a></div></nav><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://cdn.jsdelivr.net/gh/twn2333/my_imgs@latest//img/202112082242974.jpeg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">twn29004</div><div class="author-info__description"></div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">19</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">13</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">3</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/twn29004"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/twn29004" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:twn29004@qq.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">This is twn29004's Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%97%AE%E9%A2%98"><span class="toc-text">问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95"><span class="toc-text">解决方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3%E6%95%88%E6%9E%9C"><span class="toc-text">解决效果</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B6%88%E8%9E%8D%E5%AE%9E%E9%AA%8C"><span class="toc-text">消融实验</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2022/01/09/GSPN/" title="GSPN论文解读"><img src="https://blog-image-twn29004.oss-cn-chengdu.aliyuncs.com/blog-img/202201092122985.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="GSPN论文解读"/></a><div class="content"><a class="title" href="/2022/01/09/GSPN/" title="GSPN论文解读">GSPN论文解读</a><time datetime="2022-01-08T16:00:00.000Z" title="发表于 2022-01-09 00:00:00">2022-01-09</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/01/09/pytorchwithcuda/" title="RPVNet解读"><img src="https://blog-image-twn29004.oss-cn-chengdu.aliyuncs.com/blog-img/202201091442970.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="RPVNet解读"/></a><div class="content"><a class="title" href="/2022/01/09/pytorchwithcuda/" title="RPVNet解读">RPVNet解读</a><time datetime="2022-01-08T16:00:00.000Z" title="发表于 2022-01-09 00:00:00">2022-01-09</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/01/07/RelationNetworkforObjectDetection/" title="Relation Network for Object Network解读"><img src="https://blog-image-twn29004.oss-cn-chengdu.aliyuncs.com/blog-img/202201072028196.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Relation Network for Object Network解读"/></a><div class="content"><a class="title" href="/2022/01/07/RelationNetworkforObjectDetection/" title="Relation Network for Object Network解读">Relation Network for Object Network解读</a><time datetime="2022-01-06T16:00:00.000Z" title="发表于 2022-01-07 00:00:00">2022-01-07</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/01/02/PartA2/" title="PartA2论文解读"><img src="https://blog-image-twn29004.oss-cn-chengdu.aliyuncs.com/blog-img/202201021919486.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="PartA2论文解读"/></a><div class="content"><a class="title" href="/2022/01/02/PartA2/" title="PartA2论文解读">PartA2论文解读</a><time datetime="2022-01-01T16:00:00.000Z" title="发表于 2022-01-02 00:00:00">2022-01-02</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/01/01/view_and_reshape/" title="Pytorch中View和Reshape的区别"><img src="https://blog-image-twn29004.oss-cn-chengdu.aliyuncs.com/blog-img/202201011045506.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Pytorch中View和Reshape的区别"/></a><div class="content"><a class="title" href="/2022/01/01/view_and_reshape/" title="Pytorch中View和Reshape的区别">Pytorch中View和Reshape的区别</a><time datetime="2021-12-31T16:00:00.000Z" title="发表于 2022-01-01 00:00:00">2022-01-01</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2021 - 2022 By twn29004</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">保持热爱，奔赴山海</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>if (!window.MathJax) {
+  window.MathJax = {
+    tex: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"]],
+      tags: 'ams'
+    },
+    chtml: {
+      scale: 1.2
+    },
+    options: {
+      renderActions: {
+        findScript: [10, doc => {
+          for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+            const display = !!node.type.match(/; *mode=display/)
+            const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+            const text = document.createTextNode('')
+            node.parentNode.replaceChild(text, node)
+            math.start = {node: text, delim: '', n: 0}
+            math.end = {node: text, delim: '', n: 0}
+            doc.math.push(math)
+          }
+        }, ''],
+        insertScript: [200, () => {
+          document.querySelectorAll('mjx-container:not\([display]\)').forEach(node => {
+            const target = node.parentNode
+            if (target.nodeName.toLowerCase() === 'li') {
+              target.parentNode.classList.add('has-jax')
+            } else {
+              target.classList.add('has-jax')
+            }
+          });
+        }, '', false]
+      }
+    }
+  }
+  
+  const script = document.createElement('script')
+  script.src = 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js'
+  script.id = 'MathJax-script'
+  script.async = true
+  document.head.appendChild(script)
+} else {
+  MathJax.startup.document.state(0)
+  MathJax.texReset()
+  MathJax.typeset()
+}</script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex@latest/dist/contrib/copy-tex.min.js"></script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex@latest/dist/contrib/copy-tex.css"><script>(() => {
+  document.querySelectorAll('#article-container span.katex-display').forEach(item => {
+    btf.wrap(item, 'div', { class: 'katex-wrap'})
+  })
+})()</script><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: 'XNyIVrqGTNnQLppz3iWQJhmo-gzGzoHsz',
+      appKey: 'ag39ujwjIYVnIUP3YQLCEoCM',
+      placeholder: '欢迎评论交流',
+      avatar: 'monsterid',
+      meta: 'nick,mail,link'.split(','),
+      pageSize: '10',
+      lang: 'zh-CN',
+      recordIP: true,
+      serverURLs: 'https://xnyivrqg.lc-cn-n1-shared.com',
+      emojiCDN: '',
+      emojiMaps: "",
+      enableQQ: true,
+      path: window.location.pathname,
+      requiredFields: ["nick,mail"],
+      visitor: true
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !false) {
+  if (false) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

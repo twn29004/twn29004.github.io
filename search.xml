@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>GSPN论文解读</title>
+      <link href="/2022/01/09/GSPN/"/>
+      <url>/2022/01/09/GSPN/</url>
+      
+        <content type="html"><![CDATA[<p><a href="https://github.com/ericyi/GSPN">代码链接</a></p><p><a href="https://arxiv.org/abs/1812.03320">paper链接</a></p><p><a href="https://twn29004.top/">个人博客</a></p><h2 id="问题">问题</h2><p>目前的一些点云实体分割算法的一些工作是首先生成目标的近似几何估计，例如三维边界框，虽然这些估计很简单，但是由于大多数估计的生成缺乏对于目标几何信息的理解，导致这些生成的近似都是很满盲目的，其中要么包含很多个目标，要么仅包含部分目标，这大大影响了网络的实例分割的性能。除此之外，我们很难理解这些生成提议的网络对于三维几何信息理解的好坏。</p><p>为了能够更好的了解提出提议的网络对于三维几何信息的理解的好坏，本文作者提出了一种新的三维实体分割的方法。该方法在生成提议之前，首先重建这些目标。本文使用生成模型显示的生成自然目标的分布，并通过从目标对象的分布中采样生成提议。</p><p>该方法在三维的实体分割中比二维的更具有吸引力，原因是三维目标具有更多完成的三维几何形状，具有更好的物理尺度，这在一定程度上保证了我们能够获取三维目标的分布规律。</p><h2 id="解决方法">解决方法</h2><p><img src="https://blog-image-twn29004.oss-cn-chengdu.aliyuncs.com/blog-img/202201091935701.png" alt="image-20220109193523485" /></p><center>GCPN网络结构</center><p>GSPN网络将目标的提议问题看作是一个目标生成问题。其中原始的目标分布符合条件概率<span class="math inline">\(P_{\theta}(x|c)\)</span>，其中<span class="math inline">\(c\)</span>是点云<span class="math inline">\(P\)</span>和采样点集合<span class="math inline">\(s\)</span>的组合。输出的生成点云<span class="math inline">\(\tilde x\)</span>可以看作是在<span class="math inline">\(P\)</span>中包含<span class="math inline">\(s\)</span>的情况下对目标的近似。该方法可以使我们能够清楚的看到对象提案的样子，并了解网络是否真的理解了目标。</p><p>本文中将生成问题转化为了条件变分自编码机(Conditional Variational Autoencoders)，没有使用GAN的原因是GAN没有明确的模拟数据的分布，因此可能会带来模式崩塌问题(即生成器只生成<strong>少量</strong>真实样本)。</p><p>关于CVAE的说明可以参考<a href="https://www.zhihu.com/answer/2257176201?type=video&amp;content_id=1450799967077752832">链接</a>,其基本思想就是将使用编码器将输入编码到一个隐空间，然后从隐空间中采样，再使用Decoder产生输出。</p><p>因此，proposal的生成可以分为两部分，<span class="math inline">\(P_{\theta}(z|C)\)</span>和<span class="math inline">\(P_{\theta}(x|z,C)\)</span>.首先预测在当前点云场景和采样的条件下，隐藏空间<span class="math inline">\(z\)</span>的分布。<span class="math inline">\(P_{\theta}(z|C)\)</span>，然后在前面生成的<span class="math inline">\(z\)</span>的分布上采样，输入到生成网络中生成proposal。</p><p>其中GSPN网络中主要分为四个主要的部分，分别是Center Prediction Network, Recognition Network，Prior Network和Generation Network。其中前三个主要是为CVAE中的Encoder服务。下面分别介绍这些自网络的作用:</p><ul><li>Center Prediction Network</li></ul><p>该部分网络的主要作用是通过提取采样点多尺度的特征，生成proposal的中心点的预测。然后使用预测的中心点对这些多尺度的区域进行归一化。调整这些区域。这部分的采用的标签为目标的几何中心点。</p><ul><li>Prior Network</li></ul><p>这部分网络的作用主要是用来计算<span class="math inline">\(P(z|C)\)</span>。即计算当前点云空间下，隐空间的分布。其使用的输入是经过Center Prediction网络归一化后的点云，其提取特征的步骤与Center Prediction部分基本相似，区别仅在输出的形式不太一样。这部分输出的是<span class="math inline">\(P(z|C)\)</span>的概率分布的参数。</p><p>这部分网络存在一个问题，就是这部分网络的输出到目前位置是没有标签的。因此我们需要构造一个这部分的标签，这部分的工作由另一个子网络来完成。</p><ul><li>Recognition Network</li></ul><p>这部分网络以真实的目标<span class="math inline">\(x\)</span>经过中心点归一化后输入，此外，还使用Prior Network中生成的语义特征作为输入，生成概率分布<span class="math inline">\(P_{\theta}(z|C,x)\)</span>。因此，网络优化的目标就是使得Prior Network和Recognition Network两个子网络生成的概率分布尽可能的近似。</p><ul><li>Generation Network</li></ul><p>在Prior Network生成在<span class="math inline">\(C\)</span>条件下关于<span class="math inline">\(z\)</span>的分布之后，从获得的分布中采样<span class="math inline">\(z\)</span>和Prior Network中生成的语义特征作为生成网络的输入，最终生成Proposal中所包含的点。</p><ul><li>Region-based PointNet</li></ul><p>为了能够更好的利用GSPN生成的proposal。作者提出了一个新的R-PointNet。其具体结构如下图所示:</p><p><img src="https://blog-image-twn29004.oss-cn-chengdu.aliyuncs.com/blog-img/202201092034411.png" alt="image-20220109203442249" /></p><p>从上图中可以看出，首先对输入点云进行采样，然后使用PointNet++提取语义特征<span class="math inline">\(f_{sem}\)</span>，此外，还使用GSPN生成proposal中包含的虚拟点以及其提取的上下文特征<span class="math inline">\(f_{\hat c}\)</span>，生成的proposal经过RoI Generation网络，该网络会根据生成的proposal生成一个三维边界框。然后使用类似于Mask RCNN中的Point RoIAlign网络来提取RoI中的特征以进行下一步的分类，边界框回归和分割。</p><h2 id="解决效果">解决效果</h2><p><img src="https://blog-image-twn29004.oss-cn-chengdu.aliyuncs.com/blog-img/202201092047586.png" alt="image-20220109204728511" /></p><h2 id="消融实验">消融实验</h2><ol type="1"><li><p>作者对比了本文提出的3D Proposal方法和其余两种BBox Reg方法和分割方法,其具体表现如下:</p><p><img src="https://blog-image-twn29004.oss-cn-chengdu.aliyuncs.com/blog-img/202201092114536.png" alt="image-20220109211440451" /></p></li><li><p>此外，作者还对GSPN网络的结构进行了对比实验。</p><p><img src="https://blog-image-twn29004.oss-cn-chengdu.aliyuncs.com/blog-img/202201092115244.png" alt="image-20220109211551176" /></p><p>其中E-D表示的是使用传统的Encoder-Decoder结构，1-Context是指只是用一个维度的上下文信息，No Center Pred表示的是是否使用中心点预测网络。</p></li></ol>]]></content>
+      
+      
+      <categories>
+          
+          <category> 论文分享 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Instance Segment </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>RPVNet解读</title>
       <link href="/2022/01/09/pytorchwithcuda/"/>
       <url>/2022/01/09/pytorchwithcuda/</url>
