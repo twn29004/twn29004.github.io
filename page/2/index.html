@@ -1,1029 +1,305 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  
-
-  
-  <title>twn29004&#39;s Blog</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>twn29004's Blog</title><meta name="author" content="twn29004"><meta name="copyright" content="twn29004"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta property="og:type" content="website">
 <meta property="og:title" content="twn29004&#39;s Blog">
 <meta property="og:url" content="http://twn29004.top/page/2/index.html">
 <meta property="og:site_name" content="twn29004&#39;s Blog">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/twn2333/my_imgs@latest//img/202112082242974.jpeg">
 <meta property="article:author" content="twn29004">
 <meta name="twitter:card" content="summary">
-  
-    <link rel="alternate" href="/atom.xml" title="twn29004&#39;s Blog" type="application/atom+xml">
-  
-  
-    <link rel="icon" href="/favicon.png">
-  
-  
-    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
-  
-  
-<link rel="stylesheet" href="/css/style.css">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/twn2333/my_imgs@latest//img/202112082242974.jpeg"><link rel="shortcut icon" href="/img/favicon.ico"><link rel="canonical" href="http://twn29004.top/page/2/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//hm.baidu.com"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?da945d048bc901ec4ee07f4643119577";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":50,"languages":{"author":"作者: twn29004","link":"链接: ","source":"来源: twn29004's Blog","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'twn29004\'s Blog',
+  isPost: false,
+  isHome: true,
+  isHighlightShrink: false,
+  isToc: false,
+  postUpdate: '2022-04-24 19:41:34'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
 
-<meta name="generator" content="Hexo 5.4.0"></head>
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
 
-<body>
-  <div id="container">
-    <div id="wrap">
-      <header id="header">
-  <div id="banner"></div>
-  <div id="header-outer" class="outer">
-    <div id="header-title" class="inner">
-      <h1 id="logo-wrap">
-        <a href="/" id="logo">twn29004&#39;s Blog</a>
-      </h1>
-      
-    </div>
-    <div id="header-inner" class="inner">
-      <nav id="main-nav">
-        <a id="main-nav-toggle" class="nav-icon"></a>
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
         
-          <a class="main-nav-link" href="/">Home</a>
-        
-          <a class="main-nav-link" href="/archives">Archives</a>
-        
-      </nav>
-      <nav id="sub-nav">
-        
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
-        
-        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
-      </nav>
-      <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://twn29004.top"></form>
-      </div>
-    </div>
-  </div>
-</header>
-      <div class="outer">
-        <section id="main">
-  
-    <article id="post-AFDetV2" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2021/12/30/AFDetV2/" class="article-date">
-  <time datetime="2021-12-29T16:00:00.000Z" itemprop="datePublished">2021-12-30</time>
-</a>
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
     
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E8%AE%BA%E6%96%87%E5%88%86%E4%BA%AB/">论文分享</a>
-  </div>
+    const detectApple = () => {
+      if (GLOBAL_CONFIG_SITE.isHome && /iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://cdn.jsdelivr.net/gh/twn2333/my_imgs@latest//img/202112082242974.jpeg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">24</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">15</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 文章</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/gallery/"><i class="fa-fw fas fa-video"></i><span> 相册</span></a></div></div></div></div><div class="page" id="body-wrap"><header class="full_page" id="page-header" style="background-image: url('https://picture.zwc365.com/getbing.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">twn29004's Blog</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 文章</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/gallery/"><i class="fa-fw fas fa-video"></i><span> 相册</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="site-info"><h1 id="site-title">twn29004's Blog</h1><div id="site-subtitle"><span id="subtitle"></span></div><div id="site_social_icons"><a class="social-icon" href="https://github.com/twn29004" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:twn29004@qq.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div id="scroll-down"><i class="fas fa-angle-down scroll-down-effects"></i></div></header><main class="layout" id="content-inner"><div class="recent-posts" id="recent-posts"><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2021/12/30/AFDetV2/" title="AFDetV2论文解读">AFDetV2论文解读</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2021-12-29T16:00:00.000Z" title="发表于 2021-12-30 00:00:00">2021-12-30</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E8%AE%BA%E6%96%87%E5%88%86%E4%BA%AB/">论文分享</a></span></div><div class="content">
+代码链接
+paper链接
+个人博客
+问题
 
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/12/30/AFDetV2/">AFDetV2论文解读</a>
-    </h1>
-  
+本文提出了一种单阶段的三维目标检测算法，并在文中分析了二阶段三维目标检测算法的不必要性。其所提算法在waymo实时目标检测竞赛中取得了第一的成绩。其性能超过了所有单阶段和多阶段的目标检测算法。
+作者首先分析了二阶段目标检测算法主要有两个作用，一是二阶段中逐点的特征可能能够在一定程度上恢复因为前期的体素化，卷积的步长和感受野的缺乏带来的信息损失。另一个原因是因为分类和回归这两个独立的分支可能在一定程度上不能对齐，因此需要一个二阶段的网络来进行调整。
+对于逐点的特征能够在一定程度上恢复因一系列操作带来的信息损失，作者引用了一些论文中的说明，当基于体素的特征能够实现和基于点的特征相同的位置精度。对于任务不对齐的问题，作者通过实验发现，第一阶段提出的边界框已经非常精确了，第二阶段对于性能的提升主要集中于分类的置信度上。换句话说就是第二阶段可能对定位精度没有帮助。
+上述观察与使用二阶段网络中的第二个理由是相符的。即一阶段中独立的分类和定位任务可能存在不对齐的情况，因此使用二阶段的网络来对定位精度高的anchor的分类精度进行调整。 ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2021/12/24/tood/" title="TOOD论文解读">TOOD论文解读</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2021-12-23T16:00:00.000Z" title="发表于 2021-12-24 00:00:00">2021-12-24</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E8%AE%BA%E6%96%87%E5%88%86%E4%BA%AB/">论文分享</a></span></div><div class="content">
+代码链接
+paper链接
+个人博客
+问题
+本文首先提出了一个目前一阶目标检测器存在的普遍问题就是在head部分将分类和定位这两个任务并行的来做了。这样的话就存在两个任务之间不对齐的问题。因为两个任务是的目标不一样。分类任务更加关注目标的显著的，关键的特征。而定位任务更加关注图像的边界特征。这就导致当使用两个独立的分支来进行预测的时候，会导致一定程度上的结果的不能对齐。
 
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><img src="https://blog-image-twn29004.oss-cn-chengdu.aliyuncs.com/blog-img/202112291659088.png" alt="image-20211229165953900" /></p>
-<p><a href="">代码链接</a></p>
-<p><a target="_blank" rel="noopener" href="https://arxiv.org/abs/2112.09205v1">paper链接</a></p>
-<p><a href="https://twn29004.top/">个人博客</a></p>
-<h2 id="问题">问题</h2>
-<hr />
-<p>本文提出了一种单阶段的三维目标检测算法，并在文中分析了二阶段三维目标检测算法的不必要性。其所提算法在waymo实时目标检测竞赛中取得了第一的成绩。其性能超过了所有单阶段和多阶段的目标检测算法。</p>
-<p>作者首先分析了二阶段目标检测算法主要有两个作用，一是二阶段中逐点的特征可能能够在一定程度上恢复因为前期的体素化，卷积的步长和感受野的缺乏带来的信息损失。另一个原因是因为分类和回归这两个独立的分支可能在一定程度上不能对齐，因此需要一个二阶段的网络来进行调整。</p>
-<p>对于逐点的特征能够在一定程度上恢复因一系列操作带来的信息损失，作者引用了一些论文中的说明，当基于体素的特征能够实现和基于点的特征相同的位置精度。对于任务不对齐的问题，作者通过实验发现，第一阶段提出的边界框已经非常精确了，第二阶段对于性能的提升主要集中于分类的置信度上。换句话说就是第二阶段可能对定位精度没有帮助。</p>
-<p>上述观察与使用二阶段网络中的第二个理由是相符的。即一阶段中独立的分类和定位任务可能存在不对齐的情况，因此使用二阶段的网络来对定位精度高的anchor的分类精度进行调整。</p>
-<p>在知道二阶段的作用之后，作者提出，是否能够通过更好的设计来避免二阶段网络的使用。因此，作者主要做了两个方面的改进，一个是在backbone中引入了self-calibrated卷积，另一个是设计了一个anchor-free的检测头。</p>
-<h2 id="解决方法">解决方法</h2>
-<hr />
-<p>作者首先分析了二阶段目标检测的必要性。对于二阶段目标网络能够在一定程度上恢复信息损失，作者通过引用其他的工作说明，当voxel设置为(0.1m, 0.1m, 0.15m)时能够达到和基于点的方法相同的精度。</p>
-<p>对于第二个原因，即一阶段存在任务不对齐的情况，作者提出了其可能带来的三个方面的改进:1) 框的回归，2) 分类分数，3)两者的对齐程度。</p>
-<p>为了探索第二阶段网络的实际作用，作者在一个一阶段网络上分别加入了分类分支和回归分支。经过实验发现，在加入回归分支后，网络的性能并没有发生很大的变化。</p>
-<p><img src="https://blog-image-twn29004.oss-cn-chengdu.aliyuncs.com/blog-img/202112291920166.png" alt="image-20211229192027997" /></p>
-<p>上表展示的就是引入不同的分支之后网络性能的变化。其中2S-box表示的时在第二阶段中使用回归分支，2S-score表示的是在第二阶段中使用分类分数的分支，IoU表示的是作者提出的IoU-aware的检测头。从表中可以看出，经过精心设计的IoU的一阶段检测头的性能超过了二阶段的网络。</p>
-<p>下面简单介绍一下网络的总体结构:</p>
-<p>首先是backbone网络。本文中使用的是基于体素的方法，使用基于体素的骨干网络将点云空间下采样8倍。然后将生成的特征图reshape为BEV形式的特征图。</p>
-<p>在经过3D特征提取之后，特征图被送入了多尺度的backbone中，为了能够充分发挥单阶段目标检测网络的潜力，作者使用self-Calibrated卷积网络替代<span class="math inline">\(3\times 3\)</span>的卷积神经网络。SC-Conv能够高效的扩大感受野，同时还引入了channel-wise和spatial-wise的注意力机制。</p>
-<p><img src="https://blog-image-twn29004.oss-cn-chengdu.aliyuncs.com/blog-img/202112291929568.png" alt="image-20211229192931433" /></p>
-<p>更重要的是，作者设计了一个anchor-free的检测头。除了AFDet中原始的五个子检测头之外，作者还设计了一个IoU-aware的置信度预测网络。这是去除二阶段网络的关键设计。此外，还引入了一个辅助损来作为额外的监督。</p>
-<p>分类任务的置信度将检测任务中是一个非常常用的指标，但是分类置信度通常缺乏位置信息。此外，一个定位精确的边界框可能因为其较低的分类置信度而在NMS的过程中被删除。这两者的不对齐对基于排名的指标也是有害的。为了能够解决这个问题，作者使用以下公式计算的结果作为最终的分类置信度，该评测指标既考虑了分类精度又考虑了定位精度。其及算方法如下:<br />
-<span class="math display">\[
-f=score^{1-\alpha}*iou^{\alpha}
-\]</span><br />
-使用上述指标作为NMS排名的依据。这样在一定程度上实现两者的对齐。</p>
-<p>此外，作者还引入了一个预测关键点的子检测头，作者在相同的heatmap上为每一个目标检测5个BEV视角上的关键点，分别是4个角点和目标的中心点。虽然在相同的headmap上，但是其半径缩小了一半。在验证的过程中，这个子检测头是不适用的，所以不会影响检测性能。</p>
-<p>与AFDet一样，作者为不同的子检测头设计了不同的损失函数，对于上面的IoU-aware的检测头，作者将<span class="math inline">\(2*iou-0.5\)</span>作为该子检测头的损失函数。</p>
-<h2 id="解决效果">解决效果</h2>
-<hr />
-<p><img src="https://blog-image-twn29004.oss-cn-chengdu.aliyuncs.com/blog-img/202112291945841.png" alt="image-20211229194501689" /></p>
-<p>本文所提方法在Waymo数据集上单模型达到了新的SOTA的检测效果。</p>
-<h2 id="消融实验">消融实验</h2>
-<hr />
-<p><img src="https://blog-image-twn29004.oss-cn-chengdu.aliyuncs.com/blog-img/202112291942647.png" alt="image-20211229194244083" /></p>
-<p>上图展示了作者主要创新点对于检测性能的影响，从表中可以看出，IoU-aware的检测头对于检测性能的影响最大，SC-Conv此致，Keypoint的也在一定程提高了模型的检测性能。</p>
+如上图所示，第一张中的result列，绿色和红色的方块表示的是在定位任务和分类任务中生成的最有的anchor,白色箭头表明的是最优的anchor相对目标中心偏移。从上述中我们可以看出，第一行中的分类任务红色anchor的最优的anchor虽然分类出了dining table，但是其最优的anchor确是在piza上。而最优的定位任务的anchor，其分类的分数又很低。这就是两个任务没有对齐的表现。就是说分类性能好的anchor，其定位的精度差。定位精度高的anchor,其分类性能差。
+此外，目前对于anchor的分配策略也是任务无关的。例如上图中的，由于最优的定位anchor不位于目标的中心点，因此他 ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2021/12/21/BtcNet/" title="BtcNet论文解读">BtcNet论文解读</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2021-12-20T16:00:00.000Z" title="发表于 2021-12-21 00:00:00">2021-12-21</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E8%AE%BA%E6%96%87%E5%88%86%E4%BA%AB/">论文分享</a></span></div><div class="content">
+代码链接
+paper链接
+提出的问题
+作者首先指出LiDAR帧其实不是严格意义上的3D结构，而是一个2.5D的结构。因为LiDAR通常只能获得目标靠近传感器那部分的结构特征，远离传感器部分的结构通常因为遮挡难以获得。作者将这个问题称为shape miss.作者在引言中回答了关于shape miss的两个重要问题:
 
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://twn29004.top/2021/12/30/AFDetV2/" data-id="cl2d63r7d0005msxcebpc0xwz" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/3D-Object-Detection/" rel="tag">3D Object Detection</a></li></ul>
+点云中造成shape miss的主要原因是什么。
+在三维目标检测中shape miss带来的影响。
 
-    </footer>
-  </div>
-  
-</article>
+造成shape miss主要由三个原因:
+
+外部遮挡。前方物体挡住了后面的物体，使得传感器难以感知到后面的物体。
+信号丢失。由于目标的材质或者传感器的原因，一部分传感器信号丢失，使得传感器难以感知这个区域
+自身遮挡。物体自身的靠近传感器的部分遮挡住了远离传感器的部分。
 
 
-  
-    <article id="post-tood" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2021/12/24/tood/" class="article-date">
-  <time datetime="2021-12-23T16:00:00.000Z" itemprop="datePublished">2021-12-24</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E8%AE%BA%E6%96%87%E5%88%86%E4%BA%AB/">论文分享</a>
-  </div>
+shape miss对三维目标检测带来的影响:
 
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/12/24/tood/">TOOD论文解读</a>
-    </h1>
-  
+方法概述
+\(X\)表示预测的边界框的中心点，\(D\)表示的是边界框的维度，\(S_{ob}\)表示的是能够观测到的目标的形状，\(S_{oc}\)表示被遮挡的目标的形状。\(\theta\)表示的是检测器的参数， ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2021/12/20/GPU-tips/" title="关于服务器GPU使用的一些注意事项">关于服务器GPU使用的一些注意事项</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2021-12-19T16:00:00.000Z" title="发表于 2021-12-20 00:00:00">2021-12-20</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E7%9F%A5%E8%AF%86%E5%88%86%E4%BA%AB/">知识分享</a></span></div><div class="content">关于GPU
+nvidia-smi命令
 
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><img src="https://image.twn29004.top/blog-img/202112231924201.png" alt="image-20211223192455066" /></p>
-<p><a target="_blank" rel="noopener" href="https://github.com/fcjian/TOOD">代码链接</a></p>
-<p><a target="_blank" rel="noopener" href="https://arxiv.org/abs/2108.07755">paper链接</a></p>
-<p><a href="https://twn29004.top/">个人博客</a></p>
-<h2 id="问题">问题</h2>
-<p>本文首先提出了一个目前一阶目标检测器存在的普遍问题就是在head部分将分类和定位这两个任务并行的来做了。这样的话就存在两个任务之间不对齐的问题。因为两个任务是的目标不一样。分类任务更加关注目标的显著的，关键的特征。而定位任务更加关注图像的边界特征。这就导致当使用两个独立的分支来进行预测的时候，会导致一定程度上的结果的不能对齐。</p>
-<p><img src="https://blog-image-twn29004.oss-cn-chengdu.aliyuncs.com/blog-img/202112241845192.png" alt="image-20211224184542854" /></p>
-<p>如上图所示，第一张中的result列，绿色和红色的方块表示的是在定位任务和分类任务中生成的最有的anchor,白色箭头表明的是最优的anchor相对目标中心偏移。从上述中我们可以看出，第一行中的分类任务红色anchor的最优的anchor虽然分类出了dining table，但是其最优的anchor确是在piza上。而最优的定位任务的anchor，其分类的分数又很低。这就是两个任务没有对齐的表现。就是说分类性能好的anchor，其定位的精度差。定位精度高的anchor,其分类性能差。</p>
-<p>此外，目前对于anchor的分配策略也是任务无关的。例如上图中的，由于最优的定位anchor不位于目标的中心点，因此他很难和最优的分类的anchor进行绑定。这就造成一个精确的bbox在NMS的过程中可能会被一个不太精确的bbox抑制住。</p>
-<p>作者还分析了一些启发式的规则的缺点</p>
-<h2 id="解决方法">解决方法</h2>
-<p>为了解决上述问题，作者提出了一个任务对齐的一阶目标检测头。其主要做了两方面的工作，一个是设计了一个任务对齐的head，另一方面是设计了一个任务对齐的学习方法，后者主要表现为设计了一种任务对齐的分配策略和任务对齐有关的损失函数。</p>
-<h3 id="任务对齐的head">任务对齐的head</h3>
-<p>不同于传统的单阶段的目标检测的网络。作者通过两个方面来改进不同任务之间相关独立的问题。首先是增加两个任务之间的交互，另一个提高检测头学习对齐的能力。其中检测头分为T-head部分和TAP部分。其具体结构如下图所示:</p>
-<p><img src="https://blog-image-twn29004.oss-cn-chengdu.aliyuncs.com/blog-img/202112241846479.png" alt="image-20211224184613332" /></p>
-<p><img src="https://blog-image-twn29004.oss-cn-chengdu.aliyuncs.com/blog-img/202112241846280.png" alt="image-20211224184645137" /></p>
-<p>其中TAP的结构非常简单，就是在RPN的特征图上使用了几个卷积层，并分别保存各个卷积层的输出，作者把这部分特征图称为 两个任务之间的交互特征。然后分别使用TAP这个子网络在交互特征上进行分类和定位任务的预测。到这里，我理解的还是和普通的分两个分支进行预测的任务是没什么区别的，只是多了几个卷积层。重点在这个TAP部分。</p>
-<p>由于两个任务的预测都是基于这个交互特征来完成的，但是两个任务对于特征的需求肯定是不一样的，因为作者设计了一个layer attention来为每个任务单独的调整一下特征，这个部分的结构也很简单，可以理解为是一个channel-wise的注意力机制。这样的话，我们就得到了对于每个任务单独的特征<span class="math inline">\(X_{1~N}^{task}\)</span>然后再利用这些特征生成我们所需要的类别或者定位的特征图。</p>
-<p>在生成预测结果之后，作者为了能够更加深入的对其两个任务，显式的调整了两个预测的空间分布。不同于以往的网络利用一个无中心的，或者IoU分支，根据分类特征和定位特征来调整分类的预测。本文通过计算的任务交互特征(上图中的蓝色部分)来同时考虑两个任务。如上图TAP的结构图中可以看出，作者计算了从交互特征中计算了一个大小为<span class="math inline">\(H \times W \times 1\)</span>的空间概率图<span class="math inline">\(M\)</span>,这个概率图被用于调整分类的预测输出<span class="math inline">\(P\)</span>.其调整方法如下图公式所示:<br />
-<span class="math display">\[
-P^{align}=\sqrt{P \times M}
-\]</span><br />
-这里可以理解为<span class="math inline">\(M\)</span>是用来评价这个位置两个任务的对齐的程度。</p>
-<p>上面是对于分类损失任务的调整，此外，作者还计算了对于定位任务部分的偏移。其首先利用交互特征计算了关于空间偏移图，大小为<span class="math inline">\(O \in R^{H \times W \times 8}\)</span>。然后使用这个来调整关于定位任务的输出。其计算方法如下所示:<br />
-<span class="math display">\[
-B^{align}(i,j,c)=B(i + O(i + O(i, j, 2\times c), j + O(i, j , 2 \times c + 1)), c)
-\]</span><br />
-上述的意思就是，我针对每个位置的anchor，都使用交互特征计算了一个偏移，告诉他最好的anchor是位于什么位置。但是这些偏移肯定都是不是整数，因此这部分使用的是线性插值的方法来完成的。此外，值得注意的是，这部分是对每个通道单独去做的。这意味着每个边界都有计算自己的偏移，这能够带来更加精度的预测，因为每个边界都能从其周围最精确的anchor中学习到信息。</p>
-<p>至此，我们就介绍完了文中关于T-head部分结构的描述。从这个自网络的结构中可以看出，其任务对齐主要是通过三个方面来完成的，一个是任务交互的特征，然后是逐个任务的特征，最后利用交互特征来对任务特征的预测输出来学习偏移，使得两个任务能够更好的交互。</p>
-<h3 id="任务对齐的学习">任务对齐的学习</h3>
-<p>为了能够更好的知道前面的T-head网络能够进行任务对齐的预测，作者还介绍了一种任务对齐的学习方法TAL.这个方法主要包含两个方面的内容，一个是能够根据涉及的指标动态的选择高质量的anchor,另一方面，他同时考虑了anchor划分和权重。这部分主要通过一个简单的anchor划分策略和特别涉及的损失函数来实现两任务的对齐。首先是任务对齐的anchor划分策略,就是选择哪些anchor为positive，哪些anchor是positive。另一方面是涉及了一个任务对其的损失函数。</p>
-<h4 id="任务对齐的分配策略">任务对齐的分配策略</h4>
-<p>为了能够应付NMS,一个好的分配策略应该能够满足一下规则:</p>
-<ol type="1">
-<li>一个对齐的好的anchor应能够预测较高的分类分数同时还有精确的定位框。</li>
-<li>一个没有对齐的anchor应该具有较低的分类分数同时被抑制。</li>
-</ol>
-<p>为了能够实现上述目标，作者设计了一个用于评价anchor对齐指标的值，这里将其记为<span class="math inline">\(t\)</span>.其计算方法如下:<br />
-<span class="math display">\[
-t = s^{\alpha} \times u^{\beta}
-\]</span><br />
-其中<span class="math inline">\(s\)</span>表示预测类别的置信度，<span class="math inline">\(u\)</span>表示预测的边界框的IoU.<span class="math inline">\(\alpha\)</span>和<span class="math inline">\(\beta\)</span>用来控制两个任务对于对齐指标的影响。值得注意的是，<span class="math inline">\(t\)</span>在两个任务共同对齐优化中起着非常重要的作用，他鼓励网络去动态的关注任务对齐的anchor。</p>
-<p>有了上述评价指标之后，我们就根据<span class="math inline">\(t\)</span>来选择<span class="math inline">\(k\)</span>个最大的anchor作为positive，其余的都是negative的。</p>
-<h4 id="任务对齐的损失">任务对齐的损失</h4>
-<p>在分类对象方面，为了能够显示的增加对齐的anchor的分类分数，同时，减少没有对齐的anchor的分类分数，文中在训练过程中使用<span class="math inline">\(t\)</span>来代替positive的二值标签。但是作者发现，随着<span class="math inline">\(\alpha\)</span>和<span class="math inline">\(\beta\)</span>的增大，<span class="math inline">\(t\)</span>变得非常小，这导致网络没办法收敛。因此作者对<span class="math inline">\(t\)</span>进行了归一化，记为<span class="math inline">\(\hat t\)</span>,并用他来代替positive的二值标签。</p>
-<p>其中<span class="math inline">\(\hat t\)</span>应具有以下两个性质:</p>
-<ol type="1">
-<li>应能够保证困难目标的高效的学习。困难目标就是对于所有与之对应的positive anchor的<span class="math inline">\(t\)</span>都很小</li>
-<li>需要根据预测的边界框的精度保持实例之间的顺序。</li>
-</ol>
-<p>因此，作者设计了一个实例级别的归一化来调整<span class="math inline">\(\hat t\)</span>的范围，作者将<span class="math inline">\(\hat t\)</span>的最大值设置为实例之间的最大IoU.也就是计算<span class="math inline">\(t\)</span>的式子中的<span class="math inline">\(u\)</span>的值，至于其余的是怎么变化的需要去看一下代码。这样的话，我们就将分类损失设计为一下形式:</p>
-<p><img src="https://blog-image-twn29004.oss-cn-chengdu.aliyuncs.com/blog-img/202112241847658.png" alt="image-20211224184711480" style="zoom: 80%;" /></p>
-<p>在定位方面，为了使得网络能够更好的关注对齐的网络，作者使用上面提出的对齐的衡量指标<span class="math inline">\(\hat t\)</span>来作为回归损失的权重。就是说，如果这个anchor越是任务对齐的,即<span class="math inline">\(\hat t\)</span>就越大，那么这个anchor的GIoU损失在整个损失函数中所占的比重就越大，我们可以理解为网络就更加的关注这些anchor。如果<span class="math inline">\(\hat t\)</span>的值小的话，作用刚好相反。因此就有了一下损失函数的设计。</p>
-<p><img src="https://blog-image-twn29004.oss-cn-chengdu.aliyuncs.com/blog-img/202112241847381.png" alt="image-20211224184731250" style="zoom: 50%;" /></p>
-<p>所以，总的损失函数就是由上述两个损失组成。</p>
-<h2 id="解决效果">解决效果</h2>
-<p>作者在MS COCO数据集上去了AP 51.1的成绩。</p>
-<h2 id="消融实验">消融实验</h2>
-<p>T-Head和其他并行结构的头的对比。</p>
-<p><img src="https://blog-image-twn29004.oss-cn-chengdu.aliyuncs.com/blog-img/202112241848986.png" alt="image-20211224184809818" /></p>
-<p>TAL的anchor选择方法和其他anchor选择方法的对比。</p>
-<p><img src="https://blog-image-twn29004.oss-cn-chengdu.aliyuncs.com/blog-img/202112241848564.png" alt="image-20211224184822438" /></p>
-<p>anchor-based的TOOD的anchor-free的TOOD的性能的区别:</p>
-<p><img src="https://blog-image-twn29004.oss-cn-chengdu.aliyuncs.com/blog-img/202112241848768.png" alt="image-20211224184838656" /></p>
-<p>从上表可以看出，anchor-free和anchor-based这两个TOOD的性能相差不是很大。</p>
-<p>关于<span class="math inline">\(t\)</span>的计算过程中，<span class="math inline">\(\alpha\)</span>和<span class="math inline">\(\beta\)</span>不同的值对于模型性能的影响。</p>
-<p><img src="https://blog-image-twn29004.oss-cn-chengdu.aliyuncs.com/blog-img/202112241848047.png" alt="image-20211224184856927" /></p>
-<p>从上表可以看出，这个超参数对于模型性能的影响并不是很大。</p>
+1表示的是显存的占用率，可以理解为电脑内存，手机运行内存的占用率。2表示的是显卡利用率，可以理解为电脑CPU的占用率。3表示的是占用显卡的进程的相关信息。
+关于显卡利用率的问题
+有时候会遇到程序占着显存，但是显卡利用率为0的情况。这个时候可以从两个方面进行分析:
 
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://twn29004.top/2021/12/24/tood/" data-id="cl2d63r93001tmsxc2tsh8663" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Object-Detection-2D-Object-Detection/" rel="tag">Object Detection, 2D Object Detection</a></li></ul>
+查看进程是否挂起。查看方法ls -l \proc\PID。举个例子，查看上图中PID为41732的程序的相关信息.使用以下命令ls -l \proc\41732
 
-    </footer>
-  </div>
-  
-</article>
+可以通过cwd和exe查看相关进程的信息。如果出现该进程deleted的情况，说明该进程被挂起，可以私信对应的同学询问具体情况。
+tips: 在终止程序运行时，因使用快捷键ctrl + C。不是使用ctrl+Z。后者是将程序挂起。不清楚的同学可参考参考链接
+nvidia-smi命令没有显示进程占用显存，但是显存占用率依然很高，且显卡利用率为0。这个时候可能是出现显存泄露的问题。处理方法可参考参考链接
+不是上述两种情况，即程序正常再跑，但是显卡利用率很低，且出现一会高一会低的情况，显存也正常。这个时候可 ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2021/12/15/new/" title="Attentional PointNet for 3D-Object Detection in Point Clouds论文解读">Attentional PointNet for 3D-Object Detection in Point Clouds论文解读</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2021-12-14T16:00:00.000Z" title="发表于 2021-12-15 00:00:00">2021-12-15</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E8%AE%BA%E6%96%87%E5%88%86%E4%BA%AB/">论文分享</a></span></div><div class="content">
+代码链接
+paper链接
+论文总结
+这是2019年CVPR的一篇文章，本文提出了一种新的利用循环神经网络来做三维目标检测的方法。并且使用了类似于BERT中讲图像分割成patch的方法来处理大型的点云场景。本文的实验效果一般，速度在kitti排行榜上也很一般，不知道为什么能发CVPR. 下面简单介绍一下本文的主要思想。
 
+作者首先讲点云场景划分为\(12 \times 12\)大小的patch，并将其在\(z\)轴上投影得到一个深度图。使用PointNet来处理点云，使用卷积神经网络来处理深度图，然后讲这两个特征进行相加，这样的话就可以得到关于这个patch的上下文信息。然后就来到了循环定位网络（Recurrent Localization Net）。这个网络的输入包含两个部分，一个是Context Vector，上一个循环神经网络的隐含向量的输出。每个GRU一个分支是输出目标的置信度，另一个一个分支是输出一个目标可能所处的位置以及方向。然后在对应的patch中，仅从坐标变化以及重采样。在经过变化得到的感兴趣区域上计算目标边界框的大小以及位置。
+关于GRU迭代的次数，作者 ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2021/12/14/MLCVNet%E8%AE%BA%E6%96%87%E8%A7%A3%E8%AF%BB/" title="MLCVNet解读">MLCVNet解读</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2021-12-13T16:00:00.000Z" title="发表于 2021-12-14 00:00:00">2021-12-14</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E8%AE%BA%E6%96%87%E5%88%86%E4%BA%AB/">论文分享</a></span></div><div class="content">
 
-  
-    <article id="post-BtcNet" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2021/12/21/BtcNet/" class="article-date">
-  <time datetime="2021-12-20T16:00:00.000Z" itemprop="datePublished">2021-12-21</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E8%AE%BA%E6%96%87%E5%88%86%E4%BA%AB/">论文分享</a>
-  </div>
+代码链接
+paper链接
+论文总结
+本文首先提出了三维目标检测中对于一些含有点云数量很少的目标，人类都难以辨别，此外，大部分的网络都是单独的考虑每一个proposal，这也大大加大了网络来辨别的难度。此外，作者通过观察发现，如果能够结合上下文信息的话，我们可能能够更加简单的辨别出所需要的目标。
 
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/12/21/BtcNet/">BtcNet论文解读</a>
-    </h1>
-  
+上图是作者用来展示上下文信息的重要性的。如果单独拿一个目标出来，人类肉眼都难以辨别这个是什么类型的目标，但是如果知道这是一个餐厅的话，有60%的概率能够辨别出来是椅子，如果能够知道这个目标周围有社么的话，有85%的把握知道这是一个椅子，如果既知道是餐厅，又知道是厨房的话，就有90%的把握能够预测出是椅子。
+因此，针对上面的现象，作者提出了多个层级的上下文信息提取模块。首先是patch2patch的上下文信息。patch应该指的是原始的点云场景中的一个局部区域。作者文中的解释是，通过相似的patch之间的互补来弥补一些目标点很少的问题。此外，由于votenet中仅单独的考虑每一个proposal，这没有充分的利用proposl中的上下文信息。因此作者还提出了一个objec2o ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2021/12/11/BANet(Boundary%20aware%20Net)/" title="BANet论文解读">BANet论文解读</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2021-12-10T16:00:00.000Z" title="发表于 2021-12-11 00:00:00">2021-12-11</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E8%AE%BA%E6%96%87%E5%88%86%E4%BA%AB/">论文分享</a></span></div><div class="content">
+代码链接
+paper链接
+论文总结
 
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><img src="https://cdn.jsdelivr.net/gh/twn2333/my_imgs@latest//img/202112211526344.png" alt="image-20211221152621280" /></p>
-<p><a target="_blank" rel="noopener" href="https://github.com/Xharlie/BtcDet">代码链接</a></p>
-<p><a target="_blank" rel="noopener" href="https://arxiv.org/abs/2112.02205">paper链接</a></p>
-<h2 id="提出的问题">提出的问题</h2>
-<p>作者首先指出LiDAR帧其实不是严格意义上的3D结构，而是一个2.5D的结构。因为LiDAR通常只能获得目标靠近传感器那部分的结构特征，远离传感器部分的结构通常因为遮挡难以获得。作者将这个问题称为shape miss.作者在引言中回答了关于shape miss的两个重要问题:</p>
-<ol type="1">
-<li>点云中造成shape miss的主要原因是什么。</li>
-<li>在三维目标检测中shape miss带来的影响。</li>
-</ol>
-<p>造成shape miss主要由三个原因:</p>
-<ol type="1">
-<li>外部遮挡。前方物体挡住了后面的物体，使得传感器难以感知到后面的物体。</li>
-<li>信号丢失。由于目标的材质或者传感器的原因，一部分传感器信号丢失，使得传感器难以感知这个区域</li>
-<li>自身遮挡。物体自身的靠近传感器的部分遮挡住了远离传感器的部分。</li>
-</ol>
-<p><img src="https://cdn.jsdelivr.net/gh/twn2333/my_imgs@latest//img/202112211512617.png" alt="image-20211221151225448" /></p>
-<p>shape miss对三维目标检测带来的影响:</p>
-<p><img src="https://cdn.jsdelivr.net/gh/twn2333/my_imgs@latest//img/202112211513377.png" alt="image-20211221151336290" /></p>
-<h2 id="方法概述">方法概述</h2>
-<p><span class="math inline">\(X\)</span>表示预测的边界框的中心点，<span class="math inline">\(D\)</span>表示的是边界框的维度，<span class="math inline">\(S_{ob}\)</span>表示的是能够观测到的目标的形状，<span class="math inline">\(S_{oc}\)</span>表示被遮挡的目标的形状。<span class="math inline">\(\theta\)</span>表示的是检测器的参数，<span class="math inline">\(\left\{ p_1, p_2,...,p_n \right\}\)</span>表示的是点云。</p>
-<p>常见的三维目标检测器的目标是:<br />
-<span class="math display">\[
-\theta_{MLE}=arg\max_{\theta}P(X,\theta|\left\{p_1,p_2...,p_n \right\}, \theta)
-\]</span><br />
-对于一些结构感知的网络，他们还加入了对于<span class="math inline">\(S_{oc}\)</span>数据的监督。所以上述式子可以写为:<br />
-<span class="math display">\[
-\theta_{MLE}=arg\max_{\theta}P(X,\theta , S_{ob}|\left\{p_1,p_2...,p_n \right\}, \theta)
-\]</span><br />
-但是，目前还没有研究考虑完整的目标形状，其中，完整的目标形状可以分为两部分，一部分是可以观察到的目标形状，一部分是被遮挡的目标形状。可记为<span class="math inline">\(S=S_{ob} \cup S_{oc}\)</span>。BtcNet通过预测感兴趣区域的形状占用<span class="math inline">\(O_{S}\)</span>来显式的利用完整的目标形状。然后，Btc网络根据估计的物体占用概率进行目标检测。优化后的目标检测流程如下所示：<br />
-<span class="math display">\[
-arg\max_{\theta}P(O_{S}|\left\{p_1,p_2...,p_n \right\}, R_{SM}, R_{OC}, \theta) \\
-arg\max_{\theta}P(X,D | \left\{p_1,p_2...,p_n \right\}, P(O_{S}), \theta)
-\]</span><br />
-由此可以简单概括一下Btc网络的总体流程:</p>
-<ol type="1">
-<li>首先需要区分出那些是被遮挡的区域<span class="math inline">\(R_{OC}\)</span>和信号丢失的区域<span class="math inline">\(R_{SM}\)</span>，然后使用一个网络来生成形状占用的概率<span class="math inline">\(P(O_{S})\)</span>。</li>
-<li>使用一个三维骨干网络来提取特征，生成的特征被送入RPN网络来生成3Dproposal,稀疏张量<span class="math inline">\(P(O_{S})\)</span>被拼接到特征图上。</li>
-<li>然后BtcNet使用proposal refinement。局部特征是由<span class="math inline">\(P(O_{S})\)</span>和多尺度的特征图构成的。对于每一个proposal，我们构建覆盖提案框的局部网格。BtcDet将局部几何特征pool到局部网格上，聚合网格特征，并生成最终的边界框预测。</li>
-</ol>
-<h2 id="学习遮挡的形状">学习遮挡的形状</h2>
-<h3 id="对于基准框中目标形状的近似">对于基准框中目标形状的近似</h3>
-<p>遮挡和信号缺失的问题使得我们不能获得关于基准框中目标的完整的形状信息。因此作者利用如下两个假设来近似目标的完整形状信息，两个假设分别是:</p>
-<ol type="1">
-<li>大多数前景对象类似于数量有限的形状原型,例如行人有几种固定的体型。</li>
-<li>前景对象，特别是车辆和骑自行车者，大致对称。</li>
-</ol>
-<p>对此，作者提出了一个启发式的函数，<span class="math inline">\(H(A, B)\)</span>。他的作用是评价一个目标B是否覆盖了目标A的大部分，以及是否提供点能够填充目标A中缺失的部分。为了能够近似A的完整形状，我们选择了三个得分最高的目标<span class="math inline">\(B_1, B_2, B_3\)</span>。因此，最终近似的完整目标就是由A的原始的点和三个<span class="math inline">\(B_{n}\)</span>的点组合而成。其中，目标A表示的是当前场景中被遮挡的目标，B则是来自训练集中相同类别的目标。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/twn2333/my_imgs@latest//img/202112211516571.png" alt="image-20211221151627482" /></p>
-<p>在有了上述近似的完整目标形状之后，通过对比原有的目标形状，我们就能够分辨出被遮挡的区域<span class="math inline">\(R_{OS}\)</span>和信号缺失的区域<span class="math inline">\(R_{SM}\)</span>。</p>
-<h3 id="在球面坐标系中辨别r_oc-cup-r_sm">在球面坐标系中辨别<span class="math inline">\(R_{OC} \cup R_{Sm}\)</span></h3>
-<p>在现实世界的传感器中，在深度图的四面体截锥中最多存在一个点，当激光的一个点被停止时，该点后面的的所有区域都被遮挡住了。因此，为了能够更好的辨别出被遮挡的区域，作者提出了使用球形网格来对点云进行体素化。这样的话，位于任何一个点后面的球面坐标下的体素都是被遮挡的体素。因此，被遮挡的区域<span class="math inline">\(R_{OC}\)</span>包括非空的球形体素和位于这些体素后面的空的体素。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/twn2333/my_imgs@latest//img/202112211117833.png" alt="球形体素" /></p>
-<p>对于信号缺失的区域，作者使用在深度图中，寻找位于有雷达信号和没有雷达信号的边界构成的像素，然后将其投影到球形体素中构成的。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/twn2333/my_imgs@latest//img/202112211117381.png" alt="信号缺失区域" /></p>
-<p>至此，我们已经能够在点云场景中分辨哪些是被遮挡的区域，哪些是信号缺失的区域。此外，我们还有近似的完整的目标形状，这样的话我们就可以来训练网络了。首先需要给每个球形体素划分一个标签。</p>
-<h3 id="创建训练目标">创建训练目标</h3>
-<p>在被遮挡区域<span class="math inline">\(S_{OC}\)</span>和信号丢失区域<span class="math inline">\(S_{SM}\)</span>,我们需要预测一个目标覆盖的概率<span class="math inline">\(P(O_{S})\)</span>。作者将<a href="#%20对于基准框中目标形状的近似">2.1节</a>中生成的对于基准框的近似<span class="math inline">\(\hat{S}\)</span>放到球形体素中，含有<span class="math inline">\(\hat S\)</span>的球形体素的<span class="math inline">\(P(O_{S})\)</span>设置为1，其余的为0。</p>
-<p><strong>注: 上述过程只针对<span class="math inline">\(S_{OC} \cup S_{SM}\)</span>。</strong></p>
-<p><img src="https://cdn.jsdelivr.net/gh/twn2333/my_imgs@latest//img/202112211128619.png" alt="构建训练目标" /></p>
-<p>上图中，红色部分的球形体素的<span class="math inline">\(P(O_{S})\)</span>为1，蓝色为0.</p>
-<p>作者解释了使用生成占用概率相比生成点有两个方面的优势:</p>
-<ol type="1">
-<li><span class="math inline">\(\hat S\)</span>有多个目标嵌入构成，通过借用的点来近似的目标的形状是不精确的，不同目标的点云密度也是不一致的。这些问题可以通过离散化来解决。</li>
-<li>能够避免生成点云的合理性问题。</li>
-</ol>
-<h3 id="生成形状占用">生成形状占用</h3>
-<p>将<span class="math inline">\(R_{OC} \cup R_{SM}\)</span>区域中，将平均的方法编码非空的球形体素。就是使用位于球形体素的点的<span class="math inline">\((x,y,z,feat)\)</span>来代表这个体素的特征，然后将这些特征送入位置占用生成网络中。这部分网络包含两个下采样的稀疏卷积和上采样的反卷积。其作用机制类似于笛卡尔坐标系中的稀疏卷积。占用概率<span class="math inline">\(P(O_{s})\)</span>使用交叉熵损失来监督。</p>
-<h2 id="位置占用概率的结合">位置占用概率的结合</h2>
-<p>由于<span class="math inline">\(P(O_{S})\)</span>是在球形坐标系中生成的。为了能够更好的方便目标检测，将<span class="math inline">\(P(O_{S})\)</span>转化到笛卡尔坐标系中，然后使用一个三维骨干网络来提取特征。由于一个笛卡尔体素能够对应多个球形坐标系，作者选择位于这个笛卡尔体素中的最大的<span class="math inline">\(P(O_{S})\)</span>来作为这个体素的概率。然后对这些体素的<span class="math inline">\(P(O_{S})\)</span>与原始的饿体素相结合，此外，还使用最大池化与多尺度的原始的体素特征进行结合。然后RPN网络生成proposal。</p>
-<h2 id="遮挡感知的proposal-refine">遮挡感知的proposal refine</h2>
-<p>作者在proposal refine过程中也引入了<span class="math inline">\(P(O_{S})\)</span>来进一步融合这个特征。此外，作者还是引入了一个局部特征图<span class="math inline">\(f_{geo}\)</span>。作者分析了在proposal refine中引入<span class="math inline">\(P(O_{S})\)</span>的两个优点:</p>
-<ol type="1">
-<li><span class="math inline">\(P(O_{S})\)</span>仅含有被遮挡区域和信号缺失区域的概率，因为可以在边界框回归的过程中避免位于被遮挡区域和信号缺失区域以外的其他区域。例如下图中的红色×区域。</li>
-<li>估计的占用率表明存在未观察到的物体的形状，特别是具有高<span class="math inline">\(P(O_{S})\)</span>，例如下图中的橙色区域、</li>
-</ol>
-<p><img src="https://cdn.jsdelivr.net/gh/twn2333/my_imgs@latest//img/202112211439309.png" alt="image-20211221143916216" /></p>
-<h2 id="结果">结果</h2>
-<p><img src="https://cdn.jsdelivr.net/gh/twn2333/my_imgs@latest//img/202112211517130.png" alt="image-20211221151726036" /></p>
-<p>上表展示的是本文在kitti 测试集上取得的结果，从表中可以看出，在中等和难得这两个等级得目标上，作者都取得了很大得进步。这也说明了作者对于shape miss这个问题解决得有效性。因为正是这些mod和hard得目标可能面临更加严重的shape miss问题。</p>
+本文首先提出了一个目前二阶段目标检测网络存在的问题，就是第一阶段提出的proposal通常与真实的边界框存在一定的偏移，特别是在距离较远，包含点很少的目标。例如上图中的(a),(c),(d)中提出的proposal.由于偏移的存在，这样的话这些边界框就很难获的目标的边缘信息。此外，现存的refine的网络也没有聚合或者补偿这些边界信息的机制。此外，现存的网络在优化这些proposal的时候，通常是独立的来优化这些proposal，本文中提出了一种将这些proposal建立图神经网络来同时调整以及特征的传播。作者的解释是通过这个图神经网络，使得当前的proposal能够扩大感受野，获得与其相邻的其他proposal的特征，这样的话就能更好的获得目标的边界信息。
+此外，由于BEV的表达方式存在着一些问题，比如特征模糊或者放弃了3D结构的上下文信息，因此作者提出了一个新的局部特征聚合的网络来弥补这些损失。
+本文中图神经网络的机制:
 
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://twn29004.top/2021/12/21/BtcNet/" data-id="cl2d63r7q000bmsxc2x80363n" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Object-Detection/" rel="tag">Object Detection</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-GPU-tips" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2021/12/20/GPU-tips/" class="article-date">
-  <time datetime="2021-12-19T16:00:00.000Z" itemprop="datePublished">2021-12-20</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E7%9F%A5%E8%AF%86%E5%88%86%E4%BA%AB/">知识分享</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/12/20/GPU-tips/">关于服务器GPU使用的一些注意事项</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="关于gpu">关于GPU</h1>
-<h2 id="nvidia-smi命令">nvidia-smi命令</h2>
-<p><img src="https://cdn.jsdelivr.net/gh/twn2333/my_imgs@latest//img/202112201907358.png" alt="image-20211220190754247" /></p>
-<p>1表示的是显存的占用率，可以理解为电脑内存，手机运行内存的占用率。2表示的是显卡利用率，可以理解为电脑CPU的占用率。3表示的是占用显卡的进程的相关信息。</p>
-<h2 id="关于显卡利用率的问题">关于显卡利用率的问题</h2>
-<p>有时候会遇到程序占着显存，但是显卡利用率为0的情况。这个时候可以从两个方面进行分析:</p>
-<ol type="1">
-<li><p>查看进程是否挂起。查看方法<code>ls -l \proc\PID</code>。举个例子，查看上图中PID为41732的程序的相关信息.使用以下命令<code>ls -l \proc\41732</code></p>
-<p><img src="https://cdn.jsdelivr.net/gh/twn2333/my_imgs@latest//img/202112201913046.png" alt="image-20211220191300993" /></p>
-<p>可以通过cwd和exe查看相关进程的信息。如果出现该进程deleted的情况，说明该进程被挂起，可以私信对应的同学询问具体情况。</p>
-<p><strong>tips: 在终止程序运行时，因使用快捷键<code>ctrl + C</code>。不是使用<code>ctrl+Z</code>。后者是将程序挂起。不清楚的同学可参考<a target="_blank" rel="noopener" href="https://blog.csdn.net/mylizh/article/details/38385739">参考链接</a></strong></p></li>
-<li><p><code>nvidia-smi</code>命令<strong>没有显示进程占用显存</strong>，但是<strong>显存占用率依然很高，且显卡利用率为0</strong>。这个时候可能是出现显存泄露的问题。处理方法可参考<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/375330192">参考链接</a></p></li>
-<li><p>不是上述两种情况，即<strong>程序正常再跑，但是显卡利用率很低，且出现一会高一会低的情况</strong>，显存也正常。这个时候可能是因为数据集加载过程中num_worker设置较小，GPU大量时间空闲的原因或者其他的一些原因。具体可参考<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/410244780">参考链接</a></p></li>
-</ol>
-<h2 id="关于cuda的问题">关于CUDA的问题</h2>
-<p>同一个服务器可以安装多个版本的CUDA。但是同一个用户下，同一时间只能使用同一个版本的CUDA。不同用户可以在同一时间使用不同版本的CUDA。下面主要介绍两个方面的内容，一个是CUDA版本的切换和不同CUDA版本的安装。</p>
-<h3 id="cuda版本切换">CUDA版本切换</h3>
-<p>CUDA版本的切换可以分为两种方法，第一种是通过修改软连接(软连接可以理解为快捷方式，具体内容可自行百度)的方法，该方法在全局范围内都会生效。换句话说就是你改了，其他正在使用这台服务器的同学的CUDA版本也改了。另一种方法是只在当前终端生效，就是如果你和服务器断开链接，你的修改就失效了，此外，由于只在当前终端生效，也不会影响其他同学的使用。</p>
-<h4 id="修改软连接">修改软连接</h4>
-<p>首先进入到<code>/usr/local</code>目录下，使用<code>ll</code>命令查看该目录下相关文件的信息:</p>
-<p><img src="https://cdn.jsdelivr.net/gh/twn2333/my_imgs@latest//img/202112201930187.png" alt="image-20211220193006140" /></p>
-<p>可以看到，cuda目录链接到了<code>cuda-10.1</code>目录下，说明当前版本为10.1(可通过<code>nvcc -V</code>查看，注意大写).如果想切换为cuda-11.0，可使用如下命令<code>sudo ln -snf ./cuda-11.0 ./cuda</code>。执行后相关目录信息变为:</p>
-<p><img src="https://cdn.jsdelivr.net/gh/twn2333/my_imgs@latest//img/202112201933553.png" alt="image-20211220193329508" /></p>
-<p>从上述图片可以看出，成功切换了cuda版本，但是这个方法的弊端就是这个修改是全局生效的，就是可能会影响到其他正在使用CUDA的同学。</p>
-<h4 id="设置临时环境变量---只在当前终端生效">设置临时环境变量---只在当前终端生效</h4>
-<p>我们可以通过设置临时的环境变量使得CUDA版本的修改只在当前终端生效。原理就是利用<code>export</code>声明的环境变量只在当前终端生效。因此我们可以使用export来声明和CUDA相关的环境变量来实现修改CUDA版本的目的。</p>
-<p>具体步骤如下图所示:</p>
-<ol type="1">
-<li><p>首先使用sudo创建shell脚本.(因为/usr/local目录下普通用户没有写权限，当然也不一定需要在/usr/local目录下，其他目录也是可以的).根据需要修改的CUDA的版本，在下面的shell脚本中填写对应的路径.例如cuda-11.0。如果是其他版本，可以修改为cuda-11.1等。</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">!/bin/bash</span></span><br><span class="line"></span><br><span class="line">export PATH=/usr/local/cuda-11.0/bin$&#123;PATH:+:$&#123;PATH&#125;&#125;</span><br><span class="line">export LD_LIBRARY_PATH=/usr/local/cuda-11.0/lib64$&#123;LD_LIBRARY_PATH:+:$&#123;LD_LIBRARY_PATH&#125;&#125;</span><br><span class="line">export CUDA_HOME=/usr/local/cuda-11.0</span><br></pre></td></tr></table></figure></li>
-<li><p>修改shell脚本的own.因为当前脚本的所有者为root用户，普通用户没有权限执行。使用命名<code>chown lyc chang_cuda_to_110.sh</code>。</p></li>
-<li><p>执行脚本<code>. chang_cuda_to_110.sh</code>或者<code>source change_cuda_to_110.sh</code>。不要使用<code>sh</code>和<code>bash</code>.具体区别可参考<a target="_blank" rel="noopener" href="https://www.cnblogs.com/pcat/p/5467188.html">参考链接</a></p></li>
-</ol>
-<p><img src="https://cdn.jsdelivr.net/gh/twn2333/my_imgs@latest//img/202112201952363.png" alt="image-20211220195225313" /></p>
-<p>上图就是使用shell脚本来修改CUDA版本的例子。上述方法有以下两个需要注意的地方:</p>
-<ol type="1">
-<li>该方法只在当前终端有效，<strong>换句话说就是，你断开服务器，在重连，这个修改就失效了</strong>。可以配合screen,tmux等命令使用。其优点是不会影响到其他同学。</li>
-<li><strong>不要去修改<code>~/.bashrc</code>文件中关于CUDA的环境变量，不要去修改<code>~/.bashrc</code>文件中关于CUDA的环境变量，不要去修改<code>~/.bashrc</code>文件中关于CUDA的环境变量，</strong></li>
-</ol>
-<p>此外，关于CUDA版本，当服务器多用户时，不同用户间使用的CUDA版本是可以互不影响的。</p>
-<h3 id="cuda的安装">CUDA的安装</h3>
-<p>当服务器上的没有自己所需要的CUDA版本，需要自行安装时。可以按照以下步骤:</p>
-<ol type="1">
-<li><p>首先查看显卡驱动能否支持相关CUDA版本的安装.</p>
-<p><img src="https://cdn.jsdelivr.net/gh/twn2333/my_imgs@latest//img/202112202003373.png" alt="image-20211220200357316" /></p>
-<p>前往<a target="_blank" rel="noopener" href="https://docs.nvidia.com/cuda/cuda-toolkit-release-notes/index.html#title-resolved-issues">链接</a>查看相关信息:</p>
-<p><img src="https://cdn.jsdelivr.net/gh/twn2333/my_imgs@latest//img/202112202006223.png" alt="image-20211220200626157" /></p>
-<p>举个例子，你想装CUDA10.2,那么显卡驱动需要大于等于440.33。如果显卡驱动小于这个版本，则不能安装，可能需要更新显卡驱动。</p></li>
-<li><p>在确定显卡驱动可以安装之后，就可以去网上找安装CUDA的教程了。但是，在安装过程中，<strong>会让你选择是否安装显卡驱动, 你需要选择否， 否，否，就是no</strong>，这个选择有的是在装的过程中问你，有的是需要自己打开option来自己选，这一步非常重要，如果选择错了，将会影响其他版本的正常使用。比如你装CUDA10.2, 在装的过程中选了顺带安装显卡驱动，那么可能CUDA11.5就不能正常用了，因为CUAD10.2装的驱动版本可能不能满足CUDA11.5的要求。剩下的选项然后差不多就是一路回车了。</p></li>
-</ol>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://twn29004.top/2021/12/20/GPU-tips/" data-id="cl2d63r8d000rmsxc1cjv4of4" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%8A%80%E5%B7%A7/" rel="tag">技巧</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-new" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2021/12/15/new/" class="article-date">
-  <time datetime="2021-12-14T16:00:00.000Z" itemprop="datePublished">2021-12-15</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E8%AE%BA%E6%96%87%E5%88%86%E4%BA%AB/">论文分享</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/12/15/new/">Attentional PointNet for 3D-Object Detection in Point Clouds论文解读</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><img src="https://cdn.jsdelivr.net/gh/twn2333/my_imgs@latest//img/202112152134754.png" alt="image-20211215213449664" /><br />
-<a target="_blank" rel="noopener" href="https://github.com/anshulpaigwar/Attentional-PointNet">代码链接</a></p>
-<p><a target="_blank" rel="noopener" href="https://openaccess.thecvf.com/content_CVPRW_2019/html/WAD/Paigwar_Attentional_PointNet_for_3D-Object_Detection_in_Point_Clouds_CVPRW_2019_paper.html">paper链接</a></p>
-<h2 id="论文总结">论文总结</h2>
-<p>这是2019年CVPR的一篇文章，本文提出了一种新的利用循环神经网络来做三维目标检测的方法。并且使用了类似于BERT中讲图像分割成patch的方法来处理大型的点云场景。本文的实验效果一般，速度在kitti排行榜上也很一般，不知道为什么能发CVPR. 下面简单介绍一下本文的主要思想。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/twn2333/my_imgs@latest//img/202112152139849.png" alt="image-20211215213956713" /></p>
-<p>作者首先讲点云场景划分为<span class="math inline">\(12 \times 12\)</span>大小的patch，并将其在<span class="math inline">\(z\)</span>轴上投影得到一个深度图。使用PointNet来处理点云，使用卷积神经网络来处理深度图，然后讲这两个特征进行相加，这样的话就可以得到关于这个patch的上下文信息。然后就来到了循环定位网络（Recurrent Localization Net）。这个网络的输入包含两个部分，一个是Context Vector，上一个循环神经网络的隐含向量的输出。每个GRU一个分支是输出目标的置信度，另一个一个分支是输出一个目标可能所处的位置以及方向。然后在对应的patch中，仅从坐标变化以及重采样。在经过变化得到的感兴趣区域上计算目标边界框的大小以及位置。</p>
-<p>关于GRU迭代的次数，作者在文中是这么解释的，根据kitti数据集上的统计，将kitti点云场景中划分为<span class="math inline">\(12 \times 12\)</span>大小的patch时，每个patch中最多含有三个目标，因此，GRU迭代的次数就设置为3.每次迭代计算一个目标边界框。当patch中包含的目标数小于3时，网络会倾向于预测一个位于patch之外的目标边界框。(这句话可以理解为: 当patch中不足3个目标是，会使用一个位于patch之外的边界框来和网络预测的三维边界框来绑定预测)。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/twn2333/my_imgs@latest//img/202112152152947.png" alt="image-20211215215228895" /></p>
-<p>此外，作者还提出了一个更加轻量的模型，就是省略一个坐标变化，直接使用GRU的输出来做预测。</p>
-<p>流程讲完之后来看一下作者的实验效果.</p>
-<p><img src="https://cdn.jsdelivr.net/gh/twn2333/my_imgs@latest//img/202112152150827.png" alt="image-20211215215053764" /></p>
-<p>上表中的实验结果可以看出，这个结果并不怎么样，而且作者给出的结果还是在kitti验证集上的结果。拿自己验证集上的结果于别人测试集比较都比不过。。。。。。。</p>
-<p>相比于其他文章，可能作者在速度和精度上达到了一个平衡吧。在时使用Lidar的方法中，速度比本文快的可能精度比不上作者，精度比本文高度速度又慢。但是本文的精度时建立在验证集的基础上，如果放在测试集撒谎给你的话，应该是比不过Complex-YOLO的。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://twn29004.top/2021/12/15/new/" data-id="cl2d63r8z001nmsxc1i6vezbl" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/3D-Object-Detection/" rel="tag">3D Object Detection</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-MLCVNet论文解读" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2021/12/14/MLCVNet%E8%AE%BA%E6%96%87%E8%A7%A3%E8%AF%BB/" class="article-date">
-  <time datetime="2021-12-13T16:00:00.000Z" itemprop="datePublished">2021-12-14</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E8%AE%BA%E6%96%87%E5%88%86%E4%BA%AB/">论文分享</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/12/14/MLCVNet%E8%AE%BA%E6%96%87%E8%A7%A3%E8%AF%BB/">MLCVNet解读</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><img src="https://raw.githubusercontent.com/twn2333/my_imgs/master/img/202112231647853.png" /></p>
-<p><img src="https://cdn.jsdelivr.net/gh/twn2333/my_imgs@latest//img/202112141017992.png" alt="image-20211214101721902" /></p>
-<p><a target="_blank" rel="noopener" href="https://github.com/NUAAXQ/MLCVNet">代码链接</a></p>
-<p><a target="_blank" rel="noopener" href="https://openaccess.thecvf.com/content_CVPR_2020/html/Xie_MLCVNet_Multi-Level_Context_VoteNet_for_3D_Object_Detection_CVPR_2020_paper.html">paper链接</a></p>
-<h2 id="论文总结">论文总结</h2>
-<p>本文首先提出了三维目标检测中对于一些含有点云数量很少的目标，人类都难以辨别，此外，大部分的网络都是单独的考虑每一个proposal，这也大大加大了网络来辨别的难度。此外，作者通过观察发现，如果能够结合上下文信息的话，我们可能能够更加简单的辨别出所需要的目标。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/twn2333/my_imgs@latest//img/202112141021403.png" alt="上下文信息的重要性" /></p>
-<p>上图是作者用来展示上下文信息的重要性的。如果单独拿一个目标出来，人类肉眼都难以辨别这个是什么类型的目标，但是如果知道这是一个餐厅的话，有60%的概率能够辨别出来是椅子，如果能够知道这个目标周围有社么的话，有85%的把握知道这是一个椅子，如果既知道是餐厅，又知道是厨房的话，就有90%的把握能够预测出是椅子。</p>
-<p>因此，针对上面的现象，作者提出了多个层级的上下文信息提取模块。首先是patch2patch的上下文信息。patch应该指的是原始的点云场景中的一个局部区域。作者文中的解释是，通过相似的patch之间的互补来弥补一些目标点很少的问题。此外，由于votenet中仅单独的考虑每一个proposal，这没有充分的利用proposl中的上下文信息。因此作者还提出了一个objec2object的提取上下文信息的模块。此外，全局的上下文信息也能够再一定程度上为目标检测提供潜在的信息，作者还在网络中加入了全局的特征。</p>
-<p>其具体流程如下:</p>
-<p><img src="https://cdn.jsdelivr.net/gh/twn2333/my_imgs@latest//img/202112141032897.png" alt="网络流程图" /></p>
-<p>从上图可以看出，相比于传统的votenet网络，作者在voting之前加入了patch2patch的上下文信息提取网络，此外，作者在voting之后，也在各个proposal2proposal的上下文特征提取网络。此外，还增加了一个提取全局特征的分支。</p>
-<p>其中第一层级的上下文信息patch的基本原理如下，首先使用PointNet++提取全局的特征。经过PointNet++提取特征后输出的点的特征表示的是该点所处的局部区域的所有点的特征。我们将这个局部区域称为点云空间的一个patch。然后作者针对这些patch使用self-attention结构来提取特征，使得每一个patch的特征都能受到场景中其他patch的影响，从而减轻因点云数据缺失带来的影响。</p>
-<p>然后对于目标层级的上下文信息的提取，作者基本也是采取的同样的处理方式。</p>
-<p>全局上下文信息的提取作者使用了未经过self-attention的Patch特征和Clusters的特征，将这些特征最大池化之后生成一个一维的向量，然后拼接起来经过一个MLP就生成了全局特征。将生成的全局特征和Object2Object Context模块的数据拼接用于三维边界框的计算。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/twn2333/my_imgs@latest//img/202112141044354.png" alt="image-20211214104459299" /></p>
-<p>从上述表格中可以看出，相比于VoteNet，引入上下文特征之后大大提高了模型的检测性能。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/twn2333/my_imgs@latest//img/202112141045744.png" alt="image-20211214104533696" /></p>
-<p>上述表格展示了不同的子模块对于模型性能的影响。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://twn29004.top/2021/12/14/MLCVNet%E8%AE%BA%E6%96%87%E8%A7%A3%E8%AF%BB/" data-id="cl2d63r8a000pmsxcdubt19kc" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Context-information-self-Attenion/" rel="tag">Context information, self-Attenion</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-BANet(Boundary aware Net)" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2021/12/11/BANet(Boundary%20aware%20Net)/" class="article-date">
-  <time datetime="2021-12-10T16:00:00.000Z" itemprop="datePublished">2021-12-11</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E8%AE%BA%E6%96%87%E5%88%86%E4%BA%AB/">论文分享</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/12/11/BANet(Boundary%20aware%20Net)/">BANet论文解读</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><img src="https://cdn.jsdelivr.net/gh/twn2333/my_imgs@latest//img/202112101724500.png" alt="image-20211210172456421" /></p>
-<p><a href="">代码链接</a></p>
-<p><a target="_blank" rel="noopener" href="https://arxiv.org/abs/2104.10330">paper链接</a></p>
-<h2 id="论文总结">论文总结</h2>
-<p><img src="https://cdn.jsdelivr.net/gh/twn2333/my_imgs@latest//img/202112111442291.png" alt="image-20211211144247213" /></p>
-<p>本文首先提出了一个目前二阶段目标检测网络存在的问题，就是第一阶段提出的proposal通常与真实的边界框存在一定的偏移，特别是在距离较远，包含点很少的目标。例如上图中的(a),(c),(d)中提出的proposal.由于偏移的存在，这样的话这些边界框就很难获的目标的边缘信息。此外，现存的refine的网络也没有聚合或者补偿这些边界信息的机制。此外，现存的网络在优化这些proposal的时候，通常是独立的来优化这些proposal，本文中提出了一种将这些proposal建立图神经网络来同时调整以及特征的传播。作者的解释是通过这个图神经网络，使得当前的proposal能够扩大感受野，获得与其相邻的其他proposal的特征，这样的话就能更好的获得目标的边界信息。</p>
-<p>此外，由于BEV的表达方式存在着一些问题，比如特征模糊或者放弃了3D结构的上下文信息，因此作者提出了一个新的局部特征聚合的网络来弥补这些损失。</p>
-<p>本文中图神经网络的机制:</p>
-<p><img src="https://cdn.jsdelivr.net/gh/twn2333/my_imgs@latest//img/202112111504241.png" alt="image-20211211150436187" /></p>
-<p>以两个proposal的中心点为衡量标准，半径r内的proposal之间存在一条边。所有的proposal构成了集合V,所有的边构成了集合E。上面算法中的K表达的是网络迭代的次数。每次迭代，遍历每个节点，将与当前节点有边相连的节点的特征全部拼接起来，输入到一个线性层中，然后再做一个通道层面的pooling操作(这个和pointnet中是一样的)，然后再将计算得到的特征经过一个线性层和非线性操作，然后再将其与上一阶段的特征相加，得到本次遍历的特征。最后这个proposal的特征采用最后一次遍历的输出。通过一次次遍历，可以不断的扩大当前节点的感受野，从而不断完善当前proposal对于目标边界的了解。</p>
-<p>然后是本文作者提出的一个关于局部区域特征聚合的网络，</p>
-<p>这部分感觉作者说的不是很清楚，也可能是我读得不太仔细。大概按照作者的意思翻译一下:</p>
-<p>关于体素层面的encoding网络，为了能够后的体素层面的特征，作者设计了一个体素和点融合的模块，以充分利用基于点和基于体素的方法的优点。首先作者再稀疏卷积中保留了每个体素的位置坐标，这样的话每个体素的特征的表示就是<span class="math inline">\(\left \{(f_j,p_j:J=1,...M) \right \}\)</span>.为了能够关联多尺度的不同阶段的特征，作者根据pointnet++中的FP层将稀疏卷积的特征传递到了原始点云中。然后我们从原始的点云中插值3D稀疏卷积特征以弥补直接将3D稀疏卷积特征映射到2DBEV特征带来的缺少三维上下文信息的问题。</p>
-<p>我的理解: 大概意思就是没有直接把三维稀疏体素的特征直接转化到2D的BEV特征下，因为这样的话将会带来三维信息的确实。于是作者将三维体素信息使用FP传播到原始点云空间，然后在利用原始点云空间来插值这个BEV的特征。【但是看pipline又不太对，迷惑了】</p>
-<p>pixel-wise的特征部分也说的不是很明白；</p>
-<p>point-wise部分的特征是作者通过使用一个小的pointnet，以原始点云作为输入，将整个点云场景的特征聚合到一些关键点上。</p>
-<p>然后最后来做refine的特征就是上面描述的三部分的特征拼接起来。</p>
-<p>实验结果:</p>
-<p><img src="https://cdn.jsdelivr.net/gh/twn2333/my_imgs@latest//img/202112111548634.png" alt="image-20211211154817563" /></p>
-<p>上表展示的是BANet在KITTI测试集上的表现。其在BEV这个指标上好像获得了排名第一的成绩，其3D的检测精度也达到了一个较好的水平。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/twn2333/my_imgs@latest//img/202112111550532.png" alt="image-20211211155055476" /></p>
-<p>上述两个表格展示了聚合的不同特征以及图神经网络迭代次数对于性能的影响。从不同特征的消融实验中可以看出，基于点的特征对于实验性能的影响非常的巨大。加入了基于点的对于实验性能的影响非常巨大，但是只是用基于点的特征的网络的性能却不是很好。作者分析其原因是在直接转化BEV表示时，从3D特征逐步进行8x下采样，可能会降低定位精度且缺少3D结构上下文信息。</p>
-<p>从图神经网络的迭代次数对于网络性能的影响可以看出，在迭代0次和迭代4次模型性能的差异，这也体现了作者所提方法的有效性。</p>
-<hr />
-<h2 id="常用句式">常用句式</h2>
-<ol type="1">
-<li>to fully exploit the merits of both sth. and sth. 为了充分利用什么和什么的优点</li>
-<li>Specifically, to compensate for sth, we devise sth. 特别地，为了弥补什么，我们提出了什么</li>
-</ol>
-<h2 id="代码解读">代码解读</h2>
-<p>[挖坑]作者还没有公布代码</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://twn29004.top/2021/12/11/BANet(Boundary%20aware%20Net)/" data-id="cl2d63r7n0009msxc15e561hx" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/3D-Object-Detect-Graph-Network/" rel="tag">3D Object Detect, Graph Network</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-学习的可行性" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2021/12/11/%E5%AD%A6%E4%B9%A0%E7%9A%84%E5%8F%AF%E8%A1%8C%E6%80%A7/" class="article-date">
-  <time datetime="2021-12-10T16:00:00.000Z" itemprop="datePublished">2021-12-11</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E7%9F%A5%E8%AF%86%E5%88%86%E4%BA%AB/">知识分享</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/12/11/%E5%AD%A6%E4%B9%A0%E7%9A%84%E5%8F%AF%E8%A1%8C%E6%80%A7/">霍夫丁不等式证明学习的可行性</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="学习的可行性">学习的可行性</h1>
-<p><a target="_blank" rel="noopener" href="https://wulc.me/2017/02/28/机器学习基石--学习理论/">机器学习基石--学习的可行性 | 吴良超的学习笔记 (wulc.me)</a></p>
-<h2 id="霍夫丁不等式">霍夫丁不等式</h2>
-<p>霍夫丁不等式描述的抽样的数目与模型的误差之间的关系。假如橙色弹珠的真实比例为<span class="math inline">\(\nu\)</span>,模型估计的比率为<span class="math inline">\(\mu\)</span>,样本大小为<span class="math inline">\(N\)</span>，则对应的霍夫丁不等式为:<br />
-<span class="math display">\[
+以两个proposal的中心点为衡量标准，半径r内的proposal之间存在一条边。所有的propos ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2021/12/11/%E5%AD%A6%E4%B9%A0%E7%9A%84%E5%8F%AF%E8%A1%8C%E6%80%A7/" title="霍夫丁不等式证明学习的可行性">霍夫丁不等式证明学习的可行性</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2021-12-10T16:00:00.000Z" title="发表于 2021-12-11 00:00:00">2021-12-11</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E7%9F%A5%E8%AF%86%E5%88%86%E4%BA%AB/">知识分享</a></span></div><div class="content">学习的可行性
+机器学习基石--学习的可行性 | 吴良超的学习笔记 (wulc.me)
+霍夫丁不等式
+霍夫丁不等式描述的抽样的数目与模型的误差之间的关系。假如橙色弹珠的真实比例为\(\nu\),模型估计的比率为\(\mu\),样本大小为\(N\)，则对应的霍夫丁不等式为:
+\[
 P(|\nu - \mu| &lt; \epsilon) \le 2exp(-2 \epsilon^2N)
-\]</span><br />
-<span class="math inline">\(\epsilon\)</span>表示误差允许的范围。</p>
-<h2 id="从霍夫丁不等式到机器学习">从霍夫丁不等式到机器学习</h2>
-<p>考虑一个二分类问题，绿色弹珠表示样本标签与我们模型<span class="math inline">\(h\)</span>的预测值一致，橙色弹珠表示样本标签与模型<span class="math inline">\(h\)</span>的预测不一致，同时将模型<span class="math inline">\(h\)</span>在<strong><em>全部弹珠中的分类错误率</em></strong>记为<span class="math inline">\(E_{out}(h)\)</span>，在训练样本中的<strong><em>分类错误率</em></strong>记为<span class="math inline">\(E_{in}(h)\)</span>。</p>
-<p>霍夫丁不等式描述的就是当模型<span class="math inline">\(h\)</span>在训练样本上的分类错误率足够小的话，<span class="math inline">\(E_{in}(h)\)</span>将足够接近<span class="math inline">\(E_{out}(h)\)</span>。即<br />
-<span class="math display">\[
-P(|E_{in}(h)-P_{out}(h)| &lt; \epsilon) \le 2exp(-2 \epsilon^2N)
-\]</span><br />
-其中<span class="math inline">\(N\)</span>表示样本的数量。也就是说，样本数量越多，<span class="math inline">\(E_{in}(h)\)</span>和<span class="math inline">\(E_{out}(h)\)</span>也就是训练误差和泛化误差越接近。</p>
-<p>Hoeffeding不等式只是描述了训练误差和泛化误差可以分接近，凡是这一接近是建立在训练误差<span class="math inline">\(E_{in}(h)\)</span>很小的情况下才有意义。</p>
-<h2 id="使用霍夫丁不等式解释学习是可行的">使用霍夫丁不等式解释学习是可行的</h2>
-<p>对于单个hypothesis, 霍夫丁不等式告诉哦我们呢的是<span class="math inline">\(h\)</span>在抽取的样本上的误差（也就是训练误差）跟<span class="math inline">\(h\)</span>在所有数据上的误差(也就是泛化误差)很接近。</p>
-<p>也就是说，对于抽取出的样本，还是有很小的概率使得<span class="math inline">\(h\)</span>在样本上得到的误差与总体上的误差很大。我们将这部分样本称为Bad data.就是使得<span class="math inline">\(E_{in}(h)\)</span>很小，<span class="math inline">\(E_{out}(h)\)</span>很大的样本。如果进行多次抽样，那么一定会有一些样本导致两者的差距很大。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/twn2333/my_imgs@latest//img/202111171953466.png" alt="image-20211117195333393" /></p>
-<p>当有多个hypothesis时，上表可以转化为下表所示:</p>
-<p><img src="https://cdn.jsdelivr.net/gh/twn2333/my_imgs@latest//img/202111171955706.png" alt="image-20211117195510375" /></p>
-<p>对于每个hypothsis有着不同的bad data.只有当样本对所有的hypothesis都不是bad data时，才不会出现泛化误差和训练误差很大的情况，在有<span class="math inline">\(M\)</span>个hypotheis的时候，用霍夫丁不等式表示选择了bad data的概率。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/twn2333/my_imgs@latest//img/202111171957900.png" alt="image-20211117195738595" /></p>
-<p>上面的不等式表明，在对有限多个hypothesis而言，<span class="math inline">\(E_{in}(h) \approx E_{out}(h)\)</span>还是PAC的，只是两者误差的上限变大了，但是数据量的增大能够抵消这个影响。因此，在有多个hypothesis的情况下，只需要选择<span class="math inline">\(E_{in}(h)\)</span>小的，就能保证<span class="math inline">\(E_{out}(h)\)</span>也是小的，也就是学习是可行的。</p>
-<p>上述过程可以使用以下图片表示:</p>
-<p><img src="https://cdn.jsdelivr.net/gh/twn2333/my_imgs@latest//img/202111172005227.png" alt="image-20211117200453898" /></p>
+\]
+\(\epsilon\)表示误差允许的范围。
+从霍夫丁不等式到机器学习
+考虑一个二分类问题，绿色弹珠表示样本标签与我们模型\(h\)的预测值一致，橙色弹珠表示样本标签与模型\(h\)的预测不一致，同时将模型\(h\)在全部弹珠中的分类错误率记为\(E_{out}(h)\)，在训练样本中的分类错误率记为\(E_{in}(h)\)。
+霍夫丁不等式描述的就是当模型\(h\)在训练样本上的分类错误率足够小的话，\(E_{in}(h)\)将足够接近\(E_{out}(h)\)。即
+\[
+P(|E_{in}(h)-P_{out}(h)| &lt; \epsilon) \le 2exp(-2 ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2021/12/08/PCT(Meng%E2%80%94Hao)/" title="Point cloud transformer论文解读">Point cloud transformer论文解读</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2021-12-07T16:00:00.000Z" title="发表于 2021-12-08 00:00:00">2021-12-08</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E8%AE%BA%E6%96%87%E5%88%86%E4%BA%AB/">论文分享</a></span></div><div class="content">
+代码链接
+paper链接
+论文总结
+本文提出了一种在适用于点云的Transformer结构。根据点云数据的特点进一步改善了Transformer的结构。其主要做了三点改进:
 
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://twn29004.top/2021/12/11/%E5%AD%A6%E4%B9%A0%E7%9A%84%E5%8F%AF%E8%A1%8C%E6%80%A7/" data-id="cl2d63r980020msxc1bk18777" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" rel="tag">机器学习</a></li></ul>
+基于坐标的输入嵌入方法
+改进的offset-attention方法(想法主要来源于图神经网络)
+邻近点嵌入方法
 
-    </footer>
-  </div>
-  
-</article>
+下面依次介绍上述三种改进点以及改进的原因。
+首先介绍原始的Transformer结构在点云中的使用。
+
+使用点云的Encoder结构来提取点云的特征。首先使用一个输入嵌入层来转化点云的坐标，就是将三维的点云坐标映射到一个更高维的空间。这一步的目的是使得具有相似语义信息的点云能够在高维空间中更加靠近。文中这一步是使用线性层来完成的。然后将经过转化后的坐标输入到级联的Attention网络中。然后将各个层级的Attention网络的输出拼接起来，再经过一个线性层以得到一个逐点的特征，然后使用一个Max Pooling或者Mean Pooling操作来获得一个全局的特征。这样我们就可以使用全局的特征来进行点云的分类了。如果是其他任务的话，可以把全局特征和前面逐点的特征进行拼接，在 ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2021/12/07/Pointformer/" title="3D ObJect Detection with Pointformer">3D ObJect Detection with Pointformer</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2021-12-06T16:00:00.000Z" title="发表于 2021-12-07 00:00:00">2021-12-07</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E8%AE%BA%E6%96%87%E5%88%86%E4%BA%AB/">论文分享</a></span></div><div class="content">
+代码链接
+paper链接
+
+论文总结
+作者提出了一种在3D目标检测任务中的一种基于纯Transformer结构的骨干网络。并在室内，室外的数据集上验证了所提方法的有效性。感觉作者主要是改进了PointNet++的Set Abstraction层。其网络的总体流程如下:
 
 
-  
-    <article id="post-PCT(Meng—Hao)" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2021/12/08/PCT(Meng%E2%80%94Hao)/" class="article-date">
-  <time datetime="2021-12-07T16:00:00.000Z" itemprop="datePublished">2021-12-08</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E8%AE%BA%E6%96%87%E5%88%86%E4%BA%AB/">论文分享</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/12/08/PCT(Meng%E2%80%94Hao)/">Point cloud transformer论文解读</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><img src="https://cdn.jsdelivr.net/gh/twn2333/my_imgs@latest//img/202112081119407.png" alt="1" /></p>
-<p><a target="_blank" rel="noopener" href="https://github.com/MenghaoGuo/PCT">代码链接</a></p>
-<p><a target="_blank" rel="noopener" href="https://doi.org/10.1007/s41095-021-0229-5">paper链接</a></p>
-<h2 id="论文总结">论文总结</h2>
-<p>本文提出了一种在适用于点云的Transformer结构。根据点云数据的特点进一步改善了Transformer的结构。其主要做了三点改进:</p>
-<ol type="1">
-<li>基于坐标的输入嵌入方法</li>
-<li>改进的offset-attention方法(想法主要来源于图神经网络)</li>
-<li>邻近点嵌入方法</li>
-</ol>
-<p>下面依次介绍上述三种改进点以及改进的原因。</p>
-<p>首先介绍原始的Transformer结构在点云中的使用。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/twn2333/my_imgs@latest//img/202112081123918.png" alt="2" /></p>
-<p>使用点云的Encoder结构来提取点云的特征。首先使用一个输入嵌入层来转化点云的坐标，就是将三维的点云坐标映射到一个更高维的空间。这一步的目的是使得具有相似语义信息的点云能够在高维空间中更加靠近。文中这一步是使用线性层来完成的。然后将经过转化后的坐标输入到级联的Attention网络中。然后将各个层级的Attention网络的输出拼接起来，再经过一个线性层以得到一个逐点的特征，然后使用一个Max Pooling或者Mean Pooling操作来获得一个全局的特征。这样我们就可以使用全局的特征来进行点云的分类了。如果是其他任务的话，可以把全局特征和前面逐点的特征进行拼接，在来进行下一步的任务(这个和PointNet++中的操作是一致的)。</p>
-<p>上述过程描述的就是使用基于坐标的输入嵌入方法和原始的Transformer结构结合起来处理点云的网络。</p>
-<p>在介绍offset-Attention方法之前，需要先介绍一下原始的self-Attenion的机制:<br />
-<span class="math display">\[
-\hat{A}=(\hat{a})_{i,j}=Q \cdot K^T \\
-F_{sa} = A \cdot V \\
-F_{out} = SA(F_{in}) = LBR(F_{sa}) + F_{in}
-\]</span><br />
-上述公式中<span class="math inline">\(A\)</span>是<span class="math inline">\(\hat{A}\)</span>的归一化后的结果，具体的归一化的方法可以参考原论文。offset-Attention的方法就是将<span class="math inline">\(LBR\)</span>中的<span class="math inline">\(F_{sa}\)</span>变化为<span class="math inline">\(F_{sa}\)</span>和<span class="math inline">\(F_{in}\)</span>的差。这样的话就可以有:<br />
-<span class="math display">\[
-F_{out}=OA(F_{in})=LRB(F_{in} - F_{sa}) + F_{in}
-\]</span><br />
-<img src="https://cdn.jsdelivr.net/gh/twn2333/my_imgs@latest//img/202112081239610.png" alt="image-20211208123926572" /></p>
-<p>作者把这样改进之后的PCT记为SPCT.</p>
-<p>此外，作者还注意到，PCT在提取点云特征的时候，只关注到了点云的全局特征，而忽略了局部特征，因此，受到PointNet++的影响，作者引入了一个局部特征聚合的机制。和PointNet++一样，进行了一个Sampling和Grouping。然后使用PointNet来提取局部点云的特征，然后将这些采样的点及其对应的聚合的特征作为Attention网络的输入.此举大大提高了模型的性能。具体可见下表:</p>
-<p><img src="https://cdn.jsdelivr.net/gh/twn2333/my_imgs@latest//img/202112081244793.png" alt="image-20211208124405743" /></p>
-<p><img src="https://cdn.jsdelivr.net/gh/twn2333/my_imgs@latest//img/202112081245640.png" alt="image-20211208124541575" /></p>
-<p>从上述表格中可以看出，SPCT和那个局部特征聚合都对模型的性能有所提升。此外，作者还做了计算资源方面的分析。资源消耗对比如下表所示:</p>
-<p><img src="https://cdn.jsdelivr.net/gh/twn2333/my_imgs@latest//img/202112081259234.png" alt="image-20211208125922176" /></p>
-<p>从上表可以看出，NPCT和SPCT的资源消耗相差不是很大，但是精度有一定的提升。PCT相比其余两个的参数量和计算量要多很多，但是所需的浮点运算的次数仍比PointNet++(MSG)要少很多。精度却有很大的提升。</p>
-<h2 id="可用知识点">可用知识点</h2>
-<ol type="1">
-<li>在点云中使用Transformer时，因为点云自带位置信息，因此可以考虑将位置嵌入和输入嵌入结合起来。</li>
-<li>在点云中使用Transformer时，可以考虑使用offset-Attenion方法来替换self-Attention方法。</li>
-<li>在点云中使用Transformer时，可以考虑从使用类似于PointNet2中的局部特征聚合的方法来聚合局部信息。</li>
-</ol>
-<h2 id="常用句式">常用句式</h2>
-<ol type="1">
-<li>Therefore, the whole self-attention process is permutation-invariant, making it well-suited to the disordered, irregular domain presented by point clouds. 解释了self-attention适合于point cloud处理的原因。</li>
-</ol>
-<h2 id="代码解读">代码解读</h2>
-<p>[挖坑]</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://twn29004.top/2021/12/08/PCT(Meng%E2%80%94Hao)/" data-id="cl2d63r8i000vmsxcberb713b" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Segment/" rel="tag">Segment</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-Pointformer" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2021/12/07/Pointformer/" class="article-date">
-  <time datetime="2021-12-06T16:00:00.000Z" itemprop="datePublished">2021-12-07</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E8%AE%BA%E6%96%87%E5%88%86%E4%BA%AB/">论文分享</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/12/07/Pointformer/">3D ObJect Detection with Pointformer</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><img src="https://gitee.com/twn29004/myimg/raw/master/imgs/202112071043420.png" alt="image-20211207104343339" /></p>
-<p><a target="_blank" rel="noopener" href="https://github.com/Vladimir2506/Pointformer">代码链接</a></p>
-<p><a target="_blank" rel="noopener" href="https://arxiv.org/abs/2012.11409">paper链接</a></p>
-<hr />
-<h2 id="论文总结">论文总结</h2>
-<p>作者提出了一种在3D目标检测任务中的一种基于纯Transformer结构的骨干网络。并在室内，室外的数据集上验证了所提方法的有效性。感觉作者主要是改进了PointNet++的Set Abstraction层。其网络的总体流程如下:</p>
-<p><img src="https://gitee.com/twn29004/myimg/raw/master/imgs/202112071054867.png" alt="image-20211207105443791" /></p>
-<center>
 图1-Pointformer结构
-</center>
-<p><img src="https://gitee.com/twn29004/myimg/raw/master/imgs/202112071104267.png" alt="image-20211207110458199" /></p>
-<center>
+
+
+
 图2-PointNet2结构
-</center>
-<p>作者主要改进的是Pointformers部分.作者使用了类似PointNet2中的结构设计主要改进了Set Abstraction层。对于Pointformer中的Local Transformer部分的结构如下图所示:</p>
-<p><img src="https://gitee.com/twn29004/myimg/raw/master/imgs/202112071104392.png" alt="image-20211207110400332" /></p>
-<center>
+
+作者主要改进的是Pointformers部分.作者使用了类似PointNet2中的结构设计主要改进了Set Abstraction层。对于Pointformer中的Local Transformer部分的结构如下图所示:
+
+
 图3-Pointformer结构
-</center>
-<p>和Pointnet2一样，首先对输入点云进行采样和聚合。采样使用的是FPS采样方法，聚合使用的是球形聚合(即聚合距离点距离r以内的点)。这样就形成了以采样点为中心的局部区域。由于Transformer中还需要一个位置映射。因此，相比于PointNet2，Pointfromer增加了一个位置操作。然后讲聚合后的特征以及位置嵌入送入到Transformer结构中进行处理，处理之后进行一个Max Pooling，这是为了保证点云的一些顺序不变性，旋转不变性所必须的操作，这也和PointNet2中一致。此外，作者分析了FPS采样的缺陷，提出了一种坐标调整的网络。其具体做法就是利用最后一层的attention map来计算采样点的偏移，使其向目标目标中心靠(这个感觉和votenet有点像)。然后再经过一个FPN就就生成了这个阶段的特征。</p>
-<p>此外，为了能够更好的融合全局特征，作者还设计了一个Local-Global Transformer结构。其使用的是Cross-Attention的结构。即使用Local Transformer的输出作为query，使用Global Trnansformer的输出作为key和value.这样的话我们就利用整个全局的中心点通过注意力机制来整合全局的信息，这使得两者的特征学习更加有效。</p>
-<p>此外，作者还分析了Transformer没有在目标检测领域得到广泛应用的原因是因为其计算需要消耗大量的资源。其计算复杂度是<span class="math inline">\(n^2\)</span>的。因此，可以考虑将其替换为<a target="_blank" rel="noopener" href="https://arxiv.org/abs/2004.05679">MLCVNet</a>中的Linformer结构。<strong><em>在网上看了一下这个Linformer，好像不是很靠谱的感觉。本文作者也没有公布关于该方法的版本</em></strong>。其可在保证精度损失较小的情况下，将计算复杂度下降到<span class="math inline">\(kN\)</span>.</p>
-<p>其基本原理如下:</p>
-<p><img src="https://cdn.jsdelivr.net/gh/twn2333/my_imgs@latest//img/202112081419940.png" alt="image-20211208141911901" /></p>
-<p><span class="math inline">\(E_{i}\)</span>和<span class="math inline">\(F_{i}\)</span>都是一个<span class="math inline">\(k\times N\)</span>的矩阵。<strong>关于减少计算量这部分不是很懂</strong></p>
-<p>下面为作者所作的实验结果:</p>
-<p><img src="https://gitee.com/twn29004/myimg/raw/master/imgs/202112071357116.png" alt="image-20211207135749059" /></p>
-<center>
-Pointfromer在户外数据集的Backbone上的表现
-</center>
-<p>从上表中可以看出，无论是在KITTI数据集还是较大的nuScenes数据集上，Pointfromer均在一定程度上提高了模型的检测性能。</p>
-<p><img src="https://gitee.com/twn29004/myimg/raw/master/imgs/202112071400043.png" alt="image-20211207140039986" /></p>
-<center>
-上图展示的是消融实验部分的结果
-</center>
-<p>从上表中可以看出，作者提出的Pointfromer的各个部分均对实验性能有所提升。此外，还展示了位置嵌入对于实验性能的影响。</p>
-<hr />
-<h2 id="可用知识点">可用知识点</h2>
-<ol type="1">
-<li>作者在文中阐述了图神经网络和transformer的关系。其提出当有足够多的FFN网络的时候，基于图的特征提取网络能够获得一层Transformer网络提取的特征的表达能力。因此，叠加多层Transformer能够获得更强表达能力的特征。</li>
-<li>关于FPS的缺点。FPS采样方法存在两个缺点，1) 是对于离群值很敏感，特别是在处理真实世界中中的点云数据的时候。2) FPS采样的点都是原始点云中的子集，这使得在物体被遮挡或者没有足够点的情况下，很难判断除物体原始的几何信息。</li>
-<li>作者分析了为什么Transformer没有在目标检测领域大规模应用的原因，因为相比分类和分割任务，目标检测任务需要耕读的点云数据，这就使得基于Transformer的网络很难大规模应用。</li>
-</ol>
-<hr />
-<h2 id="tips">tips</h2>
-<ol type="1">
-<li>作者还没有公布在kitti数据集和nuScenes数据集上的代码</li>
-<li>作者还没有公布关于Linformer部分的代码</li>
-</ol>
 
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://twn29004.top/2021/12/07/Pointformer/" data-id="cl2d63r8n0012msxc3rps3n5g" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Object-Detection/" rel="tag">Object Detection</a></li></ul>
+和Pointnet2一样，首先对输入点云进行采样和聚合。采样使用的是FPS采样方法，聚合使用的是球形聚合(即聚合距离点距离r以内的点)。这样就形成了以采样点为中心的局部区域。由于Transformer中还需要一个位置映射。因此，相比于PointNet2，Pointfromer增加了一个位置操作。然后讲聚合后的特征以及位置嵌入送入到Transforme ...</div></div></div><nav id="pagination"><div class="pagination"><a class="extend prev" rel="prev" href="/"><i class="fas fa-chevron-left fa-fw"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/#content-inner">3</a><a class="extend next" rel="next" href="/page/3/#content-inner"><i class="fas fa-chevron-right fa-fw"></i></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://cdn.jsdelivr.net/gh/twn2333/my_imgs@latest//img/202112082242974.jpeg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">twn29004</div><div class="author-info__description"></div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">24</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">15</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/twn29004"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/twn29004" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:twn29004@qq.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">This is twn29004's Blog</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2022/02/27/mmvirtualpioint/" title="Multimodal Virtual Point 3D Detection论文解读">Multimodal Virtual Point 3D Detection论文解读</a><time datetime="2022-02-26T16:00:00.000Z" title="发表于 2022-02-27 00:00:00">2022-02-27</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2022/02/26/2-17%E8%B0%83%E7%A0%94/" title="无题">无题</a><time datetime="2022-02-26T00:49:09.966Z" title="发表于 2022-02-26 08:49:09">2022-02-26</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2022/01/14/Faster-RCNN/" title="Faster-RCNN论文解读">Faster-RCNN论文解读</a><time datetime="2022-01-13T16:00:00.000Z" title="发表于 2022-01-14 00:00:00">2022-01-14</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2022/01/13/3D_IoU_Net/" title="3D IoU-Net论文解读">3D IoU-Net论文解读</a><time datetime="2022-01-12T16:00:00.000Z" title="发表于 2022-01-13 00:00:00">2022-01-13</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2022/01/12/YOLOF/" title="YOLOF论文解读">YOLOF论文解读</a><time datetime="2022-01-11T16:00:00.000Z" title="发表于 2022-01-12 00:00:00">2022-01-12</time></div></div></div></div><div class="card-widget card-categories"><div class="item-headline">
+            <i class="fas fa-folder-open"></i>
+            <span>分类</span>
+            
+            </div>
+            <ul class="card-category-list" id="aside-cat-list">
+            <li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E5%8F%82%E8%80%83%E9%93%BE%E6%8E%A5/"><span class="card-category-list-name">参考链接</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E7%9F%A5%E8%AF%86%E5%88%86%E4%BA%AB/"><span class="card-category-list-name">知识分享</span><span class="card-category-list-count">4</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/"><span class="card-category-list-name">知识总结</span><span class="card-category-list-count">2</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E8%AE%BA%E6%96%87%E5%88%86%E4%BA%AB/"><span class="card-category-list-name">论文分享</span><span class="card-category-list-count">16</span></a></li>
+            </ul></div><div class="card-widget card-tags"><div class="item-headline"><i class="fas fa-tags"></i><span>标签</span></div><div class="card-tag-cloud"><a href="/tags/2D-Object-Detection/" style="font-size: 1.3em; color: #99a1ac">2D Object Detection</a> <a href="/tags/2D-Object-Detection/" style="font-size: 1.1em; color: #999">2D Object-Detection</a> <a href="/tags/3D-Object-Detect-Graph-Network/" style="font-size: 1.1em; color: #999">3D Object Detect, Graph Network</a> <a href="/tags/3D-Object-Detection/" style="font-size: 1.5em; color: #99a9bf">3D Object Detection</a> <a href="/tags/3D%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B/" style="font-size: 1.3em; color: #99a1ac">3D目标检测</a> <a href="/tags/Context-information-self-Attenion/" style="font-size: 1.1em; color: #999">Context information, self-Attenion</a> <a href="/tags/Fusion/" style="font-size: 1.1em; color: #999">Fusion</a> <a href="/tags/Instance-Segment/" style="font-size: 1.1em; color: #999">Instance Segment</a> <a href="/tags/Object-Detection/" style="font-size: 1.5em; color: #99a9bf">Object Detection</a> <a href="/tags/Object-Detection-2D-Object-Detection/" style="font-size: 1.1em; color: #999">Object Detection, 2D Object Detection</a></div></div><div class="card-widget card-archives"><div class="item-headline"><i class="fas fa-archive"></i><span>归档</span></div><ul class="card-archive-list"><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2022/02/"><span class="card-archive-list-date">二月 2022</span><span class="card-archive-list-count">2</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2022/01/"><span class="card-archive-list-date">一月 2022</span><span class="card-archive-list-count">8</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2021/12/"><span class="card-archive-list-date">十二月 2021</span><span class="card-archive-list-count">11</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2021/11/"><span class="card-archive-list-date">十一月 2021</span><span class="card-archive-list-count">3</span></a></li></ul></div><div class="card-widget card-webinfo"><div class="item-headline"><i class="fas fa-chart-line"></i><span>网站资讯</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">文章数目 :</div><div class="item-count">24</div></div><div class="webinfo-item"><div class="item-name">已运行时间 :</div><div class="item-count" id="runtimeshow" data-publishDate="2021-11-26T16:00:00.000Z"></div></div><div class="webinfo-item"><div class="item-name">本站访客数 :</div><div class="item-count" id="busuanzi_value_site_uv"></div></div><div class="webinfo-item"><div class="item-name">本站总访问量 :</div><div class="item-count" id="busuanzi_value_site_pv"></div></div><div class="webinfo-item"><div class="item-name">最后更新时间 :</div><div class="item-count" id="last-push-date" data-lastPushDate="2022-04-24T11:41:34.555Z"></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2021 - 2022 By twn29004</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">保持热爱，奔赴山海</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>function subtitleType () {
+  fetch('https://v1.hitokoto.cn')
+    .then(response => response.json())
+    .then(data => {
+      if (true) {
+        var from = '出自 ' + data.from
+        var sub = "保持热爱，奔赴山海".length == 0 ? new Array() : "保持热爱，奔赴山海".split(',')
+        var both = sub.unshift(data.hitokoto, from)
+        var typed = new Typed('#subtitle', {
+          strings: sub,
+          startDelay: 300,
+          typeSpeed: 150,
+          loop: false,
+          backSpeed: 50,
+        })
+      } else {
+        document.getElementById('subtitle').innerHTML = data.hitokoto
+      }
+    })
+}
 
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-
-
-  <nav id="page-nav">
-    
-    <a class="extend prev" rel="prev" href="/">&amp;laquo; 上一页</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/">下一页 &amp;raquo;</a>
-  </nav>
-
-</section>
-        
-          <aside id="sidebar">
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">分类</h3>
-    <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%8F%82%E8%80%83%E9%93%BE%E6%8E%A5/">参考链接</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%9F%A5%E8%AF%86%E5%88%86%E4%BA%AB/">知识分享</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/">知识总结</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%BA%E6%96%87%E5%88%86%E4%BA%AB/">论文分享</a></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">标签</h3>
-    <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/2D-Object-Detection/" rel="tag">2D Object Detection</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/2D-Object-Detection/" rel="tag">2D Object-Detection</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/3D-Object-Detect-Graph-Network/" rel="tag">3D Object Detect, Graph Network</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/3D-Object-Detection/" rel="tag">3D Object Detection</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/3D%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B/" rel="tag">3D目标检测</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Context-information-self-Attenion/" rel="tag">Context information, self-Attenion</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Fusion/" rel="tag">Fusion</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Instance-Segment/" rel="tag">Instance Segment</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Object-Detection/" rel="tag">Object Detection</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Object-Detection-2D-Object-Detection/" rel="tag">Object Detection, 2D Object Detection</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Pytorch/" rel="tag">Pytorch</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Segment/" rel="tag">Segment</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8A%80%E5%B7%A7/" rel="tag">技巧</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" rel="tag">机器学习</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%82%B9%E4%BA%91%E5%88%86%E5%89%B2/" rel="tag">点云分割</a></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">标签云</h3>
-    <div class="widget tagcloud">
-      <a href="/tags/2D-Object-Detection/" style="font-size: 15px;">2D Object Detection</a> <a href="/tags/2D-Object-Detection/" style="font-size: 10px;">2D Object-Detection</a> <a href="/tags/3D-Object-Detect-Graph-Network/" style="font-size: 10px;">3D Object Detect, Graph Network</a> <a href="/tags/3D-Object-Detection/" style="font-size: 20px;">3D Object Detection</a> <a href="/tags/3D%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B/" style="font-size: 15px;">3D目标检测</a> <a href="/tags/Context-information-self-Attenion/" style="font-size: 10px;">Context information, self-Attenion</a> <a href="/tags/Fusion/" style="font-size: 10px;">Fusion</a> <a href="/tags/Instance-Segment/" style="font-size: 10px;">Instance Segment</a> <a href="/tags/Object-Detection/" style="font-size: 20px;">Object Detection</a> <a href="/tags/Object-Detection-2D-Object-Detection/" style="font-size: 10px;">Object Detection, 2D Object Detection</a> <a href="/tags/Pytorch/" style="font-size: 15px;">Pytorch</a> <a href="/tags/Segment/" style="font-size: 10px;">Segment</a> <a href="/tags/%E6%8A%80%E5%B7%A7/" style="font-size: 10px;">技巧</a> <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" style="font-size: 15px;">机器学习</a> <a href="/tags/%E7%82%B9%E4%BA%91%E5%88%86%E5%89%B2/" style="font-size: 10px;">点云分割</a>
-    </div>
-  </div>
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">归档</h3>
-    <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/02/">二月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/01/">一月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/12/">十二月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/11/">十一月 2021</a></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">最新文章</h3>
-    <div class="widget">
-      <ul>
-        
-          <li>
-            <a href="/2022/02/27/mmvirtualpioint/">Multimodal Virtual Point 3D Detection论文解读</a>
-          </li>
-        
-          <li>
-            <a href="/2022/02/26/2-17%E8%B0%83%E7%A0%94/">(no title)</a>
-          </li>
-        
-          <li>
-            <a href="/2022/01/14/Faster-RCNN/">Faster-RCNN论文解读</a>
-          </li>
-        
-          <li>
-            <a href="/2022/01/13/3D_IoU_Net/">3D IoU-Net论文解读</a>
-          </li>
-        
-          <li>
-            <a href="/2022/01/12/YOLOF/">YOLOF论文解读</a>
-          </li>
-        
-      </ul>
-    </div>
-  </div>
-
-  
-</aside>
-        
-      </div>
-      <footer id="footer">
-  
-  <div class="outer">
-    <div id="footer-info" class="inner">
-      &copy; 2022 twn29004<br>
-      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
-    </div>
-  </div>
-</footer>
-    </div>
-    <nav id="mobile-nav">
-  
-    <a href="/" class="mobile-nav-link">Home</a>
-  
-    <a href="/archives" class="mobile-nav-link">Archives</a>
-  
-</nav>
-    
-
-<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
-
-
-  
-<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
-
-  
-<script src="/fancybox/jquery.fancybox.pack.js"></script>
-
-
-
-
-<script src="/js/script.js"></script>
-
-
-
-
-  </div>
-</body>
-</html>
+if (true) {
+  if (typeof Typed === 'function') {
+    subtitleType()
+  } else {
+    getScript('https://cdn.jsdelivr.net/npm/typed.js/lib/typed.min.js').then(subtitleType)
+  }
+} else {
+  subtitleType()
+}
+</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
