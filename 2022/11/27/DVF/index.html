@@ -1,0 +1,294 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>DVF论文解读 | twn29004's Blog</title><meta name="keywords" content="Fusion"><meta name="author" content="twn29004"><meta name="copyright" content="twn29004"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="Dense Voxel Fusion for 3D Object Detection 代码链接 paper链接 个人博客 问题 针对现有的基于融合的方法的三维目标检测器的性能弱于基于纯点云的三维目标检测器的问题，本文作者提出了一种新的基于体素的多模态融合方法。 对于三维目标检测器来说，有了RGB这一补充信息之后，其检测性能应该优于纯点云的三维目标检测器，但是现有的Sequential">
+<meta property="og:type" content="article">
+<meta property="og:title" content="DVF论文解读">
+<meta property="og:url" content="http://twn29004.top/2022/11/27/DVF/index.html">
+<meta property="og:site_name" content="twn29004&#39;s Blog">
+<meta property="og:description" content="Dense Voxel Fusion for 3D Object Detection 代码链接 paper链接 个人博客 问题 针对现有的基于融合的方法的三维目标检测器的性能弱于基于纯点云的三维目标检测器的问题，本文作者提出了一种新的基于体素的多模态融合方法。 对于三维目标检测器来说，有了RGB这一补充信息之后，其检测性能应该优于纯点云的三维目标检测器，但是现有的Sequential">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://hdwallsource.com/img/2021/7/basketball-hoop-net-wallpaper-76101-78830-hd-wallpapers.jpg">
+<meta property="article:published_time" content="2022-11-26T16:00:00.000Z">
+<meta property="article:modified_time" content="2022-05-17T13:30:46.604Z">
+<meta property="article:author" content="twn29004">
+<meta property="article:tag" content="fusion, voxel-based">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://hdwallsource.com/img/2021/7/basketball-hoop-net-wallpaper-76101-78830-hd-wallpapers.jpg"><link rel="shortcut icon" href="/img/favicon.ico"><link rel="canonical" href="http://twn29004.top/2022/11/27/DVF/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//hm.baidu.com"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?da945d048bc901ec4ee07f4643119577";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":50,"languages":{"author":"作者: twn29004","link":"链接: ","source":"来源: twn29004's Blog","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'DVF论文解读',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2022-05-17 21:30:46'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if (GLOBAL_CONFIG_SITE.isHome && /iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://cdn.jsdelivr.net/gh/twn2333/my_imgs@latest//img/202112082242974.jpeg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">26</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">17</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 文章</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://hdwallsource.com/img/2021/7/basketball-hoop-net-wallpaper-76101-78830-hd-wallpapers.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">twn29004's Blog</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 文章</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">DVF论文解读</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-11-26T16:00:00.000Z" title="发表于 2022-11-27 00:00:00">2022-11-27</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-05-17T13:30:46.604Z" title="更新于 2022-05-17 21:30:46">2022-05-17</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E8%AE%BA%E6%96%87%E5%88%86%E4%BA%AB/">论文分享</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>5分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="DVF论文解读"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="dense-voxel-fusion-for-3d-object-detection"><strong>Dense Voxel Fusion for 3D Object Detection</strong></h1>
+<p><a href="">代码链接</a><br />
+<a href="">paper链接</a><br />
+<a href="https://twn29004.top/">个人博客</a></p>
+<h2 id="问题">问题</h2>
+<p>针对现有的基于融合的方法的三维目标检测器的性能弱于基于纯点云的三维目标检测器的问题，本文作者提出了一种新的基于体素的多模态融合方法。</p>
+<p>对于三维目标检测器来说，有了RGB这一补充信息之后，其检测性能应该优于纯点云的三维目标检测器，但是现有的Sequential Fusion以及end-to-end Fusion的性能都相对弱于纯点云的检测器，作者认为一个潜在的原因是训练多模态的网络比训练纯点云的网络要难。上述结论主要体现在两个方面: 1. 多模态的网络往往具有更多的参数，因此更容易过拟合。2. 不同模态的骨干网络的泛化程度和过拟合程度不一致。另外， end-to-end的融合方法使用了同一种优化策略会带来次优解的问题。另一方面，直接拼接来自俯视图的特征图和来自图像的特征图带来的视点(View Point)不一致的问题。Sequential Fusion的方法要么是纯点云的检测器，要么是通过融合三维目标检测器的输出与图像预测结果。然而，<strong>现在的Sequential Fusion方法具有有限的融合能力，因为三维对象的召回率受到图像预测的约束，或者他们没有充分利用密集的图像预测。</strong> <strong>另一方面，现有的三维点云数据增强方法(GT-Paste)不能直接用于基于融合的方法的网络中。</strong></p>
+<h2 id="相关工作">相关工作</h2>
+<p>作者将现有的融合方法按照训练划分为End-to-End和Sequential Fusion的方法。其中前者表示不同模态的数据同时进行训练，而Sequentional表示的则是分别独立的训练。<br />
+### End-to-End Fusion<br />
+MV3D和AVOD适用独立的Backbone来处理不同模态的数据，通过在BEV视角和图像特征上投影一组共享的三维锚框来实现特征的提取，这两个方法存在特征不对其的问题。</p>
+<p>ContFuse和MMF使用了一种紧耦合的融合方法，通过一个连续的融合网络来实现图像和BEV视角下的特征的融合。ContFuse尝试通过查询距离BEV位置最近的K个三维点来构造一种dense的BEV表示，然后将K个点投影到Image上获取图像的特征，图像特征被用于构建dense的BEV特征图。上述方法存在的一个问题就是<strong>特征模糊的问题。原因是多个图像特征对应一个BEV特征。</strong></p>
+<p>因此，为了解决BEV特征图和Image对应稀疏的问题，MMF提出了一种像素级的深度图来构建伪点云，然后适用连续融合被用于密集的点云。但是这中融合方法带来的性能提升非常小。</p>
+<p>另一方面，为了解决BEV视角和相机视角不一致的问题，3D-CVF提出了一种跨视角的空间特征融合策略， EPNet使用了基于点的几何流方法。作者认为此类方法的难点在于同时训练点云和图形的过拟合率的区别。<br />
+### Sequential Fusion<br />
+早期的Sequential Fusion方法是一种二阶段的方法，例如F-PointNet和F-ConvNet。通过利用二维检测结果来减少三维检测器的搜索空间。此类方法的问题在于三维检测器的召回率受到了二维检测器性能的影响。</p>
+<p>PointPainting通过适用二维图像的语义特征来装饰三维点云。但是三维点云与密集的图像预测之间的对应太稀疏了，使得网络没用充分的利用密集的二维预测结果。这类问题在被遮挡和中远距离的目标中体现的尤为突出，因为此类目标的三维点云数量很少。</p>
+<p>CLOCs通过利用多模态数据的几何和语义一致性来融合二维和三维目标检测器的输出。由于CLOCs是一种后融合的方法，所以被<strong>三维检测器漏检的目标无法从图像的检测结果中恢复出来。</strong></p>
+<h2 id="解决方法">解决方法</h2>
+<p>DVF方法融合了来自图像的预测结果和点云的体素特征，此外，在训练的过程中，DVF适用2D的GT框来进行训练，减少了和二维检测器的耦合程度。<br />
+<img src="https://blog-image-twn29004.oss-cn-chengdu.aliyuncs.com/blog-img/202205161103558.png" /></p>
+<p><img src="https://blog-image-twn29004.oss-cn-chengdu.aliyuncs.com/blog-img/202205161115003.png" /></p>
+<p>在训练阶段，作者适用纯点云输入，并利用三维基准框在二维上投影得到Foreground Mask。这样既可以利用GT-Paste这一数据增强方法，又可以减少对于二维检测器的依赖。得到了Foreground Mask之后，在使用稀疏卷积的过程中，通过对非空体素的中心点投影到前景图的Mask上，来获得该非空体素为前景的概率。然后使用采样得到的概率对体素的特征进行融合。<br />
+<span class="math display">\[V_{f} = \sigma * V_{f} +V_{f} \]</span><br />
+其中<span class="math inline">\(\sigma\)</span> 表示的是该体素为前景的概率，<span class="math inline">\(V_{f}\)</span>表示的是体素的特征。为了避免因为图像的False Negative带来的误差，作者还是用了skip connection以保留原始体素的信息。</p>
+<p>本文的一个主要发现是 使用没有噪声的基准框生成前景Mask同时模拟二维目标检测失败的训练得到的模型比与二维目标检测器一起训练得到的模型泛化能力更强。</p>
+<p>前景Mask的生成就是对于二维目标检测器中的像素，其前景Mask中的值为检测器输出的置信度。(仅在测试过程中使用)<br />
+<img src="https://blog-image-twn29004.oss-cn-chengdu.aliyuncs.com/blog-img/202205161115360.png" /></p>
+<p>为了模型能够处理二维目标检测中漏检的情况，作者在GT-Paste采样的基准框中随机的选择若干投影框不投影到图像上以模拟二维检测器漏检的情况。<br />
+## 解决效果<br />
+<img src="https://blog-image-twn29004.oss-cn-chengdu.aliyuncs.com/blog-img/202205161126617.png" /><br />
+从上表可以看出，本文所提方法在一众融合方法中到了较好的性能。相比Baseline提升了一个百分点性能。<br />
+## 消融实验<br />
+体素融合与点融合的对比<br />
+<img src="https://blog-image-twn29004.oss-cn-chengdu.aliyuncs.com/blog-img/202205161134102.png" /><br />
+<img src="https://blog-image-twn29004.oss-cn-chengdu.aliyuncs.com/blog-img/202205161134450.png" /><br />
+下表是对点云数量对检测性能的影响。下面的实验结果证明了本文所提方法对于点云稀疏性的鲁棒性。<br />
+<img src="https://blog-image-twn29004.oss-cn-chengdu.aliyuncs.com/blog-img/202205161213151.png" /><br />
+下表展示了使用二维目标检测器训练和结果和使用基准框训练的结果，从结果中可以看出，使用基准框直接进行训练的效果要好一些。<br />
+<img src="https://blog-image-twn29004.oss-cn-chengdu.aliyuncs.com/blog-img/202205161224809.png" /></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">twn29004</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://twn29004.top/2022/11/27/DVF/">http://twn29004.top/2022/11/27/DVF/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://twn29004.top" target="_blank">twn29004's Blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/fusion-voxel-based/">fusion, voxel-based</a></div><div class="post_share"><div class="social-share" data-image="https://hdwallsource.com/img/2021/7/basketball-hoop-net-wallpaper-76101-78830-hd-wallpapers.jpg" data-sites="wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="gitalk-container"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://cdn.jsdelivr.net/gh/twn2333/my_imgs@latest//img/202112082242974.jpeg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">twn29004</div><div class="author-info__description"></div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">26</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">17</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/twn29004"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/twn29004" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:twn29004@qq.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">This is twn29004's Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#dense-voxel-fusion-for-3d-object-detection"><span class="toc-text">Dense Voxel Fusion for 3D Object Detection</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%97%AE%E9%A2%98"><span class="toc-text">问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9B%B8%E5%85%B3%E5%B7%A5%E4%BD%9C"><span class="toc-text">相关工作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95"><span class="toc-text">解决方法</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2022/11/27/DVF/" title="DVF论文解读">DVF论文解读</a><time datetime="2022-11-26T16:00:00.000Z" title="发表于 2022-11-27 00:00:00">2022-11-27</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2022/04/26/Votr/" title="VoTr论文解读">VoTr论文解读</a><time datetime="2022-04-25T16:00:00.000Z" title="发表于 2022-04-26 00:00:00">2022-04-26</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2022/02/27/mmvirtualpioint/" title="Multimodal Virtual Point 3D Detection论文解读">Multimodal Virtual Point 3D Detection论文解读</a><time datetime="2022-02-26T16:00:00.000Z" title="发表于 2022-02-27 00:00:00">2022-02-27</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2022/02/26/2-17%E8%B0%83%E7%A0%94/" title="无题">无题</a><time datetime="2022-02-26T00:49:09.966Z" title="发表于 2022-02-26 08:49:09">2022-02-26</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2022/01/14/Faster-RCNN/" title="Faster-RCNN论文解读">Faster-RCNN论文解读</a><time datetime="2022-01-13T16:00:00.000Z" title="发表于 2022-01-14 00:00:00">2022-01-14</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2021 - 2022 By twn29004</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">保持热爱，奔赴山海</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>if (!window.MathJax) {
+  window.MathJax = {
+    tex: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"]],
+      tags: 'ams'
+    },
+    chtml: {
+      scale: 1.2
+    },
+    options: {
+      renderActions: {
+        findScript: [10, doc => {
+          for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+            const display = !!node.type.match(/; *mode=display/)
+            const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+            const text = document.createTextNode('')
+            node.parentNode.replaceChild(text, node)
+            math.start = {node: text, delim: '', n: 0}
+            math.end = {node: text, delim: '', n: 0}
+            doc.math.push(math)
+          }
+        }, ''],
+        insertScript: [200, () => {
+          document.querySelectorAll('mjx-container:not\([display]\)').forEach(node => {
+            const target = node.parentNode
+            if (target.nodeName.toLowerCase() === 'li') {
+              target.parentNode.classList.add('has-jax')
+            } else {
+              target.classList.add('has-jax')
+            }
+          });
+        }, '', false]
+      }
+    }
+  }
+  
+  const script = document.createElement('script')
+  script.src = 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js'
+  script.id = 'MathJax-script'
+  script.async = true
+  document.head.appendChild(script)
+} else {
+  MathJax.startup.document.state(0)
+  MathJax.texReset()
+  MathJax.typeset()
+}</script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex@latest/dist/contrib/copy-tex.min.js"></script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex@latest/dist/contrib/copy-tex.css"><script>(() => {
+  document.querySelectorAll('#article-container span.katex-display').forEach(item => {
+    btf.wrap(item, 'div', { class: 'katex-wrap'})
+  })
+})()</script><script>function addGitalkSource () {
+  const ele = document.createElement('link')
+  ele.rel = 'stylesheet'
+  ele.href= 'https://cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.css'
+  document.getElementsByTagName('head')[0].appendChild(ele)
+}
+
+function loadGitalk () {
+  function initGitalk () {
+    var gitalk = new Gitalk(Object.assign({
+      clientID: '4b9f4ee2c0d328b7aa6c',
+      clientSecret: '5c6eb23288fb394a35878da95abd197dcba00d3c',
+      repo: 'twn29004.github.io',
+      owner: 'twn29004',
+      admin: ['twn29004'],
+      id: '5c51b851c30fa116ff87d454c172b027',
+      language: 'zh-CN',
+      perPage: 10,
+      distractionFreeMode: false,
+      pagerDirection: 'last',
+      createIssueManually: false,
+      updateCountCallback: commentCount
+    },null))
+
+    gitalk.render('gitalk-container')
+  }
+
+  if (typeof Gitalk === 'function') initGitalk()
+  else {
+    addGitalkSource()
+    getScript('https://cdn.jsdelivr.net/npm/gitalk@latest/dist/gitalk.min.js').then(initGitalk)
+  }
+}
+
+function commentCount(n){
+  let isCommentCount = document.querySelector('#post-meta .gitalk-comment-count')
+  if (isCommentCount) {
+    isCommentCount.innerHTML= n
+  }
+}
+
+if ('Gitalk' === 'Gitalk' || !true) {
+  if (true) btf.loadComment(document.getElementById('gitalk-container'), loadGitalk)
+  else loadGitalk()
+} else {
+  function loadOtherComment () {
+    loadGitalk()
+  }
+}</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
