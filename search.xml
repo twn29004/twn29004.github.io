@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>实验室服务器新建用户</title>
+      <link href="/2022/07/05/add-user/"/>
+      <url>/2022/07/05/add-user/</url>
+      
+        <content type="html"><![CDATA[<h1 id="实验室服务器新建用户指南">实验室服务器新建用户指南</h1><h2 id="使用个人用户的好处">使用个人用户的好处</h2><ol type="1"><li>自定义bashrc文件。其中bashrc文件可以<strong>自定义自己需要的cuda版本的路径</strong>，以及<strong>创建ssh会话时需要自动执行的命令</strong>。<strong>自己的环境相对隔离一些，不会受到其他同学修改的影响</strong>。</li></ol><p>还有其他的例如自己的历史命名，如果需要的话还可以创建只有自己能访问的文件夹等。</p><p>总的来说使用个人用户拥有更多的自定义的选项，可以避免一些潜在的环境问题。例如可能环境变量被修改之后影响到了自己的环境。</p><h2 id="创建个人的步骤">创建个人的步骤</h2><p>注意，该方法中创建的个人用户仍归属于原服务器中对应的用户组，这样做的目的是避免重复的安装conda, 同时可以使用之前自己的文件，不需要修改权限等。但是存在的问题是，同组的用户仍然可以查看你的文件。</p><h3 id="添加个人用户">添加个人用户</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 创建用户名为username的用户，指定其默认shell为bash</span></span><br><span class="line">sudo useradd -m -s /bin/bash username</span><br><span class="line"><span class="meta">#</span><span class="bash"> 修改新建用户的密码</span></span><br><span class="line">sudo passwd username</span><br></pre></td></tr></table></figure><p>执行上述命令可以创建一个名为username的用户，然后使用passwd命令修改该用户的登录密码。</p><h2 id="添加到原用户组">添加到原用户组</h2><p>将新建的用户加到服务器中的原用户组中，例如1号的lyc1这一用户组。这个信息可以通过groups查看。如果需要查看其他服务器的对应用户所属的用户组，可以使用<code>groups username</code>命令查看。</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">sudo usermod -g usergroup username </span><br><span class="line"><span class="meta">#</span><span class="bash"> 以1号服务器为例。将lyx用户添加到lyc1用户组中</span></span><br><span class="line">sudo usermode -g lyc1 lyx</span><br><span class="line"><span class="meta">#</span><span class="bash"> 查看修改结果</span></span><br><span class="line">groups lyx</span><br><span class="line"><span class="meta">#</span><span class="bash">输出</span></span><br><span class="line">lyx : lyc1</span><br><span class="line"><span class="meta">#</span><span class="bash"> 可以看到lyx仅属于lyc1这一用户组。</span></span><br></pre></td></tr></table></figure><p>注意，上述操作都是在原有的lyc1用户下完成的，完成上述步骤之后，你将会在hoem目录下找到一个对应的文件夹，这就是你新的家目录。<strong>注意，不要再该路径下放数据，因为这个是系统的固态，数据可以放原来的位置</strong>。另一个需要注意的是，这步如果不做的话，<strong>其他同学在使用的conda的过程中可能会和你的存在冲突，导致对方不能新建环境。</strong></p><h2 id="修改bashrc文件">修改bashrc文件</h2><p>修改<strong>.bashrc</strong>的文件是为了使用原有的<strong>conda</strong>环境以及cuda环境。修改也主要针对这两部分。</p><h3 id="cuda路径">cuda路径</h3><p>在<strong>.bashrc</strong>中添加自己需要的<strong>cuda</strong>版本的路径，<strong>因为这个bashrc就你一个人使用，所以可以直接指定特定的路径，不要去修改系统的软连接</strong></p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 切换到新建的用户中</span></span><br><span class="line">su username</span><br><span class="line"><span class="meta">#</span><span class="bash"> 使用vi编辑bashrc文件</span></span><br><span class="line">vi ~/.bashrc</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 在Bashrc的末尾添加</span></span><br><span class="line">export PATH=/usr/local/cuda-11.1/bin$&#123;PATH:+:$&#123;PATH&#125;&#125;</span><br><span class="line">export LD_LIBRARY_PATH=/usr/local/cuda-11.1/lib64$&#123;LD_LIBRARY_PATH:+:$&#123;LD_LIBRARY_PATH&#125;&#125;</span><br><span class="line">export CUDA_HOME=/usr/local/cuda-11.1</span><br></pre></td></tr></table></figure><p>这样你自己登录之后使用的<strong>cuda</strong>版本就是11.1，当然你要想使用其他版本也可以修改为对应的路径。具体要看对应的机器上是否有对应的版本。可以使用<code>ll /usr/bin</code>命令查看。例如1号上有:</p><p><img src="https://blog-image-twn29004.oss-cn-chengdu.aliyuncs.com/blog-img/202207051626101.png" alt="image-20220705162658015" /></p><h3 id="conda路径">conda路径</h3><p>继续修改<strong>.bashrc</strong>中的内容，这样就可以使用之前创建的<strong>conda</strong>虚拟环境。这个可以去原用户中的<strong>.bashrc</strong>文件中复制。</p><ol type="1"><li>查看原用于的bashrc文件。切换到原用户，执行<code>cat ~/.bashrc</code>。</li><li>将conda init部分复制到自己的bashrc文件中。</li></ol><p><img src="https://blog-image-twn29004.oss-cn-chengdu.aliyuncs.com/blog-img/202207051630119.png" alt="image-20220705163039063" /></p><p>就是上面这部分，<strong>复制过去注意缩进。</strong></p><p>上述部分完成之后，可能还需要修改<strong>conda</strong>的镜像源，同时还可以在<strong>bashrc</strong>中添加登录时需要执行的命令。</p><p>例如<code>nvidia-smi</code>，<code>cd \path\to\your file</code>，<code>conda activate yourenv</code>之类的命令。</p><h2 id="登录方面">登录方面</h2><p>建议大家使用密钥登录，如果使用密码的话请使用一些强密码。<strong>数字加字母加特殊字符</strong>，避免服务器被用来挖矿。</p><h3 id="密钥登录方法">密钥登录方法</h3><p>首先在<strong>本地指定(需要连服务器的电脑)</strong><code>ssh-keygen</code> 命令，然后一路回车。之后如果使用的是windows系统的话，将会在<code>C:\Users\username\.ssh</code>目录下得到几个文件。其中包括<code>id_rsa</code>和<code>id_rsa.pub</code>文件。然后我们需要将<code>id_rsa.pub</code>中的内容复制到服务器的一个文件中。这个文件的路径为<code>~/.ssh/authorized_keys</code>文件中并添加到末尾。<strong>复制的时候注意内容是否完成， 看头可能会漏掉一个字符</strong>。</p><p>使用密钥登录的另一个好处是可以使用VSCode的Remote Develop。在每次打开文件的时候不在需要输入密码。这样就可以直接在服务器上修改代码，且非常的轻量，还可以使用VSCode丰富的插件生态。</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 使用技能 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Linux </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>PointTransformer系列</title>
       <link href="/2022/05/31/PointTransformer%E7%B3%BB%E5%88%97/"/>
       <url>/2022/05/31/PointTransformer%E7%B3%BB%E5%88%97/</url>
